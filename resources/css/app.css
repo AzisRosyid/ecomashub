@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Fredoka-Regular';
+    src: url('/resources/fonts/Fredoka-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Fredoka-Bold';
+    src: url('/resources/fonts/Fredoka-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Fredoka-Medium';
+    src: url('/resources/fonts/Fredoka-Medium.woff') format('woff');
+}
+
+.font-fredokaRegular {
+    font-family: 'Fredoka-Regular';
+}
+
+.font-fredokaBold {
+    font-family: 'Fredoka-Bold';
+}
+
+.font-fredokaMedium {
+    font-family: 'Fredoka-Medium';
+}
