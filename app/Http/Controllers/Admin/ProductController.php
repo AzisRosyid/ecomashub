@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -17,12 +19,29 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $products = Product::all();
 
-        return view('admin.product', ['user' => $user, 'products' => $products]);
+        $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
+
+        $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
+
+        $products = Product::where('store_id', null)
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'like', $search)
+                    ->orWhere('stock', 'like', $search)
+                    ->orWhere('price', 'like', $search)
+                    ->orWhere('profit', 'like', $search)
+                    ->orWhere('description', 'like', $search);
+            })
+            ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
+                $query->whereIn('category_id', $categoryIds);
+            })
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
+            ->get();
+
+        return view('admin.product.index', compact('user', 'products'));
     }
 
     /**
@@ -30,7 +49,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+        $categories = ProductCategory::all();
+
+        return view('admin.product.create', compact('user', 'categories'));
     }
 
     /**
@@ -38,7 +60,33 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|string',
+            'category_id' => 'required|integer',
+            'stock' => 'required|integer',
+            'price' => 'required|numeric',
+            'profit' => 'numeric',
+            'description' => 'string',
+            'image' => 'mimes:jpg,png,jpeg',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
+        }
+
+        Product::create([
+            'store_id' => null,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'profit' => $request->profit,
+            'description' => $request->description,
+        ]);
+
+        return redirect($request->url)->with('message', 'Produk telah berhasil dibuat!');
     }
 
     /**
@@ -54,7 +102,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $user = Auth::user();
+        $categories = ProductCategory::all();
+
+        return view('admin.product.create', compact('user', 'categories', 'product'));
     }
 
     /**
@@ -62,7 +113,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $rules = [
+            'name' => 'required|string',
+            'category_id' => 'required|integer',
+            'stock' => 'required|integer',
+            'price' => 'required|numeric',
+            'profit' => 'numeric',
+            'description' => 'string',
+            'image' => 'mimes:jpg,png,jpeg',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
+        }
+
+        $product->update([
+            'store_id' => null,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'profit' => $request->profit,
+            'description' => $request->description,
+        ]);
+
+        return redirect($request->url)->with('message', 'Produk telah berhasil diperbarui!');
     }
 
     /**
@@ -70,6 +147,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('admin.product.index')->with('message', 'Produk telah berhasil dihapus!');
     }
 }

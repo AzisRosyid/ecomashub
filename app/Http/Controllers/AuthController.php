@@ -35,8 +35,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            dd($validator->errors()->first());
-            return back()->with('loginErrors', $validator->errors()->first())->withInput($request->except('password'))->withErrors($validator, 'login');
+            return back()->withInput($request->except('password'))->withErrors(['login' => $validator->errors()->first()]);
         }
 
         $remember = $request->has('remember') ? true : false;
@@ -44,15 +43,12 @@ class AuthController extends Controller
         $valid = User::where('username', $request->user)->orWhere('email', $request->user)->first();
 
         if (!$valid || !Hash::check($request->password, $valid->password)) {
-            return back()->with('loginErrors', 'Username, Email, atau Password tidak benar.')->withInput($request->except('password'))->withErrors(['login' => 'Invalid credentials']);
+            return back()->withInput($request->except('password'))->withErrors(['login' => 'Username, Email, atau Password tidak benar.']);
         }
-
-        // $role = UserRole::find($valid->user_role_id);
-        // session(['user_id' => $valid->id, 'user_role' => $role->type]);
 
         Auth::login($valid, $remember);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('message', 'Login telah berhasil!');
     }
 
     public function register(Request $request)
@@ -70,7 +66,8 @@ class AuthController extends Controller
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required',
-            'image' => 'mimes:jpg,png,jpeg'
+            'image' => 'mimes:jpg,png,jpeg',
+            'status' => 'required|in:Aktif,Menunggu,Blok'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -83,12 +80,12 @@ class AuthController extends Controller
             return response(['errors' => "Konfirmasi Password tidak benar"], 422);
         }
 
-        $file = null;
-        if ($request->file('photo') != null) {
-            $photo = $request->file('photo')->getClientOriginalExtension();
-            $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
-            $request->file('photo')->move('images', $file);
-        }
+        // $file = null;
+        // if ($request->file('photo') != null) {
+        //     $photo = $request->file('photo')->getClientOriginalExtension();
+        //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
+        //     $request->file('photo')->move('images', $file);
+        // }
 
         User::create([
             'first_name' => $request->first_name,
@@ -102,15 +99,16 @@ class AuthController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
-            'image' => $file
+            //    'image' => $request->image
         ]);
 
-        return response()->json(['message' => 'Register telah berhasil!'], 201);
+        return response()->json(['message' => 'Registrasi telah berhasil!'], 201);
     }
 
     public function logout()
     {
-        session()->forget('token');
-        return redirect()->route('home');
+        Auth::logout();
+
+        return redirect()->route('login')->with('message', 'Logout telah berhasil!');
     }
 }

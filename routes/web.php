@@ -21,8 +21,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Auth
 Route::get('/login', [HomeController::class, 'login'])->name('loginForm');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('userDashboard');
+// Admin
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+Route::get('/');
+
+// User
+Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('userDashboard');

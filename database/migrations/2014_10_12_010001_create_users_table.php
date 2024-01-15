@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('phone_number', 15);
             $table->string('address');
             $table->string('image')->nullable();
+            $table->enum('status', ['Aktif', 'Menunggu', 'Blok']);
             $table->rememberToken();
             $table->timestamps();
         });

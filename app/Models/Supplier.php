@@ -14,7 +14,9 @@ class Supplier extends Model
         'quantity',
         'cost',
         'type',
-        'date'
+        'date',
+        'interval',
+        'description'
     ];
 
     use HasFactory;

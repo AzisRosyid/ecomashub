@@ -19,7 +19,9 @@ return new class extends Migration
             $table->integer('quantity');
             $table->double('cost');
             $table->enum('type', ['Rutin', 'Sekali']);
-            $table->dateTime('date');
+            $table->date('date');
+            $table->integer('interval');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

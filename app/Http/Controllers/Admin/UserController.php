@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +31,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+        $userRoles = UserRole::all();
+
+        return view('admin.user', ['user' => $user, 'userRoles' => $userRoles]);
     }
 
     /**
@@ -38,7 +42,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**

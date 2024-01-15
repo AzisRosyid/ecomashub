@@ -27,7 +27,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf <!-- {{ csrf_field() }} -->
                     <div class="p-1 flex justify-between mb-3 w-56 rounded-[7px] border-2 border-green-700">
-                        <input type="text" class="outline-none" placeholder="Username/email" name="user" autofocus required>
+                        <input type="text" class="outline-none" placeholder="Username/email" name="user" value="{{ old('user') }}" autofocus required>
                         <div>
                             <svg width="24" height="24" viewBox="0 0 32 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">

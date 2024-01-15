@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
             $table->string('organizer');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->double('fund')->nullable();
             $table->string('image')->nullable();
-            $table->string('link')->nullable();
+            $table->string('file')->nullable();
             $table->string('location')->nullable();
             $table->enum('type', ['Luring', 'Daring']);
             $table->integer('theme');

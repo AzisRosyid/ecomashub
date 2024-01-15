@@ -29,7 +29,8 @@ class User extends Authenticatable
         'date_of_birth',
         'phone_number',
         'address',
-        'image'
+        'image',
+        'status'
     ];
 
     /**
@@ -51,4 +52,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 }

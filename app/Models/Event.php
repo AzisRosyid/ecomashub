@@ -14,7 +14,7 @@ class Event extends Model
         'description',
         'fund',
         'image',
-        'link',
+        'file',
         'location',
         'type',
         'theme',
