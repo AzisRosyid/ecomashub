@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('store_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->text('description')->nullable();
             $table->double('value');
             $table->enum('type', ['Sekali', 'Rutin']);
             $table->dateTime('date');
+            $table->integer('interval')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

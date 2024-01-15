@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\DebtController as AdminDebtController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
+use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 /*
@@ -75,7 +78,24 @@ Route::post('/admin/product/create', [AdminProductController::class, 'store'])->
 Route::get('/admin/product/edit', [AdminProductController::class, 'edit'])->name('adminProductEdit');
 Route::post('/admin/product/edit', [AdminProductController::class, 'create'])->name('adminProductUpdate');
 // Eco Friendly
-
+// Transaction
+Route::get('/admin/transaction', [AdminTransactionController::class, 'index'])->name('adminTransaction');
+Route::get('/admin/transaction/create', [AdminTransactionController::class, 'create'])->name('adminTransactionCreate');
+Route::post('/admin/transaction/create', [AdminTransactionController::class, 'store'])->name('adminTransactionStore');
+Route::get('/admin/transaction/edit', [AdminTransactionController::class, 'edit'])->name('adminTransactionEdit');
+Route::post('/admin/transaction/edit', [AdminTransactionController::class, 'create'])->name('adminTransactionUpdate');
+// Expense
+Route::get('/admin/expense', [AdminExpenseController::class, 'index'])->name('adminExpense');
+Route::get('/admin/expense/create', [AdminExpenseController::class, 'create'])->name('adminExpenseCreate');
+Route::post('/admin/expense/create', [AdminExpenseController::class, 'store'])->name('adminExpenseStore');
+Route::get('/admin/expense/edit', [AdminExpenseController::class, 'edit'])->name('adminExpenseEdit');
+Route::post('/admin/expense/edit', [AdminExpenseController::class, 'create'])->name('adminExpenseUpdate');
+// Debt
+Route::get('/admin/debt', [AdminDebtController::class, 'index'])->name('adminDebt');
+Route::get('/admin/debt/create', [AdminDebtController::class, 'create'])->name('adminDebtCreate');
+Route::post('/admin/debt/create', [AdminDebtController::class, 'store'])->name('adminDebtStore');
+Route::get('/admin/debt/edit', [AdminDebtController::class, 'edit'])->name('adminDebtEdit');
+Route::post('/admin/debt/edit', [AdminDebtController::class, 'create'])->name('adminDebtUpdate');
 
 // User
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('userDashboard');
