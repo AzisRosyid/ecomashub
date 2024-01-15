@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
-    private static $types = ['Rutin', 'Sekali'];
-
-    public function __construct()
-    {
-        $this->middleware('auth.role:pengurus');
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -38,7 +31,7 @@ class SupplierController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.supplier.index', compact('acc', 'suppliers', 'types'));
+        return view('admin.supplier.index', compact('acc', 'suppliers'));
     }
 
     /**
@@ -48,7 +41,7 @@ class SupplierController extends Controller
     {
         $acc = Auth::user();
 
-        return view('admin.supplier.create', compact('acc', 'types'));
+        return view('admin.supplier.create', compact('acc'));
     }
 
     /**
@@ -63,7 +56,7 @@ class SupplierController extends Controller
             'cost' => 'required|numeric',
             'type' => 'required|in:Rutin,Sekali',
             'date' => 'required|date',
-            'interval' => 'required|integer',
+            'interval' => 'integer',
             'description' => 'string',
         ];
 
@@ -118,7 +111,7 @@ class SupplierController extends Controller
             'cost' => 'required|numeric',
             'type' => 'required|in:Rutin,Sekali',
             'date' => 'required|date',
-            'interval' => 'required|integer',
+            'interval' => 'integer',
             'description' => 'string',
         ];
 

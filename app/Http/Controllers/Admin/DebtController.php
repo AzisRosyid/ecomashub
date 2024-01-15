@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class DebtController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:pengurus');
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -52,7 +47,7 @@ class DebtController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'value' => 'requried|numeric',
+            'value' => 'required|numeric',
             'date' => 'required|date',
             'description' => 'string'
         ];
@@ -99,7 +94,7 @@ class DebtController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'value' => 'requried|numeric',
+            'value' => 'required|numeric',
             'date' => 'required|date',
             'description' => 'string'
         ];

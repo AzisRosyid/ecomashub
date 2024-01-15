@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:pengurus');
-    }
-
     /**
      * Display a listing of the resource.
      */

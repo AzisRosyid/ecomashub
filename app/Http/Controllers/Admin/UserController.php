@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:pengurus');
-    }
-
     /**
      * Display a listing of the resource.
      */
