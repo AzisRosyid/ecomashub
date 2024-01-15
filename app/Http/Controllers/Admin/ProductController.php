@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.product.index', compact('user', 'products'));
+        return view('admin.product.index', compact('acc', 'products'));
     }
 
     /**
@@ -49,10 +49,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
+        $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('user', 'categories'));
+        return view('admin.product.create', compact('acc', 'categories'));
     }
 
     /**
@@ -102,10 +102,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('user', 'categories', 'product'));
+        return view('admin.product.create', compact('acc', 'categories', 'product'));
     }
 
     /**

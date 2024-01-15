@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -20,10 +23,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $acc = Auth::user();
         $users = User::all();
 
-        return view('admin.user', ['user' => $user, 'users' => $users]);
+        return view('admin.user.index', compact('acc', 'users'));
     }
 
     /**
@@ -31,10 +34,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-        $userRoles = UserRole::all();
+        $acc = Auth::user();
+        $roles = UserRole::all();
 
-        return view('admin.user', ['user' => $user, 'userRoles' => $userRoles]);
+        return view('admin.user.create', compact('acc', 'roles'));
     }
 
     /**
@@ -42,6 +45,46 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'required|unique:users',
+            'email' => 'required|string|email|unique:users',
+            'user_role_id' => 'required|string',
+            'source_type' => 'required|in:Internal,External',
+            'gender' => 'required|in:Laki-Laki,Perempuan',
+            'date_of_birth' => 'required|date',
+            'phone_number' => 'required|numeric|digits_between:1,15',
+            'address' => 'required',
+            'image' => 'mimes:jpg,png,jpeg',
+            'status' => 'required|in:Aktif,Menunggu,Blok'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);
+        }
+
+        $password = Hash::make($request->first_name . '_' . Carbon::parse($request->date_of_birth)->format('Y'));
+
+        User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $password,
+            'user_role_id' => $request->user_role_id,
+            'source_type' => $request->source_type,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            //    'image' => $request->image,
+            'status' => $request->status
+        ]);
+
+        return redirect($request->url)->with('message', 'Anggota telah berhasil dibuat!');
     }
 
     /**
@@ -57,7 +100,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $acc = Auth::user();
+        $roles = UserRole::all();
+
+        return view('admin.user.create', compact('acc', 'roles', 'user'));
     }
 
     /**
@@ -65,7 +111,46 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $rules = [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'required|unique:users',
+            'email' => 'required|string|email|unique:users',
+            'user_role_id' => 'required|string',
+            'source_type' => 'required|in:Internal,External',
+            'gender' => 'required|in:Laki-Laki,Perempuan',
+            'date_of_birth' => 'required|date',
+            'phone_number' => 'required|numeric|digits_between:1,15',
+            'address' => 'required',
+            'image' => 'mimes:jpg,png,jpeg',
+            'status' => 'required|in:Aktif,Menunggu,Blok'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);
+        }
+
+        $password = $request->has('reset_password') ? Hash::make($request->first_name . '_' . Carbon::parse($request->date_of_birth)->format('Y')) : $user->password;
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($password),
+            'user_role_id' => $request->user_role_id,
+            'source_type' => $request->source_type,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            //    'image' => $request->image,
+            'status' => $request->status
+        ]);
+
+        return redirect($request->url)->with('message', 'Anggota telah berhasil diperbarui!');
     }
 
     /**
@@ -73,6 +158,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('admin.product.index')->with('message', 'Anggota telah berhasil dihapus!');
     }
 }

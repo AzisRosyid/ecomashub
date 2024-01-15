@@ -20,7 +20,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
         $events = Event::where(function ($query) use ($search) {
@@ -34,7 +34,7 @@ class EventController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.event.index', compact('user', 'events'));
+        return view('admin.event.index', compact('acc', 'events'));
     }
 
     /**
@@ -42,9 +42,9 @@ class EventController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
-        return view('admin.event.create', compact('user'));
+        return view('admin.event.create', compact('acc'));
     }
 
     /**
@@ -102,9 +102,9 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
-        return view('admin.event.edit', compact('user', 'event'));
+        return view('admin.event.edit', compact('acc', 'event'));
     }
 
     /**

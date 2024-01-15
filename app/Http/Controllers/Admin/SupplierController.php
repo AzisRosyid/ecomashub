@@ -23,7 +23,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
 
@@ -38,7 +38,7 @@ class SupplierController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.supplier.index', compact('user', 'suppliers', 'types'));
+        return view('admin.supplier.index', compact('acc', 'suppliers', 'types'));
     }
 
     /**
@@ -46,9 +46,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
-        return view('admin.supplier.create', compact('user', 'types'));
+        return view('admin.supplier.create', compact('acc', 'types'));
     }
 
     /**
@@ -101,9 +101,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        $user = Auth::user();
+        $acc = Auth::user();
 
-        return view('admin.product.create', compact('user', 'types', 'supplier'));
+        return view('admin.product.create', compact('acc', 'types', 'supplier'));
     }
 
     /**

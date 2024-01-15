@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public static $types = ['Internal', 'External'];
+
     public function __construct()
     {
         $this->middleware('auth.role:tamu');
