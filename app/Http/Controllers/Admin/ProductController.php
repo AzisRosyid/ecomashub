@@ -62,7 +62,7 @@ class ProductController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|integer|exists:product_categories,id',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
             'profit' => 'numeric',
@@ -105,7 +105,7 @@ class ProductController extends Controller
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('acc', 'categories', 'product'));
+        return view('admin.product.edit', compact('acc', 'categories', 'product'));
     }
 
     /**
@@ -115,7 +115,7 @@ class ProductController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|integer|exists:product_categories,id',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
             'profit' => 'numeric',
@@ -149,6 +149,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return redirect()->route('admin.product.index')->with('message', 'Produk telah berhasil dihapus!');
+        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil dihapus!');
     }
 }

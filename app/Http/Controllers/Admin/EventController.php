@@ -156,6 +156,6 @@ class EventController extends Controller
     {
         $event->delete();
 
-        return redirect()->route('admin.event.index')->with('message', 'Kegiatan telah berhasil dihapus!');
+        return redirect()->route('adminEvent')->with('message', 'Kegiatan telah berhasil dihapus!');
     }
 }

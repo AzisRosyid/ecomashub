@@ -62,7 +62,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
             'password_confirmation' => 'required|string|same:password',
-            'user_role_id' => 'required|string',
+            'user_role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
             'date_of_birth' => 'required|date',

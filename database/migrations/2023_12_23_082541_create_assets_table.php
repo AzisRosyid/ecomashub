@@ -18,8 +18,8 @@ return new class extends Migration
             $table->enum('category', ['Alat', 'Bahan', 'Properti']);
             $table->integer('quantity');
             $table->foreignId('unit_id')->constrained(table: 'asset_units', indexName: 'unit_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->text('description')->nullable();
             $table->string('location');
+            $table->text('description')->nullable();
             $table->enum('status', ['Tersedia', 'Dipinjam', 'Digunakan']);
             $table->timestamps();
         });

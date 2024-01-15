@@ -50,7 +50,7 @@ class UserController extends Controller
             'last_name' => 'required|string',
             'username' => 'required|unique:users',
             'email' => 'required|string|email|unique:users',
-            'user_role_id' => 'required|string',
+            'user_role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
             'date_of_birth' => 'required|date',
@@ -103,7 +103,7 @@ class UserController extends Controller
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.create', compact('acc', 'roles', 'user'));
+        return view('admin.user.edit', compact('acc', 'roles', 'user'));
     }
 
     /**
@@ -116,7 +116,7 @@ class UserController extends Controller
             'last_name' => 'required|string',
             'username' => 'required|unique:users',
             'email' => 'required|string|email|unique:users',
-            'user_role_id' => 'required|string',
+            'user_role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
             'date_of_birth' => 'required|date',
@@ -160,6 +160,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('admin.product.index')->with('message', 'Anggota telah berhasil dihapus!');
+        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil dihapus!');
     }
 }

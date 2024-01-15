@@ -103,7 +103,7 @@ class SupplierController extends Controller
     {
         $acc = Auth::user();
 
-        return view('admin.product.create', compact('acc', 'types', 'supplier'));
+        return view('admin.supplier.edit', compact('acc', 'types', 'supplier'));
     }
 
     /**
@@ -150,6 +150,6 @@ class SupplierController extends Controller
     {
         $supplier->delete();
 
-        return redirect()->route('admin.product.index')->with('message', 'Pemasok telah berhasil dihapus!');
+        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil dihapus!');
     }
 }
