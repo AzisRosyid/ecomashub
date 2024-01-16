@@ -24,7 +24,7 @@ class HomeController extends Controller
         $auth = false;
         $profile = "";
 
-        return view('home', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
+        return view('home.index', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
     }
 
     public function login()
