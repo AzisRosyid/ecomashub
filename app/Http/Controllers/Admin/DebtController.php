@@ -21,8 +21,10 @@ class DebtController extends Controller
         $debts = Debt::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
+                ->orWhere('interest', 'like', $search)
                 ->orWhere('description', 'like', $search)
-                ->orWhere('date', 'like', $search);
+                ->orWhere('date_start', 'like', $search)
+                ->orWhere('date_end', 'like', $search);
         })
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
@@ -48,7 +50,9 @@ class DebtController extends Controller
         $rules = [
             'name' => 'required|string',
             'value' => 'required|numeric',
-            'date' => 'required|date',
+            'interest' => 'required|numeric',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date',
             'description' => 'string'
         ];
 
@@ -62,7 +66,9 @@ class DebtController extends Controller
             'store_id' => null,
             'name' => $request->name,
             'value' => $request->value,
-            'date' => $request->date,
+            'interest' => $request->interest / 100,
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'description' => $request->description
         ]);
 
@@ -95,7 +101,9 @@ class DebtController extends Controller
         $rules = [
             'name' => 'required|string',
             'value' => 'required|numeric',
-            'date' => 'required|date',
+            'interest' => 'required|numeric',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date',
             'description' => 'string'
         ];
 
@@ -109,7 +117,9 @@ class DebtController extends Controller
             'store_id' => null,
             'name' => $request->name,
             'value' => $request->value,
-            'date' => $request->date,
+            'interest' => $request->interest / 100,
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'description' => $request->description
         ]);
 

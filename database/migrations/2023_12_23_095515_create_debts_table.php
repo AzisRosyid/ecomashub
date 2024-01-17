@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('store_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->double('value');
+            $table->float('interest');
             $table->dateTime('date_start');
             $table->dateEnd('date_end');
             $table->text('description')->nullable();

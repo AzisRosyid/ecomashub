@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Debt;
 use App\Models\Event;
 use App\Models\Expense;
 use App\Models\Order;
@@ -38,6 +39,7 @@ class TransactionCommand extends Command
         $this->eventTransaction($current);
         $this->orderTransaction($current);
         $this->expenseTransaction($current);
+        $this->debtTransaction($current);
     }
 
     private function eventTransaction($current)
@@ -130,13 +132,45 @@ class TransactionCommand extends Command
                 }
 
                 for ($i = 0; $i < $loop; $i++) {
-                    $date = $expense->date->addMonths($expense->interval * ($i + 1));
+                    $date = $expense->date->addMonths($expense->interval * $i);
 
                     Transaction::create([
                         'store_id' => $expense->store_id,
                         'category_id' => $expense->id,
                         'category' => 'Biaya',
                         'value' => $expense->value,
+                        'value_type' => 'Rugi',
+                        'date' => $date,
+                    ]);
+                }
+            }
+        }
+    }
+
+    private function debtTransaction($current)
+    {
+        $debtIds = Debt::pluck('id')->toArray();
+
+        Transaction::where('category', 'Hutang')
+            ->whereNotIn('category_id', $debtIds)
+            ->delete();
+
+        $debts = Expense::whereIn('id', $debtIds)->get();
+
+        foreach ($debts as $debt) {
+            $transaction = Transaction::where('category_id', $debt->id)->first();
+
+            if (!$transaction && $current >= $debt->date_start) {
+                $loop = $current->diffInMonths($debt->date_end);
+
+                for ($i = 0; $i < $loop; $i++) {
+                    $date = $debt->date_start->addMonths($i);
+
+                    Transaction::create([
+                        'store_id' => $debt->store_id,
+                        'category_id' => $debt->id,
+                        'category' => 'Hutang',
+                        'value' => $debt->value * (1 + $debt->interest),
                         'value_type' => 'Rugi',
                         'date' => $date,
                     ]);

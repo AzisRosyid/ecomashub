@@ -13,7 +13,9 @@ class Debt extends Model
         'name',
         'description',
         'value',
-        'date'
+        'date_start',
+        'date_end',
+        'interest'
     ];
 
     use HasFactory;
