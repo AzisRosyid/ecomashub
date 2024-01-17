@@ -19,8 +19,8 @@ class Event extends Model
         'location',
         'type',
         'theme',
-        'start_date',
-        'end_date',
+        'date_start',
+        'date_end',
     ];
 
     use HasFactory;

@@ -18,7 +18,7 @@ class TransactionController extends Controller
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
-        $transactions = Transaction::where('user_id', null)->where(function ($query) use ($search) {
+        $transactions = Transaction::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('category', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('value_type', 'like', $search)

@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $auth = false;
         $profile = "";
 
-        return view('admin.dashboard', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
+        return view('admin.dashboard.index', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
     }
 
     /**

@@ -22,7 +22,7 @@ class AssetController extends Controller
 
         $unitIds = AssetUnit::where('name', 'like', $search)->pluck('id');
 
-        $assets = Asset::where('user_id', null)
+        $assets = Asset::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('category', 'like', $search)

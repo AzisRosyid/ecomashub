@@ -27,7 +27,6 @@ class ProductController extends Controller
                 $query->where('name', 'like', $search)
                     ->orWhere('stock', 'like', $search)
                     ->orWhere('price', 'like', $search)
-                    ->orWhere('profit', 'like', $search)
                     ->orWhere('description', 'like', $search);
             })
             ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
@@ -60,7 +59,6 @@ class ProductController extends Controller
             'category_id' => 'required|integer|exists:product_categories,id',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
-            'profit' => 'numeric',
             'description' => 'string',
             'image' => 'mimes:jpg,png,jpeg',
         ];
@@ -77,7 +75,6 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'stock' => $request->stock,
             'price' => $request->price,
-            'profit' => $request->profit,
             'description' => $request->description,
         ]);
 
@@ -113,7 +110,6 @@ class ProductController extends Controller
             'category_id' => 'required|integer|exists:product_categories,id',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
-            'profit' => 'numeric',
             'description' => 'string',
             'image' => 'mimes:jpg,png,jpeg',
         ];
@@ -130,7 +126,6 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'stock' => $request->stock,
             'price' => $request->price,
-            'profit' => $request->profit,
             'description' => $request->description,
         ]);
 

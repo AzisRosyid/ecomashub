@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('store_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('category_id');
             $table->enum('category', ['Kegiatan', 'Pesanan', 'Biaya', 'Hutang']);
             $table->double('value');

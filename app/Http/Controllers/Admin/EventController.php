@@ -18,7 +18,7 @@ class EventController extends Controller
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
-        $events = Event::where(function ($query) use ($search) {
+        $events = Event::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('title', 'like', $search)
                 ->orWhere('organizer', 'like', $search)
                 ->orWhere('description', 'like', $search)
@@ -56,8 +56,8 @@ class EventController extends Controller
             'file' => 'mimes:pdf',
             'location' => 'required|string',
             'type' => 'required|in:Luring,Daring',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -77,8 +77,8 @@ class EventController extends Controller
             'location' => $request->location,
             'type' => $request->type,
             'theme' => 1,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end
         ]);
 
         return redirect($request->url)->with('message', 'Kegiatan telah berhasil dibuat!');
@@ -116,8 +116,8 @@ class EventController extends Controller
             'file' => 'mimes:pdf',
             'location' => 'required|string',
             'type' => 'required|in:Luring,Daring',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -137,8 +137,8 @@ class EventController extends Controller
             'location' => $request->location,
             'type' => $request->type,
             'theme' => 1,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end
         ]);
 
         return redirect($request->url)->with('message', 'Kegiatan telah berhasil diperbarui!');

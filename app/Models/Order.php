@@ -13,7 +13,6 @@ class Order extends Model
         'name',
         'down_payment',
         'description',
-        'date_entry',
         'date_start',
         'date_end',
         'status',

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Transaction extends Model
 {
     protected $fillable = [
-        'user_id',
+        'store_id',
         'category_id',
         'category',
         'value',

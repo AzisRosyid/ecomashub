@@ -28,7 +28,7 @@ class OrderController extends Controller
             $query->whereIn('product_id', $productIds);
         })->pluck('id');
 
-        $orders = Order::where('user_id', null)
+        $orders = Order::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('down_payment', 'like', $search)
@@ -67,9 +67,8 @@ class OrderController extends Controller
             'name' => 'required|string',
             'down_payment' => 'required|numeric',
             'description' => 'string',
-            'date_entry' => 'required|date',
-            'date_start' => 'required|date',
-            'date_end' => 'required|date',
+            'date_start' => 'date',
+            'date_end' => 'date',
             'description' => 'string',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
             'product_ids.*' => 'required|integer|exists:products,id',
@@ -87,7 +86,6 @@ class OrderController extends Controller
             'name' => $request->name,
             'down_payment' => $request->down_payment,
             'description' => $request->description,
-            'date_entry' => now(),
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
             'status' => $request->status
@@ -134,9 +132,7 @@ class OrderController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'down_payment' => 'required|numeric',
             'description' => 'string',
-            'date_entry' => 'required|date',
             'date_start' => 'required|date',
             'date_end' => 'required|date',
             'description' => 'string',
@@ -154,7 +150,6 @@ class OrderController extends Controller
         $order->update([
             'store_id' => null,
             'name' => $request->name,
-            'down_payment' => $request->down_payment,
             'description' => $request->description,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,

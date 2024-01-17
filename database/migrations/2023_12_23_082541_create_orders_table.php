@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->double('down_payment');
             $table->text('description')->nullable();
-            $table->dateTime('date_entry');
             $table->dateTime('date_start')->nullable();
             $table->datetime('date_end')->nullable();
             $table->enum('status', ['Pengajuan', 'Proses', 'Selesai']);

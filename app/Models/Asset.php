@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Asset extends Model
 {
     protected $fillable = [
-        'user_id',
+        'store_id',
         'name',
         'category',
         'quantity',

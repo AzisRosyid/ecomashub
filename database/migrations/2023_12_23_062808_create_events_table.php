@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->enum('type', ['Luring', 'Daring']);
             $table->integer('theme');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
             $table->timestamps();
             $table->softDeletes();
         });

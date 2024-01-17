@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained(table: 'product_categories', indexName: 'category_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('stock');
             $table->double('price');
-            $table->double('profit')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
