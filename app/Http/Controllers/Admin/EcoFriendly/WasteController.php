@@ -7,8 +7,9 @@ use App\Models\Waste;
 use App\Models\WasteType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
-class EcoFriendlyController extends Controller
+class WasteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +36,7 @@ class EcoFriendlyController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.product.index', compact('acc', 'wastes'));
+        return view('admin.eco-friendly.waste.index', compact('acc', 'wastes'));
     }
 
     /**
@@ -43,7 +44,10 @@ class EcoFriendlyController extends Controller
      */
     public function create()
     {
-        //
+        $acc = Auth::user();
+        $types = WasteType::all();
+
+        return view('admin.eco-friendly.waste.create', compact('acc', 'types'));
     }
 
     /**
@@ -51,7 +55,23 @@ class EcoFriendlyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'product_id' => 'required|exists:products,id',
+            'type_id' => 'required|exists:waste_types,id',
+            'value' => 'required|numeric',
+            'unit' => 'required|in:Milligram,Gram,Kilogram',
+            'description' => 'string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['waste' => $validator->errors()->first()]);
+        }
+
+        Waste::create($request->all());
+
+        return redirect($request->url)->with('message', 'Sampah telah berhasil dibuat!');
     }
 
     /**
@@ -59,7 +79,6 @@ class EcoFriendlyController extends Controller
      */
     public function show(Waste $waste)
     {
-        //
     }
 
     /**
@@ -67,7 +86,10 @@ class EcoFriendlyController extends Controller
      */
     public function edit(Waste $waste)
     {
-        //
+        $acc = Auth::user();
+        $types = WasteType::all();
+
+        return view('admin.eco-friendly.waste.edit', compact('acc', 'types', 'waste'));
     }
 
     /**
@@ -75,7 +97,23 @@ class EcoFriendlyController extends Controller
      */
     public function update(Request $request, Waste $waste)
     {
-        //
+        $rules = [
+            'product_id' => 'required|exists:products,id',
+            'type_id' => 'required|exists:waste_types,id',
+            'value' => 'required|numeric',
+            'unit' => 'required|in:Milligram,Gram,Kilogram',
+            'description' => 'string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['waste' => $validator->errors()->first()]);
+        }
+
+        $waste->update($request->all());
+
+        return redirect($request->url)->with('message', 'Sampah telah berhasil diperbarui!');
     }
 
     /**
@@ -83,6 +121,8 @@ class EcoFriendlyController extends Controller
      */
     public function destroy(Waste $waste)
     {
-        //
+        $waste->delete();
+
+        return redirect()->route('adminWaste')->with('message', 'Sampah telah berhasil dihapus!');
     }
 }

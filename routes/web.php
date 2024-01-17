@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\WasteController as AdminWasteController;
 use App\Http\Controllers\Admin\DebtController as AdminDebtController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
@@ -40,6 +41,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 // < Admin >
 Route::middleware(['auth.role:pengurus'])->group(function () {
     Route::prefix('/admin')->group(function () {
+        // < Umum >
         // Dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
 
@@ -98,7 +100,17 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::post('/edit', [AdminProductController::class, 'update'])->name('adminProductUpdate');
         });
 
-        // Eco Friendly
+        // < Eco Friendly >
+        // Waste
+        Route::prefix('/waste')->group(function () {
+            Route::get('/', [AdminWasteController::class, 'index'])->name('adminWaste');
+            Route::get('/create', [AdminWasteController::class, 'create'])->name('adminWasteCreate');
+            Route::post('/create', [AdminWasteController::class, 'store'])->name('adminWasteStore');
+            Route::get('/edit/{waste}', [AdminWasteController::class, 'edit'])->name('adminWasteEdit');
+            Route::post('/edit', [AdminWasteController::class, 'update'])->name('adminWasteUpdate');
+        });
+
+        // < Keuangan >
         // Transaction
         Route::prefix('/transaction')->group(function () {
             Route::get('/', [AdminTransactionController::class, 'index'])->name('adminTransaction');
