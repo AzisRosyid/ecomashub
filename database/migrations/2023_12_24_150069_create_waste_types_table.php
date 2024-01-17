@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('waste_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->enum('type', ['Pengurus', 'Anggota']);
+            $table->string('name');
+            $table->enum('category', ['Organik', 'Anorganik']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('waste_types');
     }
 };

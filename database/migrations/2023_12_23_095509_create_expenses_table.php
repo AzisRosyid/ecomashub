@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('interval')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

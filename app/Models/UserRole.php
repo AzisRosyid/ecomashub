@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserRole extends Model
 {
@@ -13,4 +14,8 @@ class UserRole extends Model
     ];
 
     use HasFactory;
+
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 }

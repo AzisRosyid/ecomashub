@@ -22,6 +22,7 @@ return new class extends Migration
             $table->datetime('date_end')->nullable();
             $table->enum('status', ['Pengajuan', 'Proses', 'Selesai']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

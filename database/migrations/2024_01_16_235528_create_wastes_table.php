@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('wastes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('name');
-            $table->string('item');
-            $table->integer('quantity');
-            $table->double('cost');
-            $table->enum('type', ['Rutin', 'Sekali']);
-            $table->date('date');
-            $table->integer('interval');
+            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('type_id')->constrained(table: 'waste_types', indexName: 'type_id')->onUpdate('cascade')->onDelete('cascade');
+            $table->double('value');
+            $table->enum('unit', ['Milligram', 'Gram', 'Kilogram']);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('wastes');
     }
 };

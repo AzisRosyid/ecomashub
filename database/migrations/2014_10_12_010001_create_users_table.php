@@ -29,6 +29,7 @@ return new class extends Migration
             $table->enum('status', ['Aktif', 'Menunggu', 'Blok']);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

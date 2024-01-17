@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('value_type', ['Untung', 'Rugi']);
             $table->dateTime('date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -102,10 +102,10 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
         // Transaction
         Route::prefix('/transaction')->group(function () {
             Route::get('/', [AdminTransactionController::class, 'index'])->name('adminTransaction');
-            Route::get('/create', [AdminTransactionController::class, 'create'])->name('adminTransactionCreate');
-            Route::post('/create', [AdminTransactionController::class, 'store'])->name('adminTransactionStore');
-            Route::get('/edit/{transaction}', [AdminTransactionController::class, 'edit'])->name('adminTransactionEdit');
-            Route::post('/edit', [AdminTransactionController::class, 'update'])->name('adminTransactionUpdate');
+            // Route::get('/create', [AdminTransactionController::class, 'create'])->name('adminTransactionCreate');
+            // Route::post('/create', [AdminTransactionController::class, 'store'])->name('adminTransactionStore');
+            // Route::get('/edit/{transaction}', [AdminTransactionController::class, 'edit'])->name('adminTransactionEdit');
+            // Route::post('/edit', [AdminTransactionController::class, 'update'])->name('adminTransactionUpdate');
         });
 
         // Expense

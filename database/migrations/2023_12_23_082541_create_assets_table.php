@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['Tersedia', 'Dipinjam', 'Digunakan']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
