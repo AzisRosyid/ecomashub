@@ -57,6 +57,7 @@ class WasteController extends Controller
     {
         $rules = [
             'product_id' => 'required|exists:products,id',
+            'name' => 'required|string',
             'type_id' => 'required|exists:waste_types,id',
             'value' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram',
@@ -99,6 +100,7 @@ class WasteController extends Controller
     {
         $rules = [
             'product_id' => 'required|exists:products,id',
+            'name' => 'required|string',
             'type_id' => 'required|exists:waste_types,id',
             'value' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram',

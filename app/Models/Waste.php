@@ -10,6 +10,7 @@ class Waste extends Model
 {
     protected $fillable = [
         'product_id',
+        'name',
         'type_id',
         'value',
         'unit',
