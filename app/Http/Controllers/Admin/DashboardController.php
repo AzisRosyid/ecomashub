@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\Method;
-use Throwable;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -17,10 +15,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $auth = false;
-        $profile = "";
+        $route = 'adminDashboard';
+        $acc = Auth::user();
 
-        return view('admin.dashboard.index', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
+        return view('admin.dashboard.index', compact('route', 'acc'));
     }
 
     /**

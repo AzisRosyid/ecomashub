@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,26 +15,43 @@
 
     <style>
         @font-face {
-    font-family: 'Fredoka-Regular';
-    src: url('../fonts/Fredoka-Regular.woff') format('woff');
-}
+            font-family: 'Fredoka-Regular';
+            src: url('../fonts/Fredoka-Regular.woff') format('woff');
+        }
 
-@font-face {
-    font-family: 'Fredoka-Bold';
-    src: url('../fonts/Fredoka-Bold.woff') format('woff');
-}
+        @font-face {
+            font-family: 'Fredoka-Bold';
+            src: url('../fonts/Fredoka-Bold.woff') format('woff');
+        }
 
-@font-face {
-    font-family: 'Fredoka-Medium';
-    src: url('../fonts/Fredoka-Medium.woff') format('woff');
-}
-
+        @font-face {
+            font-family: 'Fredoka-Medium';
+            src: url('../fonts/Fredoka-Medium.woff') format('woff');
+        }
     </style>
 
 </head>
+
 <body>
-    <div id="app">
-        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    @isset($route)
+        @if (strpos($route, 'admin') !== false)
+            <section class="flex">
+                @yield('content')
+            </section>
+        @else
+            @yield('content')
+        @endif
+    @endisset
+
+
+    @include('layouts.footer')
+    @include('layouts.script')
+</body>
+
+</html>
+
+
+{{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -86,19 +104,3 @@
                 </div>
             </div>
         </nav> --}}
-
-        @yield('content')
-    </div>
-
-    @isset($route)
-
-    @if ($route == 'login')
-    <footer class="bg-green-800 fixed bottom-0 w-full text-center py-3 text-white">
-        <p>&copy;Copyright Ecomashub. All Rights Reserved</p>
-    </footer>
-
-    <script src="{{ Vite::asset('resources/js/login.js') }}"></script>
-    @endif
-    @endisset
-</body>
-</html>
