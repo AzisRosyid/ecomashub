@@ -1,4 +1,4 @@
-@isset('route')
+@isset($route)
     @if ($route == 'login')
         <script src="{{ Vite::asset('resources/js/login.js') }}"></script>
     @endif

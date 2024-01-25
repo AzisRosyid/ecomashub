@@ -13,7 +13,7 @@
     <!-- Scripts -->
     @vite('resources/js/app.js')
 
-    <style>
+    {{-- <style>
         @font-face {
             font-family: 'Fredoka-Regular';
             src: url('../fonts/Fredoka-Regular.woff') format('woff');
@@ -28,7 +28,7 @@
             font-family: 'Fredoka-Medium';
             src: url('../fonts/Fredoka-Medium.woff') format('woff');
         }
-    </style>
+    </style> --}}
 
 </head>
 
