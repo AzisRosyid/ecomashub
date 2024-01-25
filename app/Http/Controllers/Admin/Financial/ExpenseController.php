@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ExpenseController extends Controller
 {
+    private $route = 'adminExpense';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
@@ -29,7 +31,7 @@ class ExpenseController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.expense.index', compact('acc', 'expenses'));
+        return view('admin.expense.index', compact('route', 'acc', 'expenses'));
     }
 
     /**
@@ -37,9 +39,10 @@ class ExpenseController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.expense.create', compact('acc'));
+        return view('admin.expense.create', compact('route', 'acc'));
     }
 
     /**
@@ -88,9 +91,10 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.debt.edit', compact('acc', 'debt'));
+        return view('admin.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**

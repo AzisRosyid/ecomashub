@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    private $route = 'adminDashboard';
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $route = 'adminDashboard';
+        $route = $this->route;
         $acc = Auth::user();
 
         return view('admin.dashboard.index', compact('route', 'acc'));

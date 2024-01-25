@@ -36,6 +36,7 @@
     @isset($route)
         @if (strpos($route, 'admin') !== false)
             <section class="flex">
+                @include('layouts.sidebar')
                 @yield('content')
             </section>
         @else

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AssetController extends Controller
 {
+    private $route = 'adminDashboard';
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
@@ -37,7 +40,7 @@ class AssetController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.asset.index', compact('acc', 'assets'));
+        return view('admin.asset.index', compact('route', 'acc', 'assets'));
     }
 
     /**
@@ -45,10 +48,11 @@ class AssetController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.create', compact('acc', 'units'));
+        return view('admin.asset.create', compact('route', 'acc', 'units'));
     }
 
     /**
@@ -98,10 +102,11 @@ class AssetController extends Controller
      */
     public function edit(Asset $asset)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.edit', compact('acc', 'units', 'asset'));
+        return view('admin.asset.edit', compact('route', 'acc', 'units', 'asset'));
     }
 
     /**

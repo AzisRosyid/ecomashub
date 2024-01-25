@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('value');
             $table->float('interest');
             $table->dateTime('date_start');
-            $table->dateEnd('date_end');
+            $table->dateTime('date_end');
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

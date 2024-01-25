@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Store;
@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
+    private $route = 'adminSupplier';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
@@ -31,7 +33,7 @@ class SupplierController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.supplier.index', compact('acc', 'suppliers'));
+        return view('admin.supplier.index', compact('route', 'acc', 'suppliers'));
     }
 
     /**
@@ -39,9 +41,10 @@ class SupplierController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.supplier.create', compact('acc'));
+        return view('admin.supplier.create', compact('route', 'acc'));
     }
 
     /**
@@ -94,9 +97,10 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.supplier.edit', compact('acc', 'types', 'supplier'));
+        return view('admin.supplier.edit', compact('route', 'acc', 'types', 'supplier'));
     }
 
     /**

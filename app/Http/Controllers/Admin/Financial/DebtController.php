@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DebtController extends Controller
 {
+    private $route = 'adminDebt';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
@@ -29,7 +31,7 @@ class DebtController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.debt.index', compact('acc', 'debts'));
+        return view('admin.debt.index', compact('route', 'acc', 'debts'));
     }
 
     /**
@@ -37,9 +39,10 @@ class DebtController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.debt.create', compact('acc'));
+        return view('admin.debt.create', compact('route', 'acc'));
     }
 
     /**
@@ -88,9 +91,10 @@ class DebtController extends Controller
      */
     public function edit(Debt $debt)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.debt.edit', compact('acc', 'debt'));
+        return view('admin.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**

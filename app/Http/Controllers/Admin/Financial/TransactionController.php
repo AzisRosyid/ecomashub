@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
+    private $route = 'adminTransaction';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
@@ -27,7 +28,7 @@ class TransactionController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.transactions.index', compact('acc', 'transactions'));
+        return view('admin.transaction.index', compact('route', 'acc', 'transactions'));
     }
 
     //     /**
@@ -35,9 +36,9 @@ class TransactionController extends Controller
     //      */
     //     public function create()
     //     {
-    //         $acc = Auth::user();
+    //         $route = $this->route;
 
-    //         return view('admin.transactions.create', compact('acc'));
+    //         return view('admin.transactions.create', compact('route', 'acc'));
     //     }
 
     //     /**
@@ -84,9 +85,9 @@ class TransactionController extends Controller
     //      */
     //     public function edit(Transaction $transaction)
     //     {
-    //         $acc = Auth::user();
+    //         $route = $this->route;
 
-    //         return view('admin.debt.edit', compact('acc', 'debt'));
+    //         return view('admin.debt.edit', compact('route', 'acc', 'debt'));
     //     }
 
     //     /**

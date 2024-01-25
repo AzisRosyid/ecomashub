@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
+    private $route = 'adminEvent';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
 
@@ -29,7 +31,7 @@ class EventController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.event.index', compact('acc', 'events'));
+        return view('admin.event.index', compact('route', 'acc', 'events'));
     }
 
     /**
@@ -37,9 +39,10 @@ class EventController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.event.create', compact('acc'));
+        return view('admin.event.create', compact('route', 'acc'));
     }
 
     /**
@@ -97,9 +100,10 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.event.edit', compact('acc', 'event'));
+        return view('admin.event.edit', compact('route', 'acc', 'event'));
     }
 
     /**

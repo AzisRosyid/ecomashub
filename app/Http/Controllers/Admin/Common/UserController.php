@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,15 +13,17 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    private $route = 'adminUser';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $users = User::all();
 
-        return view('admin.user.index', compact('acc', 'users'));
+        return view('admin.user.index', compact('route', 'acc', 'users'));
     }
 
     /**
@@ -29,10 +31,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.create', compact('acc', 'roles'));
+        return view('admin.user.create', compact('route', 'acc', 'roles'));
     }
 
     /**
@@ -95,10 +98,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.edit', compact('acc', 'roles', 'user'));
+        return view('admin.user.edit', compact('route', 'acc', 'roles', 'user'));
     }
 
     /**

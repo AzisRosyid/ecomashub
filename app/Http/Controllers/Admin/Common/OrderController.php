@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    private $route = 'adminOrder';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
@@ -26,25 +28,24 @@ class OrderController extends Controller
 
         $detailIds = OrderDetail::where('quantity', 'like', $search)->when($productIds->isNotEmpty(), function ($query) use ($productIds) {
             $query->whereIn('product_id', $productIds);
-        })->pluck('id');
+        })->pluck('order_id');
 
         $orders = Order::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('down_payment', 'like', $search)
                     ->orWhere('description', 'like', $search)
-                    ->orWhere('date_entry', 'like', $search)
                     ->orWhere('date_start', 'like', $search)
                     ->orWhere('date_end', 'like', $search)
                     ->orWhere('status', 'like', $search);
             })
             ->when($detailIds->isNotEmpty(), function ($query) use ($detailIds) {
-                $query->whereIn('unit_id', $detailIds);
+                $query->whereIn('id', $detailIds);
             })
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.order.index', compact('acc', 'orders'));
+        return view('admin.order.index', compact('route', 'acc', 'orders'));
     }
 
     /**
@@ -52,10 +53,11 @@ class OrderController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $products = Product::where('store_id', null);
 
-        return view('admin.order.create', compact('acc', 'products'));
+        return view('admin.order.create', compact('route', 'acc', 'products'));
     }
 
     /**
@@ -118,11 +120,12 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $products = Product::where('store_id', null)->get();
         $details = OrderDetail::where('order_id', $order->id)->get();
 
-        return view('admin.order.edit', compact('acc', 'products', 'order', 'details'));
+        return view('admin.order.edit', compact('route', 'acc', 'products', 'order', 'details'));
     }
 
     /**

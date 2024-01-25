@@ -2,12 +2,12 @@
     @if (strpos($route, 'admin') !== false)
         <div class="w-[330px] h-full py-8 bg-white items-end">
             <a href="" class="flex justify-center mb-8">
-                <img src="{{ Vite::asset('resources/images/logotext-ino 1.png') }}" alt="" class="w-[40px]">
+                <img src="{{ Vite::asset('resources/images/logogram-ino 1.png') }}" alt="" class="w-[40px]">
                 <img src="{{ Vite::asset('resources/images/logotext-ino.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
             </a>
             <ul class="ps-10 border-b pb-3">
                 <li>
-                    <a href="dashboard.html"
+                    <a href="{{ route('adminDashboard') }}"
                         class="flex py-4 px-6 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list sidebar-active">
                         <svg width="18" height="21" viewBox="0 0 18 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="kegiatan.html"
+                    <a href="{{ route('adminEvent') }}"
                         class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                    <a href="{{ route('adminUser') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -61,7 +62,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                    <a href="{{ route('adminAsset') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -82,7 +84,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                    <a href="{{ route('adminSupplier') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -102,7 +105,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('adminOrder') }}"
                         class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('adminProduct') }}"
                         class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -248,13 +251,13 @@
                     </a>
                     <ul class="ms-6 hidden" id="menuKeuangan">
                         <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
-                            <a href="#" class="">Transaksi</a>
+                            <a href="{{ route('adminTransaction') }}" class="">Transaksi</a>
                         </li>
                         <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
-                            <a href="#" class="">Biaya</a>
+                            <a href="{{ route('adminExpense') }}" class="">Biaya</a>
                         </li>
                         <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
-                            <a href="#" class="">Hutang</a>
+                            <a href="{{ route('adminDebt') }}" class="">Hutang</a>
                         </li>
                     </ul>
                 </li>

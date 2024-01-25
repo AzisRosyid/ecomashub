@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\EcoFriendly;
 
 use App\Http\Controllers\Controller;
 use App\Models\Waste;
@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class WasteController extends Controller
 {
+    private $route = 'adminWaste';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
@@ -36,7 +38,7 @@ class WasteController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.eco-friendly.waste.index', compact('acc', 'wastes'));
+        return view('admin.eco-friendly.waste.index', compact('route', 'acc', 'wastes'));
     }
 
     /**
@@ -44,10 +46,11 @@ class WasteController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $types = WasteType::all();
 
-        return view('admin.eco-friendly.waste.create', compact('acc', 'types'));
+        return view('admin.eco-friendly.waste.create', compact('route', 'acc', 'types'));
     }
 
     /**
@@ -87,10 +90,11 @@ class WasteController extends Controller
      */
     public function edit(Waste $waste)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $types = WasteType::all();
 
-        return view('admin.eco-friendly.waste.edit', compact('acc', 'types', 'waste'));
+        return view('admin.eco-friendly.waste.edit', compact('route', 'acc', 'types', 'waste'));
     }
 
     /**

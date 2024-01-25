@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    private $route = 'adminProduct';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $route = $this->route;
         $acc = Auth::user();
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
@@ -35,7 +37,7 @@ class ProductController extends Controller
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
             ->get();
 
-        return view('admin.product.index', compact('acc', 'products'));
+        return view('admin.product.index', compact('route', 'acc', 'products'));
     }
 
     /**
@@ -43,10 +45,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $route = $this->route;
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('acc', 'categories'));
+        return view('admin.product.create', compact('route', 'acc', 'categories'));
     }
 
     /**
@@ -94,10 +97,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $route = $this->route;
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.edit', compact('acc', 'categories', 'product'));
+        return view('admin.product.edit', compact('route', 'acc', 'categories', 'product'));
     }
 
     /**
