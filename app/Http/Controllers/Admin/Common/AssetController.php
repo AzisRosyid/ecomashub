@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AssetController extends Controller
 {
-    private $route = 'adminDashboard';
+    private $route = 'adminAsset';
 
     /**
      * Display a listing of the resource.

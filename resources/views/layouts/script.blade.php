@@ -1,5 +1,9 @@
 @isset($route)
-    @if ($route == 'login')
+    @if ($route == 'home')
+        <script src="{{ Vite::asset('resources/js/home.js') }}"></script>
+    @endif
+
+    @if ($route == 'authLogin')
         <script src="{{ Vite::asset('resources/js/login.js') }}"></script>
     @endif
 

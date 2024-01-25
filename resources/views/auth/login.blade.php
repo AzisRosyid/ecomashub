@@ -24,7 +24,7 @@
                     <p class="text-2xl font-bold text-green-700 font-fredokaBold">Selamat Datang Kembali!</p>
                     <p class="text-xs mb-2 font-fredokaRegular">Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </p>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('loginUser') }}">
                         @csrf <!-- {{ csrf_field() }} -->
                         <div class="p-1 flex justify-between mb-3 w-56 rounded-[7px] border-2 border-green-700">
                             <input type="text" class="outline-none" placeholder="Username/email" name="user"

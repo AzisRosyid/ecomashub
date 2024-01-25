@@ -2,57 +2,27 @@
 
 namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use App\Models\UserRole;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class RegisterController extends Controller
 {
-    public static $types = ['Internal', 'External'];
-
-    public function __construct()
+    private $route = 'authRegister';
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $this->middleware('auth.role:tamu');
     }
 
-    public function login(Request $request)
-    {
-        $rules = [
-            'user' => 'required|string',
-            'password' => 'required|string',
-            'remember' => 'nullable',
-        ];
-
-        $messages = [
-            'user.required' => 'Username/Email tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return back()->withInput($request->except('password'))->withErrors(['login' => $validator->errors()->first()]);
-        }
-
-        $remember = $request->has('remember') ? true : false;
-
-        $valid = User::where('username', $request->user)->orWhere('email', $request->user)->first();
-
-        if (!$valid || !Hash::check($request->password, $valid->password)) {
-            return back()->withInput($request->except('password'))->withErrors(['login' => 'Username, Email, atau Password tidak benar.']);
-        }
-
-        Auth::login($valid, $remember);
-
-        return redirect()->route('home')->with('message', 'Login telah berhasil!');
-    }
-
+    /**
+     * Register a new User
+     */
     public function register(Request $request)
     {
         $rules = [
@@ -105,12 +75,5 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'Registrasi telah berhasil!'], 201);
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-
-        return redirect()->route('login')->with('message', 'Logout telah berhasil!');
     }
 }

@@ -3,17 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\Method;
-use Throwable;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:tamu');
-    }
-
+    private $route = 'home';
     /**
      * Display a listing of the resource.
      *
@@ -21,15 +14,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $auth = false;
-        $profile = "";
+        $route = $this->route;
 
-        return view('home.index', ['profile' => $profile, 'auth' => $auth, 'f' => true]);
-    }
-
-    public function login()
-    {
-        return view('auth.login', ['route' => 'login']);
+        return view('home.index', compact('route'));
     }
 
     /**

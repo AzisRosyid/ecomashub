@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\EcoFriendly\WasteController as AdminWasteControll
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;
 use App\Http\Controllers\Admin\Financial\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 /*
@@ -33,10 +35,14 @@ Route::get('/', function () {
 
 // Home
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logoutUser');
 
-// Auth
-Route::get('/login', [HomeController::class, 'login'])->name('loginForm');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+// < Tamu >
+Route::middleware(['auth.role:tamu'])->group(function () {
+    // Auth
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('loginUser');
+});
 
 // < Admin >
 Route::middleware(['auth.role:pengurus'])->group(function () {

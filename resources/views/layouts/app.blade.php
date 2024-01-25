@@ -8,7 +8,21 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        @isset($route)
+            @if (strpos($route, 'admin') !== false)
+                {{ ucwords(str_replace('admin', 'Admin ', $route)) }}
+            @elseif (strpos($route, 'auth') !== false)
+                {{ ucwords(str_replace('auth', '', $route)) }}
+            @elseif ($route == 'home')
+                Home
+            @else
+                {{ ucwords(str_replace('home', '', $route)) }}
+            @endif |
+        @endisset
+        {{ config('app.name', 'Laravel') }}
+    </title>
+    <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/logogram-ino 1.png') }}">
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
@@ -39,9 +53,12 @@
                 @include('layouts.sidebar')
                 @yield('content')
             </section>
+            @yield('filter')
         @else
             @yield('content')
         @endif
+
+
     @endisset
 
 
