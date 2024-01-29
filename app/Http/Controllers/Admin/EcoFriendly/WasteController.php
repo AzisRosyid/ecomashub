@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\EcoFriendly;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Waste;
 use App\Models\WasteType;
 use Illuminate\Http\Request;
@@ -22,15 +23,16 @@ class WasteController extends Controller
 
         $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
 
+        $productIds = Product::where('name', 'like', $search)->pluck('id');
         $typesIds = WasteType::where('name', 'like', $search)->pluck('id');
 
-        $wastes = Waste::where('store_id', null)
-            ->where(function ($query) use ($search) {
-                $query->where('name', 'like', $search)
-                    ->orWhere('stock', 'like', $search)
-                    ->orWhere('price', 'like', $search)
-                    ->orWhere('profit', 'like', $search)
-                    ->orWhere('description', 'like', $search);
+        $wastes = Waste::where(function ($query) use ($search) {
+            $query->where('value', 'like', $search)
+                ->orWhere('unit', 'like', $search)
+                ->orWhere('description', 'like', $search);
+        })
+            ->when($productIds->isNotEmpty(), function ($query) use ($productIds) {
+                $query->whereIn('product_id', $productIds);
             })
             ->when($typesIds->isNotEmpty(), function ($query) use ($typesIds) {
                 $query->whereIn('type_id', $typesIds);

@@ -11,38 +11,47 @@ use Illuminate\Support\Facades\Validator;
 class EventController extends Controller
 {
     private $route = 'adminEvent';
+    private $types = ['Luring', 'Daring'];
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         $route = $this->route;
+        $types = $this->types;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 1);
+        $page = $request->input('page', 1);
 
-        $events = Event::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Event::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('title', 'like', $search)
                 ->orWhere('organizer', 'like', $search)
                 ->orWhere('description', 'like', $search)
                 ->orWhere('fund', 'like', $search)
                 ->orWhere('location', 'like', $search)
                 ->orWhere('type', 'like', $search);
-        })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+        })->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.event.index', compact('route', 'acc', 'events'));
+        $total = $query->count();
+
+        $events = $query->paginate($pick, ['*'], 'page', $page);
+        $events->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.event.index', compact('route', 'acc', 'types', 'events', 'pick', 'page', 'total', 'pages'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $route = $this->route;
+        $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.event.create', compact('route', 'acc'));
+        return view('admin.event.create', compact('route', 'acc', 'types'));
     }
 
     /**
@@ -53,14 +62,14 @@ class EventController extends Controller
         $rules = [
             'title' => 'required|string',
             'organizer' => 'required|string',
-            'description' => 'string',
-            'fund' => 'numeric',
-            'image' => 'mimes:jpg,png,jpeg',
-            'file' => 'mimes:pdf',
+            'description' => 'nullable|string',
+            'fund' => 'nullable|numeric',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
+            'file' => 'nullable|mimes:pdf',
             'location' => 'required|string',
             'type' => 'required|in:Luring,Daring',
             'date_start' => 'required|date',
-            'date_end' => 'required|date',
+            'date_end' => 'required|date|after:date_start',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -70,7 +79,7 @@ class EventController extends Controller
         }
 
         Event::create([
-            'user_id' => null,
+            'store_id' => null,
             'title' => $request->title,
             'organizer' => $request->organizer,
             'description' => $request->description,
@@ -84,7 +93,7 @@ class EventController extends Controller
             'date_end' => $request->date_end
         ]);
 
-        return redirect($request->url)->with('message', 'Kegiatan telah berhasil dibuat!');
+        return redirect()->route('adminEvent')->with('message', 'Kegiatan telah berhasil dibuat!');
     }
 
     /**
@@ -101,9 +110,10 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $route = $this->route;
+        $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.event.edit', compact('route', 'acc', 'event'));
+        return view('admin.event.edit', compact('route', 'acc', 'types', 'event'));
     }
 
     /**
@@ -114,14 +124,14 @@ class EventController extends Controller
         $rules = [
             'title' => 'required|string',
             'organizer' => 'required|string',
-            'description' => 'string',
-            'fund' => 'numeric',
-            'image' => 'mimes:jpg,png,jpeg',
-            'file' => 'mimes:pdf',
+            'description' => 'nullable|string',
+            'fund' => 'nullable|numeric',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
+            'file' => 'nullable|mimes:pdf',
             'location' => 'required|string',
             'type' => 'required|in:Luring,Daring',
             'date_start' => 'required|date',
-            'date_end' => 'required|date',
+            'date_end' => 'required|date|after:date_start',
         ];
 
         $validator = Validator::make($request->all(), $rules);

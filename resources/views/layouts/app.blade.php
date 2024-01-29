@@ -22,7 +22,7 @@
         @endisset
         {{ config('app.name', 'Laravel') }}
     </title>
-    <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/logogram-ino 1.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/logo.png') }}">
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
@@ -49,11 +49,17 @@
 <body>
     @isset($route)
         @if (strpos($route, 'admin') !== false)
-            <section class="flex">
-                @include('layouts.sidebar')
-                @yield('content')
-            </section>
-            @yield('filter')
+            @isset($pick)
+                <form action="{{ route($route) }}" method="get">
+                @endisset
+                <section class="flex">
+                    @include('layouts.sidebar')
+                    @yield('content')
+                </section>
+                @yield('filter')
+                @isset($pick)
+                </form>
+            @endisset
         @else
             @yield('content')
         @endif

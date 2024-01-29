@@ -8,15 +8,10 @@ const bgFilter = document.querySelector('#bgFilter');
 const closeFilter = document.querySelector('#closeFilter');
 const hamburger = document.querySelector('#hamburger');
 const navMenu = document.querySelector('#nav-menu');
-const bgDetail = document.querySelector('#bgDetail');
-const isiDetail = document.querySelector('#isiDetail');
-const closeDetail = document.querySelector('#closeDetail');
 const echo = document.querySelector('#echo');
 const menuEcho = document.querySelector('#menuEcho');
 const echoRight = document.querySelector('#echoRight');
 const echoDown = document.querySelector('#echoDown');
-const search = document.getElementById('search');
-const searchForm = document.getElementById('aPZdfj');
 
 // menu keuangan
 keuangan.addEventListener('click', function () {
@@ -32,45 +27,8 @@ echo.addEventListener('click', function () {
     echoDown.classList.toggle('hidden');
 });
 
-//filter
-filter.addEventListener('click', function () {
-    menuFilter.classList.remove('hidden');
-    bgFilter.classList.remove('hidden');
-});
-closeFilter.addEventListener('click', function () {
-    menuFilter.classList.add('hidden');
-    bgFilter.classList.add('hidden');
-});
-bgFilter.addEventListener('click', function () {
-    menuFilter.classList.add('hidden');
-    bgFilter.classList.add('hidden');
-});
-
 // hamburger
 hamburger.addEventListener('click', function () {
     hamburger.classList.toggle('hamburger-active');
     navMenu.classList.toggle('hidden');
 });
-
-//detail kegiatan
-function detailKegiatan() {
-    isiDetail.classList.remove('hidden');
-    bgDetail.classList.remove('hidden');
-}
-closeDetail.addEventListener('click', function () {
-    isiDetail.classList.add('hidden');
-    bgDetail.classList.add('hidden');
-});
-bgDetail.addEventListener('click', function () {
-    isiDetail.classList.add('hidden');
-    bgDetail.classList.add('hidden');
-});
-
-// search
-search.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchForm.submit();
-    }
-});
-

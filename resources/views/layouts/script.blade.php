@@ -10,4 +10,9 @@
     @if (strpos($route, 'admin') !== false)
         <script src="{{ Vite::asset('resources/js/admin.js') }}"></script>
     @endif
+
+    {{-- Kegiatan --}}
+    @if ($route == 'adminEventCreate')
+        <script src="{{ Vite::asset('resources/js/tambah-kegiatan.js') }}"></script>
+    @endif
 @endisset

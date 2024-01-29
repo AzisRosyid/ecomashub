@@ -6,8 +6,6 @@ use App\Models\Debt;
 use App\Models\Event;
 use App\Models\Expense;
 use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Console\Command;
 
@@ -55,7 +53,12 @@ class TransactionCommand extends Command
         foreach ($events as $event) {
             $transaction = Transaction::where('category_id', $event->id)->first();
 
-            if (!$transaction && $current >= $event->date_end) {
+            if ($transaction && ($transaction->value != $event->fund || $transaction->date != $event->date_end) && $current >= $event->date_end) {
+                $transaction->update([
+                    'value' => $event->fund ?? 0,
+                    'date' => $event->date_end,
+                ]);
+            } else if (!$transaction && $current >= $event->date_end) {
                 Transaction::create([
                     'store_id' => $event->store_id,
                     'category_id' => $event->id,
@@ -178,38 +181,4 @@ class TransactionCommand extends Command
             }
         }
     }
-
-    // private function orderTransaction($current)
-    // {
-    //     $orderIds = Order::pluck('id')->toArray();
-
-    //     Transaction::where('category', 'Pesanan')
-    //         ->whereNotIn('category_id', $orderIds)
-    //         ->delete();
-
-    //     $orders = Order::whereIn('id', $orderIds)->get();
-
-    //     foreach ($orders as $order) {
-    //         $transaction = Transaction::where('category_id', $order->id)->first();
-    //         $value = $order->down_payment;
-    //         if ($order->status == 'Selesai') {
-    //             $details = OrderDetail::where('order_id', $order->id)->get();
-    //             foreach ($details as $detail) {
-    //                 $product = Product::find($detail->product_id)->first();
-    //                 $value += $product->price * $detail->quantity;
-    //             }
-    //         }
-
-    //         if (!$transaction) {
-    //             Transaction::create([
-    //                 'store_id' => $order->store_id,
-    //                 'category_id' => $order->id,
-    //                 'category' => 'Pesanan',
-    //                 'value' => $value,
-    //                 'value_type' => 'Untung',
-    //                 'date' => $current,
-    //             ]);
-    //         }
-    //     }
-    // }
 }

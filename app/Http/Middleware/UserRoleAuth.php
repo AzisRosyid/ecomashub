@@ -45,11 +45,11 @@ class UserRoleAuth
     {
         switch ($requiredRole) {
             case 'Pengurus':
-                return Redirect::to('/admin/dashboard')->with('error', 'Unauthorized action.')->setStatusCode(403);
+                return redirect()->route('adminDashboard')->with('error', 'Unauthorized action.')->setStatusCode(403);
             case 'Anggota':
-                return Redirect::to('/dashboard')->with('error', 'Unauthorized action.')->setStatusCode(403);
+                return redirect()->route('userDashboard')->with('error', 'Unauthorized action.')->setStatusCode(403);
             default:
-                return Redirect::to('/')->with('error', 'Unauthorized action.')->setStatusCode(403);
+                return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
         }
     }
 }

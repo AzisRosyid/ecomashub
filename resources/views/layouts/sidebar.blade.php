@@ -1,14 +1,15 @@
 @isset($route)
     @if (strpos($route, 'admin') !== false)
-        <div class="w-[330px] h-full py-8 bg-white items-end">
+        <div id="nav-menu"
+            class="w-[250px] sm:w-[330px] overflow-y-auto h-full py-8 bg-white items-end fixed sm:static top-0 left-0 hidden lg:block">
             <a href="" class="flex justify-center mb-8">
-                <img src="{{ Vite::asset('resources/images/logogram-ino 1.png') }}" alt="" class="w-[40px]">
-                <img src="{{ Vite::asset('resources/images/logotext-ino.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
+                <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-[40px]">
+                <img src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
             </a>
             <ul class="ps-10 border-b pb-3">
                 <li>
                     <a href="{{ route('adminDashboard') }}"
-                        class="flex py-4 px-6 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list sidebar-active">
+                        class="flex py-4 px-6 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminDashboard') sidebar-active @endif">
                         <svg width="18" height="21" viewBox="0 0 18 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path id="Mask" fill-rule="evenodd" clip-rule="evenodd"
@@ -20,7 +21,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminEvent') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminEvent') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -41,7 +42,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminUser') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminUser') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -63,7 +64,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminAsset') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminAsset') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -85,7 +86,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminSupplier') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminSupplier') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -106,7 +107,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminOrder') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminOrder') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -129,7 +130,7 @@
                 </li>
                 <li>
                     <a href="#"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminEntrust') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -151,7 +152,7 @@
                 </li>
                 <li>
                     <a href="{{ route('adminProduct') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminProduct') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -172,8 +173,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                    <a id="echo"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list cursor-pointer @if ($route == 'adminWaste') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -191,13 +192,51 @@
                         </svg>
 
                         <p class="ms-2">Echo friendly</p>
+
+                        <svg id="echoRight" class="mt-1 ms-11" width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M9.9995 19C9.7735 19 9.5465 18.924 9.3595 18.768C8.9355 18.415 8.8785 17.784 9.2315 17.36L13.7075 11.989L9.3925 6.627C9.0465 6.197 9.1145 5.567 9.5445 5.221C9.9755 4.875 10.6045 4.943 10.9515 5.373L15.7795 11.373C16.0775 11.744 16.0735 12.274 15.7685 12.64L10.7685 18.64C10.5705 18.877 10.2865 19 9.9995 19Z"
+                                fill="#231F20" />
+                            <mask id="mask0_497_180" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="9" y="5"
+                                width="8" height="14">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M9.9995 19C9.7735 19 9.5465 18.924 9.3595 18.768C8.9355 18.415 8.8785 17.784 9.2315 17.36L13.7075 11.989L9.3925 6.627C9.0465 6.197 9.1145 5.567 9.5445 5.221C9.9755 4.875 10.6045 4.943 10.9515 5.373L15.7795 11.373C16.0775 11.744 16.0735 12.274 15.7685 12.64L10.7685 18.64C10.5705 18.877 10.2865 19 9.9995 19Z"
+                                    fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_497_180)">
+                                <rect width="24" height="24" fill="#0D1C2E" />
+                            </g>
+                        </svg>
+                        <svg id="echoDown" class="mt-1 ms-11 hidden" width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M11.9999 16C11.7719 16 11.5449 15.923 11.3599 15.768L5.35991 10.768C4.93591 10.415 4.87791 9.784 5.23191 9.36C5.58491 8.936 6.21491 8.879 6.63991 9.232L12.0109 13.708L17.3729 9.393C17.8029 9.047 18.4329 9.115 18.7789 9.545C19.1249 9.975 19.0569 10.604 18.6269 10.951L12.6269 15.779C12.4439 15.926 12.2219 16 11.9999 16Z"
+                                fill="#231F20" />
+                            <mask id="mask0_497_1803" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="5" y="9"
+                                width="14" height="7">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M11.9999 16C11.7719 16 11.5449 15.923 11.3599 15.768L5.35991 10.768C4.93591 10.415 4.87791 9.784 5.23191 9.36C5.58491 8.936 6.21491 8.879 6.63991 9.232L12.0109 13.708L17.3729 9.393C17.8029 9.047 18.4329 9.115 18.7789 9.545C19.1249 9.975 19.0569 10.604 18.6269 10.951L12.6269 15.779C12.4439 15.926 12.2219 16 11.9999 16Z"
+                                    fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_497_1803)">
+                                <rect width="24" height="24" fill="#0D1C2E" />
+                            </g>
+                        </svg>
                     </a>
+
+                    <ul class="ms-6 @if ($route != 'adminWaste') hidden @endif" id="menuEcho">
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminWaste') list-active @endif">
+                            <a href="{{ route('adminWaste') }}" class="">Waste</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <ul class="ps-10 pt-3">
                 <li class="mb-6">
                     <a id="keuangan"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminTransaction' || $route == 'adminExpense' || $route == 'adminDebt') sidebar-active @endif">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -249,14 +288,17 @@
 
 
                     </a>
-                    <ul class="ms-6 hidden" id="menuKeuangan">
-                        <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
+                    <ul class="ms-6 @if ($route != 'adminTransaction' && $route != 'adminExpense' && $route != 'adminDebt') hidden @endif" id="menuKeuangan">
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminTransaction') list-active @endif">
                             <a href="{{ route('adminTransaction') }}" class="">Transaksi</a>
                         </li>
-                        <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminExpense') list-active @endif">
                             <a href="{{ route('adminExpense') }}" class="">Biaya</a>
                         </li>
-                        <li class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600">
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminDebt') list-active @endif">
                             <a href="{{ route('adminDebt') }}" class="">Hutang</a>
                         </li>
                     </ul>

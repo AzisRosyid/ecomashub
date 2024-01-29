@@ -5,11 +5,11 @@
         <div class="flex rounded-2xl w-[255px] shadow-lg max-w-3xl bg-white sm:w-[523px]">
             <div class="w-1/2 sm:block hidden relative bg-gradient-to-br from-yellow-500 to-green-600 rounded-2xl">
                 <div>
-                    <img src="{{ Vite::asset('resources/images/formBg.png') }}" alt="" class="opacity-10">
+                    <img src="{{ Vite::asset('resources/images/login-bg.png') }}" alt="" class="opacity-10">
                 </div>
                 <div class="absolute top-9 ms-14">
                     <div class="bg-white p-2 rounded-[5px]">
-                        <img class="w-32" src="{{ Vite::asset('resources/images/logotext-ino.png') }}" alt="">
+                        <img class="w-32" src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="">
                     </div>
                 </div>
                 <div class="absolute top-36 text-white mx-3 text-center">

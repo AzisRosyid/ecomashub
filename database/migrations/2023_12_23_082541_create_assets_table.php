@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained()->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->enum('category', ['Alat', 'Bahan', 'Properti']);
             $table->integer('quantity');

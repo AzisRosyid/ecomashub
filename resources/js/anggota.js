@@ -11,12 +11,13 @@ const navMenu = document.querySelector('#nav-menu');
 const bgDetail = document.querySelector('#bgDetail');
 const isiDetail = document.querySelector('#isiDetail');
 const closeDetail = document.querySelector('#closeDetail');
+const terima = document.querySelector('#terima');
+const tolak = document.querySelector('#tolak');
+const detailAset = document.querySelector('#detailAset');
 const echo = document.querySelector('#echo');
 const menuEcho = document.querySelector('#menuEcho');
 const echoRight = document.querySelector('#echoRight');
 const echoDown = document.querySelector('#echoDown');
-const search = document.getElementById('search');
-const searchForm = document.getElementById('aPZdfj');
 
 // menu keuangan
 keuangan.addEventListener('click', function () {
@@ -31,6 +32,7 @@ echo.addEventListener('click', function () {
     echoRight.classList.toggle('hidden');
     echoDown.classList.toggle('hidden');
 });
+
 
 //filter
 filter.addEventListener('click', function () {
@@ -64,13 +66,47 @@ closeDetail.addEventListener('click', function () {
 bgDetail.addEventListener('click', function () {
     isiDetail.classList.add('hidden');
     bgDetail.classList.add('hidden');
+    terima.classList.add('hidden');
 });
 
-// search
-search.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchForm.submit();
-    }
+// terima user
+function terimaUser() {
+    terima.classList.remove('hidden');
+    bgDetail.classList.remove('hidden');
+}
+function tidakTerima() {
+    terima.classList.add('hidden');
+    bgDetail.classList.add('hidden');
+}
+bgDetail.addEventListener('click', function () {
+    terima.classList.add('hidden');
+    bgDetail.classList.add('hidden');
 });
 
+// tolak user
+function tolakUser() {
+    tolak.classList.remove('hidden');
+    bgDetail.classList.remove('hidden');
+}
+function tidakTolak() {
+    tolak.classList.add('hidden');
+    bgDetail.classList.add('hidden');
+}
+bgDetail.addEventListener('click', function () {
+    tolak.classList.add('hidden');
+    bgDetail.classList.add('hidden');
+});
+
+//detail aset
+function aset() {
+    detailAset.classList.remove('hidden');
+    bgDetail.classList.remove('hidden');
+}
+function closeAset() {
+    detailAset.classList.add('hidden');
+    bgDetail.classList.add('hidden');
+}
+bgDetail.addEventListener('click', function () {
+    detailAset.classList.add('hidden');
+    bgDetail.classList.add('hidden');
+});

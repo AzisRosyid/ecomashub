@@ -7,7 +7,7 @@
                 class="flex item-center justify-between sm:shadow-2xl shadow-green-200 sm:border-4 border-green-900 sm:rounded-[20px] p-2 bg-white relative">
                 <div class="px-2 sm:px-4">
                     <a href="#">
-                        <img src="{{ Vite::asset('resources/images/logotext-ino.png') }}" alt="EcomasHub" class="w-32">
+                        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="EcomasHub" class="w-32">
                     </a>
                 </div>
                 <div class="flex items-center">
