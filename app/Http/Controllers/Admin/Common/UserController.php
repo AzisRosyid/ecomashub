@@ -14,16 +14,48 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     private $route = 'adminUser';
+    private $types = ['Internal', 'External'];
+    private $genders = ['Laki-Laki', 'Perempuan'];
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $route = $this->route;
+        $types = $this->types;
+        $genders = $this->genders;
         $acc = Auth::user();
-        $users = User::all();
+        $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
-        return view('admin.user.index', compact('route', 'acc', 'users'));
+        $roleIds = UserRole::where('name', 'like', $search)->orWhere('type', 'like', $search)->pluck('id');
+
+        $query = User::where(function ($query) use ($search) {
+            $query->where('first_name', 'like', $search)
+                ->orWhere('last_name', 'like', $search)
+                ->orWhere('username', 'like', $search)
+                ->orWhere('email', 'like', $search)
+                ->orWhere('gender', 'like', $search)
+                ->orWhere('date_of_birth', 'like', $search)
+                ->orWhere('phone_number', 'like', $search)
+                ->orWhere('address', 'like', $search)
+                ->orWhere('status', 'like', $search);
+        })
+            ->when($roleIds->isNotEmpty(), function ($query) use ($roleIds) {
+                $query->whereIn('role_id', $roleIds);
+            })
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+
+        $total = $query->count();
+
+        $users = $query->paginate($pick, ['*'], 'page', $page);
+        $users->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.user.index', compact('route', 'acc', 'types', 'genders', 'users', 'pick', 'page', 'total', 'pages'));
     }
 
     /**

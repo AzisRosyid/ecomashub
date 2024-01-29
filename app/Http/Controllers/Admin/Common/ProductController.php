@@ -20,7 +20,7 @@ class ProductController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
+        $search = '%' . $request->input('search', '') . '%';
 
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 

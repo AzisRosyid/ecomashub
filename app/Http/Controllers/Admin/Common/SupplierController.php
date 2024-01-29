@@ -20,7 +20,7 @@ class SupplierController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
+        $search = '%' . $request->input('search', '') . '%';
 
         $suppliers = Supplier::where('store_id', null)
             ->where(function ($query) use ($search) {

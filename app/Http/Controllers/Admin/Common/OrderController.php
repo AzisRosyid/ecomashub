@@ -22,7 +22,7 @@ class OrderController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        $search = isset($request->search) ? '%' . $request->search . '%' : '%%';
+        $search = '%' . $request->input('search', '') . '%';
 
         $productIds = Product::where('name', 'like', $search)->pluck('id');
 

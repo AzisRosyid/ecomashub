@@ -21,7 +21,7 @@ class EventController extends Controller
         $types = $this->types;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
-        $pick = $request->input('pick', 1);
+        $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
 
         $query = Event::where('store_id', null)->where(function ($query) use ($search) {

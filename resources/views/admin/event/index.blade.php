@@ -125,7 +125,7 @@
                 </div>
                 <div class="justify-end items-center inline-flex">
                     <p class="hidden sm:block">Tampilkan</p>
-                    <select name="pick" id="" class="outline-none border border-slate-500 rounded-lg mx-3">
+                    <select name="pick" id="pick" class="outline-none border border-slate-500 rounded-lg mx-3">
                         <option value="10" {{ $pick == 10 ? 'selected' : '' }}>10</option>
                         <option value="25" {{ $pick == 25 ? 'selected' : '' }}>25</option>
                         <option value="50" {{ $pick == 50 ? 'selected' : '' }}>50</option>
@@ -185,19 +185,23 @@
                                     </form>
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
-                                    <form action="" method="post">
+                                    <form action="{{ route('adminEventEdit', $st) }}">
                                         <button
                                             class="w-[54px] px-3.5 py-2 hover:bg-lime-600 rounded-lg shadow border border-lime-600 justify-center items-center gap-2 inline-flex group">
                                             <div
                                                 class="group-hover:text-white text-lime-600 text-sm font-normal font-fredokaRegular leading-none">
                                                 Edit</div>
                                         </button>
-                                        <button
-                                            class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
-                                            <div
-                                                class="group-hover:text-white text-red-500 text-sm font-normal font-fredokaRegular leading-none">
-                                                Hapus</div>
-                                        </button>
+                                        <form action="{{ route('adminEventDestroy', $st) }}" method="POST">
+                                            @method('delete')
+                                            @csrf
+                                            <button
+                                                class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
+                                                <div
+                                                    class="group-hover:text-white text-red-500 text-sm font-normal font-fredokaRegular leading-none">
+                                                    Hapus</div>
+                                            </button>
+                                        </form>
                                     </form>
                                 </td>
                             </tr>

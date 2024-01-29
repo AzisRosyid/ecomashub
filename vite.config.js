@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/home.js',
                 'resources/js/login.js',
                 'resources/js/admin.js',
+                'resources/js/search.js',
                 'resources/js/anggota.js',
                 'resources/js/dashboard.js',
                 'resources/js/tambah-kegiatan.js'

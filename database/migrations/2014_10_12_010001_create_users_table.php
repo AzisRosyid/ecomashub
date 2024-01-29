@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('user_role_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained(table: 'user_roles', indexName: 'role_id')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('source_type', ['Internal', 'External']);
             $table->enum('gender', ['Laki-Laki', 'Perempuan']);
             $table->date('date_of_birth');

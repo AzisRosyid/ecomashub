@@ -15,8 +15,8 @@ const echo = document.querySelector('#echo');
 const menuEcho = document.querySelector('#menuEcho');
 const echoRight = document.querySelector('#echoRight');
 const echoDown = document.querySelector('#echoDown');
-const search = document.getElementById('search');
-const searchForm = document.getElementById('aPZdfj');
+const pick = document.getElementById('pick');
+const searchForm = document.getElementById('searchForm');
 
 // menu keuangan
 keuangan.addEventListener('click', function () {
@@ -67,10 +67,6 @@ bgDetail.addEventListener('click', function () {
 });
 
 // search
-search.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchForm.submit();
-    }
+pick.addEventListener("change", function() {
+    searchForm.submit();
 });
-

@@ -15,4 +15,9 @@
     @if ($route == 'adminEventCreate')
         <script src="{{ Vite::asset('resources/js/tambah-kegiatan.js') }}"></script>
     @endif
+
+    {{-- Search --}}
+    @isset($pick)
+        <script src="{{ Vite::asset('resources/js/search.js') }}"></script>
+    @endisset
 @endisset

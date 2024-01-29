@@ -23,7 +23,7 @@ class UserRoleAuth
         $user = Auth::user();
 
         if (isset($user)) {
-            $userRole = UserRole::find($user->user_role_id)->first()->type;
+            $userRole = UserRole::find($user->role_id)->first()->type;
         } else {
             $userRole = 'Tamu';
         }
