@@ -170,7 +170,6 @@ class UserController extends Controller
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
             'image' => 'nullable|mimes:jpg,png,jpeg',
-            'status' => 'required|in:Aktif,Menunggu,Blok'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -196,7 +195,6 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             //    'image' => $request->image,
-            'status' => $request->status
         ]);
 
         return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil diperbarui!');
