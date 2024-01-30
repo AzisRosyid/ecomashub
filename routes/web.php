@@ -5,12 +5,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\Common\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\Common\EventController as AdminEventController;
 use App\Http\Controllers\Admin\Common\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\Unit\ProductCategoryController as AdminProductCategoryController;
 use App\Http\Controllers\Admin\Common\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\Common\SupplierController as AdminSupplierController;
 use App\Http\Controllers\Admin\Common\UserController as AdminUserController;
 use App\Http\Controllers\Admin\Common\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\Common\Unit\ProductCategoryController as AdminProductCategoryController;
 use App\Http\Controllers\Admin\EcoFriendly\WasteController as AdminWasteController;
+use App\Http\Controllers\Admin\EcoFriendly\Unit\WasteTypeController as AdminWasteTypeController;
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;
 use App\Http\Controllers\Admin\Financial\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseController;
@@ -129,6 +130,13 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::get('/edit/{waste}', [AdminWasteController::class, 'edit'])->name('adminWasteEdit');
             Route::put('/edit/{waste}', [AdminWasteController::class, 'update'])->name('adminWasteUpdate');
             Route::delete('/delete/{waste}', [AdminWasteController::class, 'destroy'])->name('adminWasteDestroy');
+        });
+        Route::prefix('/waste/type')->group(function () {
+            Route::get('/create', [AdminWasteTypeController::class, 'create'])->name('adminWasteTypeCreate');
+            Route::post('/create', [AdminWasteTypeController::class, 'store'])->name('adminWasteTypeStore');
+            Route::get('/edit/{type}', [AdminWasteTypeController::class, 'edit'])->name('adminWasteTypeEdit');
+            Route::put('/edit/{type}', [AdminWasteTypeController::class, 'update'])->name('adminWasteTypeUpdate');
+            Route::delete('/delete/{type}', [AdminWasteTypeController::class, 'destroy'])->name('adminWasteTypeDestroy');
         });
 
         // < Keuangan >

@@ -22,7 +22,7 @@
         <!-- head -->
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
-                <p class="text-zinc-700 text-[28px] font-semibold font-['Fredoka'] leading-9">Tambah Sampah</p>
+                <p class="text-zinc-700 text-[28px] font-semibold font-['Fredoka'] leading-9">Tambah Jenis Sampah</p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
@@ -36,60 +36,22 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminWasteStore') }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
+        <form action="{{ route('adminWasteTypeStore') }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @csrf
-            <div class="border-b sm:flex">
-                <label for="produk" class="sm:w-40 block">Nama*</label>
-                <input type="text" name="name" id="produk"
+            <div class="border-b mt-3 sm:flex">
+                <label for="nama" class="sm:w-40 block">Nama jenis*</label>
+                <input type="text" name="name" id="nama"
                     class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Nama sampah" value="{{ old('name') ?? $waste->name }}" required>
+                    placeholder="Nama jenis sampah" value="{{ old('name') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>
-                <textarea name="description" id="deskripsi" cols="30" rows="3"
-                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi">{{ old('description') ?? $waste->description }}</textarea>
-            </div>
-            <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Produk*</label>
-                <select name="product_id" id=""
-                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih produk"
-                    required>
-                    <option value="">Pilih produk</option>
-                    @foreach ($products as $st)
-                        <option value="{{ $st->id }}"
-                            {{ old('product_id') ?? $waste->product_id == $st->id ? 'selected' : '' }}>
-                            {{ $st->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Jenis*</label>
-                <select name="type_id" id="" class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Pilih jenis" required>
-                    <option value="">Pilih jenis</option>
-                    @foreach ($types as $st)
-                        <option value="{{ $st->id }}"
-                            {{ old('type_id') ?? $waste->type_id == $st->id ? 'selected' : '' }}>
-                            {{ $st->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="border-b mt-3 sm:flex">
-                <label for="berat" class="sm:w-40 block">Berat*</label>
-                <input type="number" name="weight" id="berat"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="0"
-                    value="{{ old('weight') ?? $waste->weight }}" required>
-            </div>
-            <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Satuan*</label>
+                <label for="" class="sm:w-40 block">Kategori*</label>
                 <div class="flex sm:w-[600px] mb-4">
-                    @foreach ($units as $index => $st)
+                    @foreach ($categories as $index => $st)
                         <div class="flex @if ($index > 0) ms-6 @endif">
-                            <input type="radio" name="unit" value="{{ $st }}" id="{{ strtolower($st) }}"
+                            <input type="radio" name="category" value="{{ $st }}" id="{{ strtolower($st) }}"
                                 @if ($index === 0) required @endif
-                                @if (old('unit') ?? $waste->unit == $st) checked @endif>
+                                @if (old('category') == $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach
@@ -101,7 +63,7 @@
                     Batal</a>
                 <button
                     class="px-4 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">Tambah
-                    Sampah</button>
+                    Jenis Sampah</button>
             </div>
         </form>
         <!-- end body -->

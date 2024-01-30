@@ -47,8 +47,7 @@
             <div class="border-b mt-3 sm:flex">
                 <label for="deskripsi" class="sm:w-40 block">Deskripsi produk</label>
                 <textarea name="description" id="deskripsi" cols="30" rows="3"
-                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi"
-                    value="{{ old('description') }}"></textarea>
+                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi">{{ old('description') }}</textarea>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="berat" class="sm:w-40 block">Berat*</label>
@@ -58,15 +57,16 @@
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="" class="sm:w-40 block">Satuan*</label>
-                <select name="unit" id="" class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Pilih satuan" required>
-                    <option value="">Pilih satuan</option>
-                    @foreach ($units as $st)
-                        <option value="{{ $st }}" {{ old('unit') == $st ? 'selected' : '' }}>
-                            {{ $st }}
-                        </option>
+                <div class="flex sm:w-[600px] mb-4">
+                    @foreach ($units as $index => $st)
+                        <div class="flex @if ($index > 0) ms-6 @endif">
+                            <input type="radio" name="unit" value="{{ $st }}" id="{{ strtolower($st) }}"
+                                @if ($index === 0) required @endif
+                                @if (old('unit') == $st) checked @endif>
+                            <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
+                        </div>
                     @endforeach
-                </select>
+                </div>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="harga" class="sm:w-40 block">Harga*</label>

@@ -228,7 +228,7 @@
                     <ul class="ms-6 @if ($route != 'adminWaste') hidden @endif" id="menuEcho">
                         <li
                             class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminWaste') list-active @endif">
-                            <a href="{{ route('adminWaste') }}" class="">Waste</a>
+                            <a href="{{ route('adminWaste') }}" class="">Sampah</a>
                         </li>
                     </ul>
                 </li>

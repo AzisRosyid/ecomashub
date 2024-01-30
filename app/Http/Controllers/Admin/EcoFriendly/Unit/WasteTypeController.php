@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Unit;
+namespace App\Http\Controllers\Admin\EcoFriendly\Unit;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Models\WasteType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProductCategoryController extends Controller
+class WasteTypeController extends Controller
 {
-    private $route = 'adminProductCategory';
+    private $route = 'adminWasteType';
+    private $categories = ['Organik', 'Anorganik'];
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +23,7 @@ class ProductCategoryController extends Controller
     //     $pickUnit = 5;
     //     $pageUnit = $request->input('pageUnit', 1);
 
-    //     $query = ProductCategory::all();
+    //     $query = WasteType::all();
 
     //     $totalUnit = $query->count();
 
@@ -41,9 +41,10 @@ class ProductCategoryController extends Controller
     public function create()
     {
         $route = $this->route;
+        $categories = $this->categories;
         $acc = Auth::user();
 
-        return view('admin.product.unit.create', compact('route', 'acc'));
+        return view('admin.eco-friendly.waste.unit.create', compact('route', 'acc', 'categories'));
     }
 
     /**
@@ -52,24 +53,25 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|unique:product_categories',
+            'name' => 'required|string|unique:waste_types',
+            'category' => 'required|in:Organik,Anorganik'
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return back()->withInput($request->all())->withErrors(['unit' => $validator->errors()->first()]);
+            return back()->withInput($request->all())->withErrors(['waste' => $validator->errors()->first()]);
         }
 
-        ProductCategory::create($request->all());
+        WasteType::create($request->all());
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil dibuat!');
+        return redirect()->route('adminWaste')->with('message', 'Jenis Sampah telah berhasil dibuat!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(WasteType $type)
     {
         //
     }
@@ -77,41 +79,43 @@ class ProductCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductCategory $category)
+    public function edit(WasteType $type)
     {
         $route = $this->route;
+        $categories = $this->categories;
         $acc = Auth::user();
 
-        return view('admin.product.unit.edit', compact('route', 'acc', 'category'));
+        return view('admin.eco-friendly.waste.unit.edit', compact('route', 'acc', 'categories', 'type'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductCategory $category)
+    public function update(Request $request, WasteType $type)
     {
         $rules = [
-            'name' => 'required|string|unique:product_categories',
+            'name' => 'required|string|unique:waste_types',
+            'category' => 'required|in:Organik,Anorganik'
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
+            return back()->withInput($request->all())->withErrors(['waste' => $validator->errors()->first()]);
         }
 
-        $category->update($request->all());
+        $type->update($request->all());
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil diperbarui!');
+        return redirect()->route('adminWaste')->with('message', 'Jenis Sampah telah berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductCategory $category)
+    public function destroy(WasteType $type)
     {
-        $category->delete();
+        $type->delete();
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil dihapus!');
+        return redirect()->route('adminWaste')->with('message', 'Jenis Sampah telah berhasil dihapus!');
     }
 }

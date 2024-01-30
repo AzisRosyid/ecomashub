@@ -60,7 +60,6 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-
         return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 

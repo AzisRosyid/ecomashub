@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('wastes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name');
             $table->foreignId('type_id')->constrained(table: 'waste_types', indexName: 'type_id')->onUpdate('cascade')->onDelete('cascade');
             $table->double('weight');
             $table->enum('unit', ['Milligram', 'Gram', 'Kilogram']);

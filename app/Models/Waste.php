@@ -22,4 +22,14 @@ class Waste extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function getProductAttribute()
+    {
+        return Product::find($this->attributes['product_id']);
+    }
+
+    public function getTypeAttribute()
+    {
+        return WasteType::find($this->attributes['type_id']);
+    }
 }
