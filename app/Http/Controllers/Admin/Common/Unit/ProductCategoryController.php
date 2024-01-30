@@ -8,6 +8,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductCategoryController extends Controller
 {
@@ -91,7 +92,11 @@ class ProductCategoryController extends Controller
     public function update(Request $request, ProductCategory $category)
     {
         $rules = [
-            'name' => 'required|string|unique:product_categories',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('product_categories')->ignore($category->id),
+            ],
         ];
 
         $validator = Validator::make($request->all(), $rules);

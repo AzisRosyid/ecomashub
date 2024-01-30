@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -152,8 +153,16 @@ class UserController extends Controller
         $rules = [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'required|unique:users',
-            'email' => 'required|string|email|unique:users',
+            'username' => [
+                'required',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
@@ -165,6 +174,8 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), $rules);
+
+        dd($validator->errors()->first());
 
         if ($validator->fails()) {
             return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);

@@ -7,6 +7,7 @@ use App\Models\WasteType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class WasteTypeController extends Controller
 {
@@ -94,7 +95,11 @@ class WasteTypeController extends Controller
     public function update(Request $request, WasteType $type)
     {
         $rules = [
-            'name' => 'required|string|unique:waste_types',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('waste_types')->ignore($type->id),
+            ],
             'category' => 'required|in:Organik,Anorganik'
         ];
 
