@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -23,8 +25,12 @@ class RegisterController extends Controller
     /**
      * Register a new User
      */
-    public function register(Request $request)
+    public function register(Request $request, string $token)
     {
+        if ($token != Method::$token) {
+            return response(['errors' => "Unauthorized Access!"], 403);
+        }
+
         $rules = [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
@@ -75,5 +81,37 @@ class RegisterController extends Controller
         ]);
 
         return response()->json(['message' => 'Registrasi telah berhasil!'], 201);
+    }
+
+    /**
+     * Register a new User
+     */
+    public function role(Request $request, string $token)
+    {
+        if ($token != Method::$token) {
+            return response(['errors' => "Unauthorized Access!"], 403);
+        }
+
+        $rules = [
+            'name' => 'required|string',
+            'type' => 'required|in:Pengurus,Anggota'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->first()], 422);
+        }
+
+        // $file = null;
+        // if ($request->file('photo') != null) {
+        //     $photo = $request->file('photo')->getClientOriginalExtension();
+        //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
+        //     $request->file('photo')->move('images', $file);
+        // }
+
+        UserRole::create($request->all());
+
+        return response()->json(['message' => 'Registrasi Peran telah berhasil!'], 201);
     }
 }

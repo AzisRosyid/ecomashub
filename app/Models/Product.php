@@ -12,6 +12,8 @@ class Product extends Model
         'store_id',
         'name',
         'category_id',
+        'weight',
+        'unit',
         'stock',
         'price',
         'description',
@@ -23,4 +25,14 @@ class Product extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function getCategoryAttribute()
+    {
+        return ProductCategory::find($this->attributes['category_id']);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return 'Rp' . number_format($this->attributes['price'], 0, ',', '.') . ',00';
+    }
 }

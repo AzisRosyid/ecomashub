@@ -69,7 +69,7 @@
                         <div class="flex @if ($index > 0) ms-6 @endif">
                             <input type="radio" name="type" value="{{ $st }}" id="{{ strtolower($st) }}"
                                 @if ($index === 0) required @endif
-                                @if (old('type') == $st) selected @endif>
+                                @if (old('type') == $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach

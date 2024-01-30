@@ -155,7 +155,7 @@ class EventController extends Controller
             'date_end' => $request->date_end
         ]);
 
-        return redirect($request->url)->with('message', 'Kegiatan telah berhasil diperbarui!');
+        return redirect()->route('adminEvent')->with('message', 'Kegiatan telah berhasil diperbarui!');
     }
 
     /**

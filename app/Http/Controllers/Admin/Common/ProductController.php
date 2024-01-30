@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     private $route = 'adminProduct';
+    private $units = ['Milligram', 'Gram', 'Kilogram', 'Mililiter', 'Liter'];
     /**
      * Display a listing of the resource.
      */
@@ -19,14 +20,17 @@ class ProductController extends Controller
     {
         $route = $this->route;
         $acc = Auth::user();
-
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
-        $products = Product::where('store_id', null)
+        $query = Product::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
+                    ->orWhere('weight', 'like', $search)
+                    ->orWhere('unit', 'like', $search)
                     ->orWhere('stock', 'like', $search)
                     ->orWhere('price', 'like', $search)
                     ->orWhere('description', 'like', $search);
@@ -34,10 +38,30 @@ class ProductController extends Controller
             ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
                 $query->whereIn('category_id', $categoryIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.product.index', compact('route', 'acc', 'products'));
+        $total = $query->count();
+
+        $products = $query->paginate($pick, ['*'], 'page', $page);
+        $products->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        // Unit
+        $pickUnit = 5;
+        $pageUnit = $request->input('pageUnit', 1);
+
+        $queryUnit = ProductCategory::query();
+
+        $totalUnit = $queryUnit->count();
+
+        $units = $queryUnit->paginate($pickUnit, ['*'], 'pageUnit', $pageUnit);
+        $units->appends(['pickUnit' => $pickUnit]);
+
+        $pageUnits = ceil($totalUnit / $pickUnit);
+
+
+        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -46,10 +70,11 @@ class ProductController extends Controller
     public function create()
     {
         $route = $this->route;
+        $units = $this->units;
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('route', 'acc', 'categories'));
+        return view('admin.product.create', compact('route', 'acc', 'units', 'categories'));
     }
 
     /**
@@ -60,15 +85,18 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|string',
             'category_id' => 'required|integer|exists:product_categories,id',
+            'weight' => 'required|numeric',
+            'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
-            'description' => 'string',
-            'image' => 'mimes:jpg,png,jpeg',
+            'description' => 'nullable|string',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            dd($validator->errors()->first());
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
@@ -76,12 +104,14 @@ class ProductController extends Controller
             'store_id' => null,
             'name' => $request->name,
             'category_id' => $request->category_id,
+            'weight' => $request->weight,
+            'unit' => $request->unit,
             'stock' => $request->stock,
             'price' => $request->price,
             'description' => $request->description,
         ]);
 
-        return redirect($request->url)->with('message', 'Produk telah berhasil dibuat!');
+        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil dibuat!');
     }
 
     /**
@@ -98,10 +128,11 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $route = $this->route;
+        $units = $this->units;
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.edit', compact('route', 'acc', 'categories', 'product'));
+        return view('admin.product.edit', compact('route', 'acc', 'units', 'categories', 'product'));
     }
 
     /**
@@ -112,11 +143,14 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|string',
             'category_id' => 'required|integer|exists:product_categories,id',
+            'weight' => 'required|numeric',
+            'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
-            'description' => 'string',
-            'image' => 'mimes:jpg,png,jpeg',
+            'description' => 'nullable|string',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
+
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -124,16 +158,9 @@ class ProductController extends Controller
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        $product->update([
-            'store_id' => null,
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-            'stock' => $request->stock,
-            'price' => $request->price,
-            'description' => $request->description,
-        ]);
+        $product->update($request->all());
 
-        return redirect($request->url)->with('message', 'Produk telah berhasil diperbarui!');
+        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil diperbarui!');
     }
 
     /**

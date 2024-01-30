@@ -22,5 +22,5 @@ class Order extends Model
 
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['date_start', 'date_end', 'deleted_at'];
 }

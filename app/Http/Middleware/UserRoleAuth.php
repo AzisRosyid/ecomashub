@@ -32,6 +32,10 @@ class UserRoleAuth
             return $next($request);
         }
 
+        if ($user->status != 'Aktif') {
+            return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
+        }
+
         return $this->handleUnauthorizedRole($userRole);
     }
 

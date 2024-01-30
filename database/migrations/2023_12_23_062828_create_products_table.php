@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->foreignId('category_id')->constrained(table: 'product_categories', indexName: 'category_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->double('weight');
+            $table->enum('unit', ['Milligram', 'Gram', 'Kilogram', 'Mililiter', 'Liter']);
             $table->integer('stock');
             $table->double('price');
             $table->text('description')->nullable();

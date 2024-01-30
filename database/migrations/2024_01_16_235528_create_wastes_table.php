@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('type_id')->constrained(table: 'waste_types', indexName: 'type_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->double('value');
+            $table->double('weight');
             $table->enum('unit', ['Milligram', 'Gram', 'Kilogram']);
             $table->text('description')->nullable();
             $table->timestamps();

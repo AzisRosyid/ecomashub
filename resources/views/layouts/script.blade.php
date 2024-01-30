@@ -11,13 +11,12 @@
         <script src="{{ Vite::asset('resources/js/admin.js') }}"></script>
     @endif
 
-    {{-- Kegiatan --}}
+    {{-- event --}}
     @if ($route == 'adminEventCreate')
         <script src="{{ Vite::asset('resources/js/tambah-kegiatan.js') }}"></script>
     @endif
 
+    {{-- User --}}
+
     {{-- Search --}}
-    @isset($pick)
-        <script src="{{ Vite::asset('resources/js/search.js') }}"></script>
-    @endisset
 @endisset

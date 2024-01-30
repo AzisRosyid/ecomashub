@@ -52,6 +52,10 @@ class LoginController extends Controller
             return back()->withInput($request->except('password'))->withErrors(['login' => 'Username, Email, atau Password tidak benar.']);
         }
 
+        if ($valid->status != 'Aktif') {
+            return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
+        }
+
         Auth::login($valid, $remember);
 
         return redirect()->route('login')->with('message', 'Login telah berhasil!');

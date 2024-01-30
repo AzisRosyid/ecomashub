@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class Method extends Controller
 {
+    public static $token = "ErK8s*7MT8-F";
     public static $baseUrl = "http://192.168.21.1:8021/api/";
 
     public static function auth($profile, $admin = false)

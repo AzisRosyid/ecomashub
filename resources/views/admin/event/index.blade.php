@@ -157,7 +157,7 @@
                                         <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
                                             class="rounded-full min-h-9 min-w-9">
                                     </div>
-                                    <div id="" onclick="detailKegiatan()" class="ms-2 cursor-pointer">
+                                    <div id="" class="ms-2 cursor-pointer detail-item">
                                         {{ $st->title }}
                                         <p class="w-24 text-xs text-slate-500 overflow-hidden h-4">
                                             {{ $st->description ?? 'Tidak Ada' }}
@@ -168,7 +168,7 @@
                                 <td class="py-3 text-start px-3">{{ $st->formatted_fund }}</td>
                                 <td class="py-3 text-start px-3 items-center">
                                     <div
-                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular @if ($st->type == 'Luring') text-green-600 border-green-600 @elseif($st->type == 'Daring') text-amber-400  border-amber-400 @endif">
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->type == 'Luring' ? 'text-green-600 border-green-600' : ($st->type == 'Daring' ? 'text-amber-400 border-amber-400' : '') }}">
                                         {{ $st->type }}
                                     </div>
                                 </td>
@@ -185,14 +185,15 @@
                                     </form>
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
-                                    <form action="{{ route('adminEventEdit', $st) }}">
-                                        <button
-                                            class="w-[54px] px-3.5 py-2 hover:bg-lime-600 rounded-lg shadow border border-lime-600 justify-center items-center gap-2 inline-flex group">
+                                    <div class="flex">
+                                        <a href="{{ route('adminEventEdit', $st) }}"
+                                            class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
                                             <div
-                                                class="group-hover:text-white text-lime-600 text-sm font-normal font-fredokaRegular leading-none">
+                                                class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
                                                 Edit</div>
-                                        </button>
-                                        <form action="{{ route('adminEventDestroy', $st) }}" method="POST">
+                                        </a>
+                                        <form action="{{ route('adminEventDestroy', $st) }}" method="POST"
+                                            class="px-1">
                                             @method('delete')
                                             @csrf
                                             <button
@@ -202,7 +203,7 @@
                                                     Hapus</div>
                                             </button>
                                         </form>
-                                    </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

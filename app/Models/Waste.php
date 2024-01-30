@@ -12,7 +12,7 @@ class Waste extends Model
         'product_id',
         'name',
         'type_id',
-        'value',
+        'weight',
         'unit',
         'description'
     ];

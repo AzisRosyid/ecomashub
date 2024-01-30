@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,4 +66,10 @@ class User extends Authenticatable
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+
+    public function getFormattedDateOfBirthAttribute()
+    {
+        return Carbon::parse($this->attributes['date_of_birth'])->translatedFormat('d F Y');
+    }
 }

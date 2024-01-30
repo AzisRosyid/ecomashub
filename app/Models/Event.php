@@ -28,11 +28,11 @@ class Event extends Model
 
     use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['date_start', 'date_end', 'deleted_at'];
 
     public function getFormattedFundAttribute()
     {
-        return 'Rp ' . number_format($this->attributes['fund'], 0, ',', '.') . ',00';
+        return 'Rp' . number_format($this->attributes['fund'], 0, ',', '.') . ',00';
     }
 
     public function getFormattedDateStartAttribute()

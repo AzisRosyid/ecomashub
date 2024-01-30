@@ -17,4 +17,9 @@ class ProductCategory extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function getTotalReferenceAttribute()
+    {
+        return Product::where('category_id', $this->attributes['id'])->count();
+    }
 }

@@ -16,6 +16,7 @@ class UserController extends Controller
     private $route = 'adminUser';
     private $types = ['Internal', 'External'];
     private $genders = ['Laki-Laki', 'Perempuan'];
+    private $status =  ['Aktif', 'Menunggu', 'Blok'];
 
     /**
      * Display a listing of the resource.
@@ -25,7 +26,9 @@ class UserController extends Controller
         $route = $this->route;
         $types = $this->types;
         $genders = $this->genders;
+        $status = $this->status;
         $acc = Auth::user();
+
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
@@ -55,7 +58,7 @@ class UserController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.user.index', compact('route', 'acc', 'types', 'genders', 'users', 'pick', 'page', 'total', 'pages'));
+        return view('admin.user.index', compact('route', 'acc', 'types', 'genders', 'status', 'users', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -64,10 +67,12 @@ class UserController extends Controller
     public function create()
     {
         $route = $this->route;
+        $types = $this->types;
+        $genders = $this->genders;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.create', compact('route', 'acc', 'roles'));
+        return view('admin.user.create', compact('route', 'acc', 'types', 'genders', 'roles'));
     }
 
     /**
@@ -80,19 +85,19 @@ class UserController extends Controller
             'last_name' => 'required|string',
             'username' => 'required|unique:users',
             'email' => 'required|string|email|unique:users',
-            'user_role_id' => 'required|string|exists:user_roles,id',
+            'role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|numeric|digits_between:1,15',
-            'address' => 'required',
-            'image' => 'mimes:jpg,png,jpeg',
-            'status' => 'required|in:Aktif,Menunggu,Blok'
+            'address' => 'required|string',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            dd($validator->errors()->first());
             return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);
         }
 
@@ -104,17 +109,17 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $password,
-            'user_role_id' => $request->user_role_id,
+            'role_id' => $request->role_id,
             'source_type' => $request->source_type,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             //    'image' => $request->image,
-            'status' => $request->status
+            'status' => 'Menunggu'
         ]);
 
-        return redirect($request->url)->with('message', 'Anggota telah berhasil dibuat!');
+        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil dibuat!');
     }
 
     /**
@@ -131,10 +136,12 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $route = $this->route;
+        $types = $this->types;
+        $genders = $this->genders;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.edit', compact('route', 'acc', 'roles', 'user'));
+        return view('admin.user.edit', compact('route', 'acc', 'types', 'genders', 'roles', 'user'));
     }
 
     /**
@@ -147,13 +154,13 @@ class UserController extends Controller
             'last_name' => 'required|string',
             'username' => 'required|unique:users',
             'email' => 'required|string|email|unique:users',
-            'user_role_id' => 'required|string|exists:user_roles,id',
+            'role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
             'gender' => 'required|in:Laki-Laki,Perempuan',
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|numeric|digits_between:1,15',
-            'address' => 'required',
-            'image' => 'mimes:jpg,png,jpeg',
+            'address' => 'required|string',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
             'status' => 'required|in:Aktif,Menunggu,Blok'
         ];
 
@@ -170,8 +177,8 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($password),
-            'user_role_id' => $request->user_role_id,
+            'password' => $password,
+            'role_id' => $request->role_id,
             'source_type' => $request->source_type,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
@@ -181,8 +188,32 @@ class UserController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect($request->url)->with('message', 'Anggota telah berhasil diperbarui!');
+        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil diperbarui!');
     }
+
+    /**
+     * Update Status
+     */
+    public function updateStatus(Request $request)
+    {
+        $rules = [
+            'id' => 'required|integer|exists:users,id',
+            'status' => 'required|in:Aktif,Menunggu,Blok'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);
+        }
+
+        User::find($request->id)->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('message', 'Status Anggota telah berhasil diperbarui!');
+    }
+
 
     /**
      * Remove the specified resource from storage.

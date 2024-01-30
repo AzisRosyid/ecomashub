@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class WasteController extends Controller
 {
     private $route = 'adminWaste';
+    
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +28,7 @@ class WasteController extends Controller
         $typesIds = WasteType::where('name', 'like', $search)->pluck('id');
 
         $wastes = Waste::where(function ($query) use ($search) {
-            $query->where('value', 'like', $search)
+            $query->where('weight', 'like', $search)
                 ->orWhere('unit', 'like', $search)
                 ->orWhere('description', 'like', $search);
         })
@@ -64,7 +65,7 @@ class WasteController extends Controller
             'product_id' => 'required|exists:products,id',
             'name' => 'required|string',
             'type_id' => 'required|exists:waste_types,id',
-            'value' => 'required|numeric',
+            'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram',
             'description' => 'string',
         ];
@@ -108,7 +109,7 @@ class WasteController extends Controller
             'product_id' => 'required|exists:products,id',
             'name' => 'required|string',
             'type_id' => 'required|exists:waste_types,id',
-            'value' => 'required|numeric',
+            'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram',
             'description' => 'string',
         ];
