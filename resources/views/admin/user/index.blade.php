@@ -6,7 +6,7 @@
         <!-- head -->
         <div class="flex mx-4 sm:mx-10 justify-between border-b pb-4">
             <div>
-                <p class="text-zinc-700 text-2xl sm:text-[28px] font-semibold font-['Fredoka'] leading-9">
+                <p class="text-zinc-700 text-2xl sm:text-[28px] font-semibold font-fredokaBold leading-9">
                     Anggota
                 </p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
@@ -114,7 +114,7 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-['Fredoka'] leading-9">Semua anggota</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua anggota</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">

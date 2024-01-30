@@ -22,7 +22,7 @@
         <!-- head -->
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
-                <p class="text-zinc-700 text-[28px] font-semibold font-['Fredoka'] leading-9">Edit Produk</p>
+                <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Edit Produk</p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
