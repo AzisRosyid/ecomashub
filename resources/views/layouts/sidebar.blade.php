@@ -191,7 +191,7 @@
                             </g>
                         </svg>
 
-                        <p class="ms-2">Echo friendly</p>
+                        <p class="ms-2">Eco Friendly</p>
 
                         <svg id="echoRight" class="mt-1 ms-11" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -236,7 +236,7 @@
             <ul class="ps-10 pt-3">
                 <li class="mb-6">
                     <a id="keuangan"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminTransaction' || $route == 'adminExpense' || $route == 'adminDebt') sidebar-active @endif">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminTransaction' || $route == 'adminExpense' || $route == 'adminDebt') sidebar-active @endif cursor-pointer">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
