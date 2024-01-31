@@ -220,8 +220,8 @@
                 <div class="flex">
                     @for ($i = 1; $i <= $pages; $i++)
                         <a href="{{ $products->url($i) }}"
-                            class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-blue-500 text-white @endif">
-                            <div class="text-zinc-700 text-sm font-normal font-fredokaRegular leading-tight">
+                            class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-lime-600 text-white @endif">
+                            <div class="text-sm font-normal font-fredokaRegular leading-tight">
                                 {{ $i }}</div>
                         </a>
                     @endfor
@@ -335,10 +335,10 @@
                     <p class="hidden sm:block">Sebelumnya</p>
                 </a>
                 <div class="flex">
-                    @for ($i = 1; $i <= $pages; $i++)
+                    @for ($i = 1; $i <= $pageUnits; $i++)
                         <a href="{{ $units->url($i) }}"
-                            class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-blue-500 text-white @endif">
-                            <div class="text-zinc-700 text-sm font-normal font-fredokaRegular leading-tight">
+                            class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($pageUnit == $i) bg-lime-600 text-white @endif">
+                            <div class="text-sm font-normal font-fredokaRegular leading-tight">
                                 {{ $i }}</div>
                         </a>
                     @endfor

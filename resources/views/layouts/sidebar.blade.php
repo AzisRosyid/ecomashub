@@ -323,8 +323,8 @@
                         </svg>
 
                         <div class="w-full overflow-hidden">
-                            <p class="ms-2">Admin</p>
-                            <p class="ms-2 text-sm text-slate-500 w-full h-5">admin@echomash.com</p>
+                            <p class="ms-2">{{ $acc->first_name . ' ' . $acc->last_name }}</p>
+                            <p class="ms-2 text-sm text-slate-500 w-full h-5">{{ $acc->email }}</p>
                         </div>
                     </a>
                 </li>
