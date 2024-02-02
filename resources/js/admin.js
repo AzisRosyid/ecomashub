@@ -27,6 +27,9 @@ const searchForm = document.getElementById('searchForm');
 const detailItems = document.querySelectorAll('.detail-item');
 const acceptUsers = document.querySelectorAll('.accept-user');
 const rejectUsers = document.querySelectorAll('.reject-user');
+const expenseTypes = document.querySelectorAll('.expense-type');
+const intervalInput = document.querySelector('#interval');
+const intervalTitle = document.querySelector('#intervalTitle');
 
 // menu keuangan
 keuangan.addEventListener('click', function () {
@@ -135,3 +138,14 @@ if (closeReject != null) {
         bgDetail.classList.add('hidden');
     });
 }
+
+// Expense
+expenseTypes.forEach(function(element) {
+    element.addEventListener('change', function() {
+        const isRutin = element.value === 'Rutin';
+        intervalInput.disabled = !isRutin;
+        intervalInput.required = isRutin;
+        intervalTitle.innerHTML = isRutin ? 'Interval (bulan)*' : 'interval (bulan)';
+        intervalInput.value = null;
+    });
+});

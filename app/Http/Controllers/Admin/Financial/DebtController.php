@@ -19,8 +19,10 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
-        $debts = Debt::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Debt::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('interest', 'like', $search)
@@ -28,10 +30,16 @@ class DebtController extends Controller
                 ->orWhere('date_start', 'like', $search)
                 ->orWhere('date_end', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.debt.index', compact('route', 'acc', 'debts'));
+        $total = $query->count();
+
+        $debts = $query->paginate($pick, ['*'], 'page', $page);
+        $debts->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -42,7 +50,7 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.debt.create', compact('route', 'acc'));
+        return view('admin.financial.debt.create', compact('route', 'acc'));
     }
 
     /**
@@ -55,8 +63,8 @@ class DebtController extends Controller
             'value' => 'required|numeric',
             'interest' => 'required|numeric',
             'date_start' => 'required|date',
-            'date_end' => 'required|date',
-            'description' => 'string'
+            'date_end' => 'required|date|after:date_start',
+            'description' => 'nullable|string'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -75,7 +83,7 @@ class DebtController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Hutang telah berhasil dibuat!');
+        return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil dibuat!');
     }
 
     /**
@@ -94,7 +102,7 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.debt.edit', compact('route', 'acc', 'debt'));
+        return view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**
@@ -107,8 +115,8 @@ class DebtController extends Controller
             'value' => 'required|numeric',
             'interest' => 'required|numeric',
             'date_start' => 'required|date',
-            'date_end' => 'required|date',
-            'description' => 'string'
+            'date_end' => 'required|date|after:date_start',
+            'description' => 'nullable|string'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -127,7 +135,7 @@ class DebtController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Hutang telah berhasil diperbarui!');
+        return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil diperbarui!');
     }
 
     /**

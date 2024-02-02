@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Common;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -30,7 +30,9 @@ class EventController extends Controller
                 ->orWhere('description', 'like', $search)
                 ->orWhere('fund', 'like', $search)
                 ->orWhere('location', 'like', $search)
-                ->orWhere('type', 'like', $search);
+                ->orWhere('type', 'like', $search)
+                ->orWhere('date_start', 'like', $search)
+                ->orWhere('date_end', 'like', $search);
         })->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
         $total = $query->count();

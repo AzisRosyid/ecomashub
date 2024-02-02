@@ -2,14 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\Common\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\Common\EventController as AdminEventController;
-use App\Http\Controllers\Admin\Common\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\Common\AssetController as AdminAssetController;
-use App\Http\Controllers\Admin\Common\SupplierController as AdminSupplierController;
-use App\Http\Controllers\Admin\Common\UserController as AdminUserController;
-use App\Http\Controllers\Admin\Common\OrderController as AdminOrderController;
-use App\Http\Controllers\Admin\Common\Unit\ProductCategoryController as AdminProductCategoryController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\AssetController as AdminAssetController;
+use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\Unit\ProductCategoryController as AdminProductCategoryController;
 use App\Http\Controllers\Admin\EcoFriendly\WasteController as AdminWasteController;
 use App\Http\Controllers\Admin\EcoFriendly\Unit\WasteTypeController as AdminWasteTypeController;
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;

@@ -91,7 +91,7 @@
                         </a>
                     </div>
                     <a id="filter"
-                        class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
+                        class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700 cursor-pointer">
                         <svg class="" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -107,7 +107,7 @@
                                 <rect width="24" height="24" fill="#394149" />
                             </g>
                         </svg>
-                        <p class="lg:block hidden ms-1">Filter</p>
+                        <p class="lg:block cursor-pointer hidden ms-1">Filter</p>
                     </a>
                 </div>
             </div>

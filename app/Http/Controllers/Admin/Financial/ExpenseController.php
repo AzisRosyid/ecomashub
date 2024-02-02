@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class ExpenseController extends Controller
 {
     private $route = 'adminExpense';
+    private $types = ['Sekali', 'Rutin'];
     /**
      * Display a listing of the resource.
      */
@@ -19,8 +20,10 @@ class ExpenseController extends Controller
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
-        $expenses = Expense::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Expense::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('description', 'like', $search)
@@ -28,10 +31,16 @@ class ExpenseController extends Controller
                 ->orWhere('type', 'like', $search)
                 ->orWhere('date', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.expense.index', compact('route', 'acc', 'expenses'));
+        $total = $query->count();
+
+        $expenses = $query->paginate($pick, ['*'], 'page', $page);
+        $expenses->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -40,9 +49,10 @@ class ExpenseController extends Controller
     public function create()
     {
         $route = $this->route;
+        $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.expense.create', compact('route', 'acc'));
+        return view('admin.financial.expense.create', compact('route', 'acc', 'types'));
     }
 
     /**
@@ -54,7 +64,7 @@ class ExpenseController extends Controller
             'name' => 'required|string',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
-            'interval' => 'integer',
+            'interval' => 'nullable|integer|required_if:type,Rutin',
             'date' => 'required|date',
             'description' => 'string'
         ];
@@ -75,7 +85,7 @@ class ExpenseController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Biaya telah berhasil dibuat!');
+        return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil dibuat!');
     }
 
     /**
@@ -92,9 +102,10 @@ class ExpenseController extends Controller
     public function edit(Expense $expense)
     {
         $route = $this->route;
+        $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.debt.edit', compact('route', 'acc', 'debt'));
+        return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'expense'));
     }
 
     /**
@@ -106,7 +117,7 @@ class ExpenseController extends Controller
             'name' => 'required|string',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
-            'interval' => 'integer',
+            'interval' => 'nullable|integer|required_if:type,Rutin',
             'date' => 'required|date',
             'description' => 'string'
         ];
@@ -127,7 +138,7 @@ class ExpenseController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Biaya telah berhasil diperbarui!');
+        return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil diperbarui!');
     }
 
     /**

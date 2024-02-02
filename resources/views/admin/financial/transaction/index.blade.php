@@ -7,14 +7,14 @@
         <div class="flex mx-4 sm:mx-10 justify-between border-b pb-4">
             <div>
                 <p class="text-zinc-700 text-2xl sm:text-[28px] font-semibold font-fredokaBold leading-9">
-                    Sampah
+                    Transaksi
                 </p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
             </div>
             <div class="justify-between hidden lg:flex">
-                <form action="{{ route('adminWasteCreate') }}" class="">
+                <form action="{{ route('adminTransaction') }}" class="">
                     @csrf
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
@@ -35,15 +35,6 @@
                         </svg>
                         Export</button>
                 </form>
-                <a href="{{ route('adminWasteCreate') }}"
-                    class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
-                    <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
-                            fill="#ffffff" />
-                    </svg> Tambah
-                    Sampah</a>
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -70,7 +61,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="cari sampah">
+                        value="{{ request()->input('search') }}" placeholder="cari transaksi">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">
@@ -80,15 +71,6 @@
                                 <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                             </button>
                         </form>
-                        <a href="{{ route('adminWasteCreate') }}"
-                            class="px-3 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex mx-1">
-                            <svg class="" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
-                                    fill="#ffffff" />
-                            </svg>
-                        </a>
                     </div>
                       <a id="filter"
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700 cursor-pointer">
@@ -115,11 +97,11 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua sampah</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua transaksi</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
-                            {{ $total }} sampah
+                            {{ $total }} transaksi
                         </div>
                     </div>
                 </div>
@@ -139,51 +121,48 @@
 
                     <head class="">
                         <tr>
-                            <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Produk</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Jenis</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Berat</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Satuan</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Kategori</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Tipe</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Nilai</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
 
                     <body>
-                        @foreach ($wastes as $index => $st)
+                        @foreach ($transactions as $index => $st)
                             <tr class="border-b">
-                                <td class="py-3 text-start px-3 flex">
-                                    <div id="" class="ms-2 cursor-pointer detail-item">
-                                        {{ $st->name }}
-                                        <p class="w-24 text-xs text-slate-500 overflow-hidden h-4">
-                                            {{ $st->description ?? 'Tidak Ada' }}
-                                        </p>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full border px-2 mx-auto items-center inline-flex font-fredokaRegular bg-lime-50
+                                        @switch($st->category)
+                                            @case('Pesanan')
+                                                bg-lime-50 text-green-600 border-green-600
+                                                @break
+                                            @case('Kegiatan')
+                                                text-amber-400 border-amber-400
+                                                @break
+                                            @case('Biaya')
+                                                text-red-500 border-red-500
+                                                @break
+                                            @case('Hutang')
+                                                text-zinc-700 border-gray-400
+                                                @break
+                                        @endswitch
+                                    ">
+                                        {{ $st->category }}
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->product->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->type->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->weight }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->unit }}</td>
-                                <td class="py-3 text-start px-3 min-w-[150px]">
-                                    <div class="flex">
-                                        <a href="{{ route('adminWasteEdit', $st) }}"
-                                            class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
-                                            <div
-                                                class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
-                                                Edit</div>
-                                        </a>
-                                        <form action="{{ route('adminWasteDestroy', $st) }}" method="POST"
-                                            class="px-1">
-                                            @method('delete')
-                                            @csrf
-                                            <button
-                                                class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
-                                                <div
-                                                    class="group-hover:text-white text-red-500 text-sm font-normal font-fredokaRegular leading-none">
-                                                    Hapus</div>
-                                            </button>
-                                        </form>
+
+
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->value_type == 'Untung' ? 'text-green-600 border-green-600' : ($st->value_type == 'Rugi' ? 'text-red-500 border-red-500' : '') }}">
+                                        {{ $st->value_type }}
                                     </div>
                                 </td>
+                                <td class="py-3 text-start px-3">{{ $st->formatted_value }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->formatted_date }}</td>
                             </tr>
                         @endforeach
                     </body>
@@ -192,7 +171,7 @@
 
             {{-- Make navigator working --}}
             <div class="flex justify-between mt-4 px-4">
-                <a href="{{ $wastes->previousPageUrl() }}"
+                <a href="{{ $transactions->previousPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -213,14 +192,14 @@
                 </a>
                 <div class="flex">
                     @for ($i = 1; $i <= $pages; $i++)
-                        <a href="{{ $wastes->url($i) }}"
+                        <a href="{{ $transactions->url($i) }}"
                             class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-lime-600 text-white @endif">
                             <div class="text-sm font-normal font-fredokaRegular leading-tight">
                                 {{ $i }}</div>
                         </a>
                     @endfor
                 </div>
-                <a href="{{ $wastes->nextPageUrl() }}"
+                <a href="{{ $transactions->nextPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <p class="hidden sm:block">Selanjutnya</p>
                     <svg class="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -241,124 +220,6 @@
                 </a>
             </div>
         </div>
-
-        <div class="border rounded-lg mt-4 py-3 sm:mx-10">
-            <div class="flex justify-between px-6">
-                <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Jenis</p>
-                    <div class="items-center inline-flex">
-                        <div
-                            class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
-                            {{ $totalUnit }} jenis
-                        </div>
-                    </div>
-                </div>
-                <div class="justify-end items-center inline-flex">
-                    <a href="{{ route('adminWasteTypeCreate') }}"
-                        class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
-                        <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
-                                fill="#ffffff" />
-                        </svg> Tambah
-                        Jenis</a>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="font-fredokaRegular text-zinc-700 w-full mt-2 text-sm font-normal">
-
-                    <head class="">
-                        <tr>
-                            <th class="bg-gray-200 py-3 text-start px-3">Jenis</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Kategori</th>
-                            <th class="bg-gray-200 py-3 text-start px-3"></th>
-                        </tr>
-                    </head>
-
-                    <body>
-                        @foreach ($units as $index => $st)
-                            <tr class="border-b">
-                                <td class="py-3 text-start px-3">{{ $st->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->category }}</td>
-                                <td class="py-3 text-start px-3 min-w-[150px]">
-                                    <div class="flex">
-                                        <a href="{{ route('adminWasteTypeEdit', $st) }}"
-                                            class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
-                                            <div
-                                                class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
-                                                Edit</div>
-                                        </a>
-                                        <form action="{{ route('adminWasteTypeDestroy', $st) }}" method="POST"
-                                            class="px-1">
-                                            @method('delete')
-                                            @csrf
-                                            <button
-                                                class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
-                                                <div
-                                                    class="group-hover:text-white text-red-500 text-sm font-normal font-fredokaRegular leading-none">
-                                                    Hapus</div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </body>
-                </table>
-            </div>
-            {{-- Make navigator working --}}
-            <div class="flex justify-between mt-4 px-4">
-                <a href="{{ $units->previousPageUrl() }}"
-                    class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
-                    <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M19 11H7.135L10.768 6.64C11.122 6.216 11.064 5.585 10.64 5.232C10.215 4.878 9.585 4.936 9.232 5.36L4.232 11.36C4.193 11.407 4.173 11.462 4.144 11.514C4.12 11.556 4.091 11.592 4.073 11.638C4.028 11.753 4.001 11.874 4.001 11.996C4.001 11.997 4 11.999 4 12C4 12.001 4.001 12.003 4.001 12.004C4.001 12.126 4.028 12.247 4.073 12.362C4.091 12.408 4.12 12.444 4.144 12.486C4.173 12.538 4.193 12.593 4.232 12.64L9.232 18.64C9.43 18.877 9.714 19 10 19C10.226 19 10.453 18.924 10.64 18.768C11.064 18.415 11.122 17.784 10.768 17.36L7.135 13H19C19.552 13 20 12.552 20 12C20 11.448 19.552 11 19 11Z"
-                            fill="#394149" />
-                        <mask id="mask0_891_4759" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="4" y="5"
-                            width="16" height="14">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M19 11H7.135L10.768 6.64C11.122 6.216 11.064 5.585 10.64 5.232C10.215 4.878 9.585 4.936 9.232 5.36L4.232 11.36C4.193 11.407 4.173 11.462 4.144 11.514C4.12 11.556 4.091 11.592 4.073 11.638C4.028 11.753 4.001 11.874 4.001 11.996C4.001 11.997 4 11.999 4 12C4 12.001 4.001 12.003 4.001 12.004C4.001 12.126 4.028 12.247 4.073 12.362C4.091 12.408 4.12 12.444 4.144 12.486C4.173 12.538 4.193 12.593 4.232 12.64L9.232 18.64C9.43 18.877 9.714 19 10 19C10.226 19 10.453 18.924 10.64 18.768C11.064 18.415 11.122 17.784 10.768 17.36L7.135 13H19C19.552 13 20 12.552 20 12C20 11.448 19.552 11 19 11Z"
-                                fill="white" />
-                        </mask>
-                        <g mask="url(#mask0_891_4759)">
-                            <rect width="24" height="24" fill="#394149" />
-                        </g>
-                    </svg>
-                    <p class="hidden sm:block">Sebelumnya</p>
-                </a>
-                <div class="flex">
-                    @for ($i = 1; $i <= $pageUnits; $i++)
-                        <a href="{{ $units->url($i) }}"
-                            class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($pageUnit == $i) bg-lime-600 text-white @endif">
-                            <div class="text-sm font-normal font-fredokaRegular leading-tight">
-                                {{ $i }}</div>
-                        </a>
-                    @endfor
-                </div>
-                <a href="{{ $units->nextPageUrl() }}"
-                    class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
-                    <p class="hidden sm:block">Selanjutnya</p>
-                    <svg class="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M5 13H16.865L13.232 17.36C12.878 17.784 12.936 18.415 13.36 18.768C13.785 19.122 14.415 19.064 14.769 18.64L19.769 12.64C19.808 12.593 19.827 12.538 19.856 12.486C19.88 12.444 19.909 12.408 19.927 12.362C19.972 12.247 19.999 12.126 19.999 12.004C19.999 12.003 20 12.001 20 12C20 11.999 19.999 11.997 19.999 11.996C19.999 11.874 19.972 11.753 19.927 11.638C19.909 11.592 19.88 11.556 19.856 11.514C19.827 11.462 19.808 11.407 19.769 11.36L14.769 5.36C14.57 5.123 14.286 5 14 5C13.774 5 13.547 5.076 13.36 5.232C12.936 5.585 12.878 6.216 13.232 6.64L16.865 11H5C4.448 11 4 11.448 4 12C4 12.552 4.448 13 5 13Z"
-                            fill="#394149" />
-                        <mask id="mask0_891_5404" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="4" y="5"
-                            width="16" height="14">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M5 13H16.865L13.232 17.36C12.878 17.784 12.936 18.415 13.36 18.768C13.785 19.122 14.415 19.064 14.769 18.64L19.769 12.64C19.808 12.593 19.827 12.538 19.856 12.486C19.88 12.444 19.909 12.408 19.927 12.362C19.972 12.247 19.999 12.126 19.999 12.004C19.999 12.003 20 12.001 20 12C20 11.999 19.999 11.997 19.999 11.996C19.999 11.874 19.972 11.753 19.927 11.638C19.909 11.592 19.88 11.556 19.856 11.514C19.827 11.462 19.808 11.407 19.769 11.36L14.769 5.36C14.57 5.123 14.286 5 14 5C13.774 5 13.547 5.076 13.36 5.232C12.936 5.585 12.878 6.216 13.232 6.64L16.865 11H5C4.448 11 4 11.448 4 12C4 12.552 4.448 13 5 13Z"
-                                fill="white" />
-                        </mask>
-                        <g mask="url(#mask0_891_5404)">
-                            <rect width="24" height="24" fill="#394149" />
-                        </g>
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <!-- akhir kategoeri -->
     </div>
     <!-- end body -->
     </div>
@@ -384,41 +245,63 @@
                 </g>
             </svg>
         </a>
-        <form action="post" class="mt-6">
-            <div class="border-b">
-                <label for="tipe" class="block">Jenis</label>
-                <select name="tipe" id="tipe" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
-                    <option value="semuaJenis">Semua jenis</option>
-                    <option value="rutin">Rutin</option>
-                    <option value="sekali">Sekali</option>
+        <div class="border-b">
+            <label for="transaksi" class="block">Tipe transaksi</label>
+            <select name="transaksi" id="transaksi" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
+                <option value="semuaTipe">Semua tipe</option>
+                <option value="Luring">Luring</option>
+                <option value="Daring">Daring</option>
+            </select>
+        </div>
+        <div class="border-b mt-4">
+            <label for="harga" class="block">Dana transaksi</label>
+            <input type="number" id="harga" class="w-full outline-none border p-2 rounded-lg mt-2"
+                placeholder="Harga minimum">
+            <input type="number" id="harga" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4"
+                placeholder="Harga maksimum">
+        </div>
+        <div class="border-b mt-4">
+            <label for="kegiatan1" class="block">Tipe transaksi</label>
+            <select name="kegiatan1" id="kegiatan1" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
+                <option value="semuaTipe">Semua tipe</option>
+                <option value="Luring">Luring</option>
+                <option value="Daring">Daring</option>
+            </select>
+        </div>
+        <div class="border-b mt-4">
+            <label for="pelaksanaan" class="block">Pelaksanaan transaksi</label>
+            <select name="pelaksanaan id=" pelaksanaan class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
+                <option value="semuaWaktu">Semua waktu</option>
+                <option value="Luring">Luring</option>
+                <option value="Daring">Daring</option>
+            </select>
+        </div>
+        <div class="border-b mt-4">
+            <label for="pelaksanaan" class="block">Urutkan</label>
+            <div class="flex">
+                <select name="pelaksanaan id=" pelaksanaan class=" outline-none border p-2 rounded-lg mt-2 mb-4">
+                    <option value="dana">Dana</option>
+                    <option value="Luring">Luring</option>
+                    <option value="Daring">Daring</option>
+                </select>
+                <select name="pelaksanaan id=" pelaksanaan
+                    class=" outline-none border p-2 rounded-lg mt-2 mb-4 w-1/3 ms-6">
+                    <option value="menaik">Menaik</option>
+                    <option value="menurun">Menurun</option>
                 </select>
             </div>
-            <div class="border-b mt-4">
-                <label for="pelaksanaan" class="block">Urutkan</label>
-                <div class="flex">
-                    <select name="pelaksanaan id=" pelaksanaan class=" outline-none border p-2 rounded-lg mt-2 mb-4">
-                        <option value="nama">Nama</option>
-                        <option value="sekali">Sekali</option>
-                    </select>
-                    <select name="pelaksanaan id=" pelaksanaan
-                        class=" outline-none border p-2 rounded-lg mt-2 mb-4 w-1/3 ms-6">
-                        <option value="menaik">Menaik</option>
-                        <option value="menurun">Menurun</option>
-                    </select>
-                </div>
-            </div>
-            <div class="text-end">
-                <button type="submit" class="py-2 px-10 rounded-lg text-white bg-lime-600 mt-3">Cari</button>
-            </div>
-        </form>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="py-2 px-10 rounded-lg text-white bg-lime-600 mt-3">Cari</button>
+        </div>
     </div>
     <!-- end filter -->
-    <!-- detail kegiatan -->
+    <!-- detail transaksi -->
     <div class="hidden w-full h-full bg-[rgba(0,0,0,0.5)] fixed z-10 top-0 left-0 justify-end" id="bgDetail"></div>
     <div id="isiDetail"
         class="hidden sm:w-[900px] h-auto p-8 bg-white rounded-2xl fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="font-fredokaRegular pt-4">
-            <p class="text-xl font-fredokaBold">Nama Sampah</p>
+            <p class="text-xl font-fredokaBold">Nama Transaksi</p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque officia quisquam blanditiis libero
             perferendis harum illo vel, voluptatum exercitationem necessitatibus ipsam voluptates, amet possimus
             voluptas enim ea. Ipsam, quisquam commodi?

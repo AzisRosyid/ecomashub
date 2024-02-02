@@ -18,17 +18,25 @@ class TransactionController extends Controller
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
-        $transactions = Transaction::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Transaction::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('category', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('value_type', 'like', $search)
                 ->orWhere('date', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.transaction.index', compact('route', 'acc', 'transactions'));
+        $total = $query->count();
+
+        $transactions = $query->paginate($pick, ['*'], 'page', $page);
+        $transactions->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.financial.transaction.index', compact('route', 'acc', 'transactions', 'pick', 'page', 'total', 'pages'));
     }
 
     //     /**
@@ -38,7 +46,7 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return view('admin.transactions.create', compact('route', 'acc'));
+    //         return view('admin.financial.transactions.create', compact('route', 'acc'));
     //     }
 
     //     /**
@@ -87,7 +95,7 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return view('admin.debt.edit', compact('route', 'acc', 'debt'));
+    //         return view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
     //     }
 
     //     /**
