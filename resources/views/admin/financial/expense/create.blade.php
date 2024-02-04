@@ -50,6 +50,18 @@
                     class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi">{{ old('description') }}</textarea>
             </div>
             <div class="border-b mt-3 sm:flex">
+                <label for="" class="sm:w-40 block">Supplier</label>
+                <select name="supplier_id" id=""
+                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih supplier">
+                    <option value="">Pilih supplier</option>
+                    @foreach ($suppliers as $st)
+                        <option value="{{ $st->id }}" {{ old('supplier_id') == $st->id ? 'selected' : '' }}>
+                            {{ $st->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="border-b mt-3 sm:flex">
                 <label for="nilai" class="sm:w-40 block">Nilai*</label>
                 <input type="number" name="value" id="nilai"
                     class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nilai"
@@ -77,8 +89,8 @@
             <div class="border-b mt-3 sm:flex">
                 <label for="tanggal" class="sm:w-40 block">Tanggal*</label>
                 <input type="datetime-local" name="date" id="tanggal"
-                    class="outline-none border text-gray-400 border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Tanggal"
-                    value="{{ old('date') }}" required>
+                    class="outline-none border text-gray-400 border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                    placeholder="Tanggal" value="{{ old('date') }}" required>
             </div>
             <div class="flex justify-end mt-4">
                 <a href="{{ route('adminExpense') }}"

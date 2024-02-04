@@ -9,20 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Supplier extends Model
 {
     protected $fillable = [
-        'store_id',
         'name',
-        'item',
-        'quantity',
-        'cost',
-        'type',
-        'date',
-        'interval',
-        'description'
+        'email',
+        'phone_number',
+        'address',
+        'description',
+        'status',
     ];
 
     use HasFactory;
 
     use SoftDeletes;
 
-    protected $dates = ['deleted_at', 'date'];
+    protected $dates = ['deleted_at'];
 }

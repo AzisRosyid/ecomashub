@@ -24,4 +24,9 @@ class Asset extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function getUnitAttribute()
+    {
+        return AssetUnit::find($this->attributes['unit_id']);
+    }
 }

@@ -47,7 +47,7 @@
                     placeholder="Nama produk" value="{{ old('name') ?? $product->name }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="deskripsi" class="sm:w-40 block">Deskripsi produk</label>
+                <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>
                 <textarea name="description" id="deskripsi" cols="30" rows="3"
                     class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi">{{ old('description') ?? $product->description }}</textarea>
             </div>

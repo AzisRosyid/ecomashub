@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,8 @@ class ExpenseController extends Controller
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
 
+        $supplierIds = Supplier::where('name', 'like', $search)->pluck('id');
+
         $query = Expense::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
@@ -31,6 +34,9 @@ class ExpenseController extends Controller
                 ->orWhere('type', 'like', $search)
                 ->orWhere('date', 'like', $search);
         })
+            ->when($supplierIds->isNotEmpty(), function ($query) use ($supplierIds) {
+                $query->whereIn('id', $supplierIds);
+            })
             ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
         $total = $query->count();
@@ -51,8 +57,9 @@ class ExpenseController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
+        $suppliers = Supplier::where('status', 'Aktif')->get();
 
-        return view('admin.financial.expense.create', compact('route', 'acc', 'types'));
+        return view('admin.financial.expense.create', compact('route', 'acc', 'types', 'suppliers'));
     }
 
     /**
@@ -62,11 +69,12 @@ class ExpenseController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'supplier_id' => 'nullable|exists:suppliers,id',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
             'interval' => 'nullable|integer|required_if:type,Rutin',
             'date' => 'required|date',
-            'description' => 'string'
+            'description' => 'nullable|string'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -77,6 +85,7 @@ class ExpenseController extends Controller
 
         Expense::create([
             'store_id' => null,
+            'supplier_id' => $request->supplier_id,
             'name' => $request->name,
             'value' => $request->value,
             'type' => $request->type,
@@ -104,8 +113,9 @@ class ExpenseController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
+        $suppliers = Supplier::where('status', 'Aktif')->get();
 
-        return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'expense'));
+        return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'suppliers', 'expense'));
     }
 
     /**
@@ -115,11 +125,12 @@ class ExpenseController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'supplier_id' => 'nullable|exists:suppliers,id',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
             'interval' => 'nullable|integer|required_if:type,Rutin',
             'date' => 'required|date',
-            'description' => 'string'
+            'description' => 'nullable|string'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -130,6 +141,7 @@ class ExpenseController extends Controller
 
         $expense->update([
             'store_id' => null,
+            'supplier_id' => $request->supplier_id,
             'name' => $request->name,
             'value' => $request->value,
             'type' => $request->type,

@@ -59,7 +59,7 @@
                             </g>
                         </svg>
 
-                        <p class="ms-2">Anggota</p>
+                        <p class="ms-2">Pengguna</p>
                     </a>
                 </li>
                 <li>

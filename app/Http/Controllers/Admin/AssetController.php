@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Validator;
 class AssetController extends Controller
 {
     private $route = 'adminAsset';
+    private $categories = ['Alat', 'Bahan', 'Properti'];
+    private $status = ['Tersedia', 'Dipinjam', 'Digunakan'];
 
     /**
      * Display a listing of the resource.
@@ -19,13 +21,15 @@ class AssetController extends Controller
     public function index(Request $request)
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
-
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
         $unitIds = AssetUnit::where('name', 'like', $search)->pluck('id');
 
-        $assets = Asset::where('store_id', null)
+        $query = Asset::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('category', 'like', $search)
@@ -37,10 +41,29 @@ class AssetController extends Controller
             ->when($unitIds->isNotEmpty(), function ($query) use ($unitIds) {
                 $query->whereIn('unit_id', $unitIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.asset.index', compact('route', 'acc', 'assets'));
+        $total = $query->count();
+
+        $assets = $query->paginate($pick, ['*'], 'page', $page);
+        $assets->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        // Unit
+        $pickUnit = 5;
+        $pageUnit = $request->input('pageUnit', 1);
+
+        $queryUnit = AssetUnit::query();
+
+        $totalUnit = $queryUnit->count();
+
+        $units = $queryUnit->paginate($pickUnit, ['*'], 'pageUnit', $pageUnit);
+        $units->appends(['pickUnit' => $pickUnit]);
+
+        $pageUnits = ceil($totalUnit / $pickUnit);
+
+        return view('admin.asset.index', compact('route', 'acc', 'status', 'assets', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -49,10 +72,12 @@ class AssetController extends Controller
     public function create()
     {
         $route = $this->route;
+        $categories = $this->categories;
+        $status = $this->status;
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.create', compact('route', 'acc', 'units'));
+        return view('admin.asset.create', compact('route', 'acc', 'categories', 'status', 'units'));
     }
 
     /**
@@ -66,7 +91,7 @@ class AssetController extends Controller
             'quantity' => 'required|integer',
             'unit_id' => 'required|integer|exists:asset_units,id',
             'location' => 'required|string',
-            'description' => 'string',
+            'description' => 'nullable|string',
             'status' => 'required|in:Tersedia,Dipinjam,Digunakan',
         ];
 
@@ -87,7 +112,7 @@ class AssetController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect($request->url)->with('message', 'Aset telah berhasil dibuat!');
+        return redirect()->route('adminAsset')->with('message', 'Aset telah berhasil dibuat!');
     }
 
     /**
@@ -103,10 +128,12 @@ class AssetController extends Controller
     public function edit(Asset $asset)
     {
         $route = $this->route;
+        $categories = $this->categories;
+        $status = $this->status;
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.edit', compact('route', 'acc', 'units', 'asset'));
+        return view('admin.asset.edit', compact('route', 'acc', 'categories', 'status', 'units', 'asset'));
     }
 
     /**
@@ -120,7 +147,7 @@ class AssetController extends Controller
             'quantity' => 'required|integer',
             'unit_id' => 'required|integer|exists:asset_units,id',
             'location' => 'required|string',
-            'description' => 'string',
+            'description' => 'nullable|string',
             'status' => 'required|in:Tersedia,Dipinjam,Digunakan',
         ];
 
@@ -141,8 +168,32 @@ class AssetController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect($request->url)->with('message', 'Aset telah berhasil diperbarui!');
+        return redirect()->route('adminAsset')->with('message', 'Aset telah berhasil diperbarui!');
     }
+
+    /**
+     * Update Status
+     */
+    public function updateStatus(Request $request)
+    {
+        $rules = [
+            'id' => 'required|integer|exists:assets,id',
+            'status' => 'required|in:Tersedia,Dipinjam,Digunakan'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['asset' => $validator->errors()->first()]);
+        }
+
+        AssetUnit::find($request->id)->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('message', 'Status Aset telah berhasil diperbarui!');
+    }
+
 
     /**
      * Remove the specified resource from storage.

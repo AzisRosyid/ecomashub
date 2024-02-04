@@ -22,7 +22,7 @@
         <!-- head -->
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
-                <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Update Anggota</p>
+                <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Update Pengguna</p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
@@ -162,7 +162,7 @@
                     Batal</a>
                 <button
                     class="px-4 h-10 rounded-lg border border-amber-400 bg-amber-400 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">Update
-                    Anggota</button>
+                    Pengguna</button>
             </div>
         </form>
         <!-- end body -->

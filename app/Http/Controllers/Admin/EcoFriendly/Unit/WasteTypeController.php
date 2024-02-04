@@ -54,7 +54,7 @@ class WasteTypeController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|unique:waste_types',
+            'name' => 'required|string|unique:waste_types,id',
             'category' => 'required|in:Organik,Anorganik'
         ];
 
@@ -98,7 +98,7 @@ class WasteTypeController extends Controller
             'name' => [
                 'required',
                 'string',
-                Rule::unique('waste_types')->ignore($type->id),
+                Rule::unique('waste_types', 'id')->ignore($type->id),
             ],
             'category' => 'required|in:Organik,Anorganik'
         ];

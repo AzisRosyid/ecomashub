@@ -12,8 +12,10 @@ class Expense extends Model
     protected $fillable = [
         'store_id',
         'name',
+        'supplier_id',
         'description',
         'value',
+        'interval',
         'type',
         'date'
     ];
@@ -23,6 +25,11 @@ class Expense extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at', 'date'];
+
+    public function getSupplierAttribute()
+    {
+        return Supplier::find($this->attributes['supplier_id']);
+    }
 
     public function getFormattedValueAttribute()
     {

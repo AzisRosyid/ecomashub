@@ -140,6 +140,7 @@
                     <head class="">
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Pemasok</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Nilai</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Tipe</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
@@ -159,6 +160,7 @@
                                         </p>
                                     </div>
                                 </td>
+                                <td class="py-3 text-start px-3">{{ $st->supplier->name ?? 'Tidak Ada' }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->formatted_value }}</td>
                                 <td class="py-3 text-start px-3 items-center">
                                     <div

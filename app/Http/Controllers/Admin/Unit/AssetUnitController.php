@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin\Unit;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Models\AssetUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ProductCategoryController extends Controller
+class AssetUnitController extends Controller
 {
-    private $route = 'adminProductCategory';
+    private $route = 'adminAssetUnit';
     /**
      * Display a listing of the resource.
      */
@@ -24,7 +24,7 @@ class ProductCategoryController extends Controller
     //     $pickUnit = 5;
     //     $pageUnit = $request->input('pageUnit', 1);
 
-    //     $query = ProductCategory::all();
+    //     $query = AssetUnit::all();
 
     //     $totalUnit = $query->count();
 
@@ -33,7 +33,7 @@ class ProductCategoryController extends Controller
 
     //     $pageUnits = ceil($totalUnit / $pickUnit);
 
-    //     return view('admin.product.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+    //     return view('admin.assets.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     // }
 
     /**
@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.product.unit.create', compact('route', 'acc'));
+        return view('admin.asset.unit.create', compact('route', 'acc'));
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|unique:product_categories,id',
+            'name' => 'required|string|unique:asset_units,id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -62,15 +62,15 @@ class ProductCategoryController extends Controller
             return back()->withInput($request->all())->withErrors(['unit' => $validator->errors()->first()]);
         }
 
-        ProductCategory::create($request->all());
+        AssetUnit::create($request->all());
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil dibuat!');
+        return redirect()->route('adminAsset')->with('message', 'Satuan Aset telah berhasil dibuat!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $assets)
     {
         //
     }
@@ -78,24 +78,24 @@ class ProductCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductCategory $category)
+    public function edit(AssetUnit $unit)
     {
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.product.unit.edit', compact('route', 'acc', 'category'));
+        return view('admin.asset.unit.edit', compact('route', 'acc', 'unit'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductCategory $category)
+    public function update(Request $request, AssetUnit $category)
     {
         $rules = [
             'name' => [
                 'required',
                 'string',
-                Rule::unique('product_categories', 'id')->ignore($category->id),
+                Rule::unique('asset_units', 'id')->ignore($category->id),
             ],
         ];
 
@@ -107,16 +107,16 @@ class ProductCategoryController extends Controller
 
         $category->update($request->all());
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil diperbarui!');
+        return redirect()->route('adminAsset')->with('message', 'Satuan Aset telah berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductCategory $category)
+    public function destroy(AssetUnit $category)
     {
         $category->delete();
 
-        return redirect()->route('adminProduct')->with('message', 'Kategori Produk telah berhasil dihapus!');
+        return redirect()->route('adminAsset')->with('message', 'Satuan Aset telah berhasil dihapus!');
     }
 }

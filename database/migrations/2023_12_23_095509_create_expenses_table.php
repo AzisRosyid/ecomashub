@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->double('value');
             $table->enum('type', ['Sekali', 'Rutin']);
             $table->dateTime('date');

@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->string('item');
-            $table->integer('quantity');
-            $table->double('cost');
-            $table->enum('type', ['Rutin', 'Sekali']);
-            $table->date('date');
-            $table->integer('interval');
+            $table->string('email')->unique()->nullable();
+            $table->string('phone_number', 15);
+            $table->string('address');
             $table->text('description')->nullable();
+            $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->timestamps();
             $table->softDeletes();
         });

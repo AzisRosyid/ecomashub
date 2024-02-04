@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\Unit\ProductCategoryController as AdminProductCategoryController;
+use App\Http\Controllers\Admin\Unit\UserRoleController as AdminUserRoleController;
+use App\Http\Controllers\Admin\Unit\AssetUnitController as AdminAssetUnitController;
 use App\Http\Controllers\Admin\EcoFriendly\WasteController as AdminWasteController;
 use App\Http\Controllers\Admin\EcoFriendly\Unit\WasteTypeController as AdminWasteTypeController;
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;
@@ -72,6 +74,13 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::put('/status/edit', [AdminUserController::class, 'updateStatus'])->name('adminUserUpdateStatus');
             Route::delete('/delete/{user}', [AdminUserController::class, 'destroy'])->name('adminUserDestroy');
         });
+        Route::prefix('/user/role')->group(function () {
+            Route::get('/create', [AdminUserRoleController::class, 'create'])->name('adminUserRoleCreate');
+            Route::post('/create', [AdminUserRoleController::class, 'store'])->name('adminUserRoleStore');
+            Route::get('/edit/{role}', [AdminUserRoleController::class, 'edit'])->name('adminUserRoleEdit');
+            Route::put('/edit/{role}', [AdminUserRoleController::class, 'update'])->name('adminUserRoleUpdate');
+            Route::delete('/delete/{role}', [AdminUserRoleController::class, 'destroy'])->name('adminUserRoleDestroy');
+        });
 
         // Asset
         Route::prefix('/asset')->group(function () {
@@ -80,7 +89,15 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::post('/create', [AdminAssetController::class, 'store'])->name('adminAssetStore');
             Route::get('/edit/{asset}', [AdminAssetController::class, 'edit'])->name('adminAssetEdit');
             Route::put('/edit/{asset}', [AdminAssetController::class, 'update'])->name('adminAssetUpdate');
+            Route::put('/status/edit', [AdminAssetController::class, 'updateStatus'])->name('adminAssetUpdateStatus');
             Route::delete('/delete/{asset}', [AdminAssetController::class, 'destroy'])->name('adminAssetDestroy');
+        });
+        Route::prefix('/user/unit')->group(function () {
+            Route::get('/create', [AdminAssetUnitController::class, 'create'])->name('adminAssetUnitCreate');
+            Route::post('/create', [AdminAssetUnitController::class, 'store'])->name('adminAssetUnitStore');
+            Route::get('/edit/{unit}', [AdminAssetUnitController::class, 'edit'])->name('adminAssetUnitEdit');
+            Route::put('/edit/{unit}', [AdminAssetUnitController::class, 'update'])->name('adminAssetUnitUpdate');
+            Route::delete('/delete/{unit}', [AdminAssetUnitController::class, 'destroy'])->name('adminAssetUnitDestroy');
         });
 
         // Supplier
@@ -90,7 +107,7 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::post('/create', [AdminSupplierController::class, 'store'])->name('adminSupplierStore');
             Route::get('/edit/{supplier}', [AdminSupplierController::class, 'edit'])->name('adminSupplierEdit');
             Route::put('/edit/{supplier}', [AdminSupplierController::class, 'update'])->name('adminSupplierUpdate');
-            Route::delete('/delete/{supplier}', [AdminSupplierController::class, 'destroy'])->name('adminSuplierDestroy');
+            Route::delete('/delete/{supplier}', [AdminSupplierController::class, 'destroy'])->name('adminSupplierDestroy');
         });
 
         // Order

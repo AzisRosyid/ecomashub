@@ -59,7 +59,20 @@ class UserController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.user.index', compact('route', 'acc', 'types', 'genders', 'status', 'users', 'pick', 'page', 'total', 'pages'));
+        // Unit
+        $pickUnit = 5;
+        $pageUnit = $request->input('pageUnit', 1);
+
+        $queryUnit = UserRole::query();
+
+        $totalUnit = $queryUnit->count();
+
+        $units = $queryUnit->paginate($pickUnit, ['*'], 'pageUnit', $pageUnit);
+        $units->appends(['pickUnit' => $pickUnit]);
+
+        $pageUnits = ceil($totalUnit / $pickUnit);
+
+        return view('admin.user.index', compact('route', 'acc', 'types', 'genders', 'status', 'users', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -220,7 +233,6 @@ class UserController extends Controller
 
         return back()->with('message', 'Status Anggota telah berhasil diperbarui!');
     }
-
 
     /**
      * Remove the specified resource from storage.

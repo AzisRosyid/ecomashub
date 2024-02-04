@@ -8,10 +8,13 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {
     private $route = 'adminSupplier';
+    private $status = ['Aktif', 'Nonaktif'];
+
     /**
      * Display a listing of the resource.
      */
@@ -19,21 +22,28 @@ class SupplierController extends Controller
     {
         $route = $this->route;
         $acc = Auth::user();
-
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
-        $suppliers = Supplier::where('store_id', null)
-            ->where(function ($query) use ($search) {
-                $query->where('name', 'like', $search)
-                    ->orWhere('item', 'like', $search)
-                    ->orWhere('quantity', 'like', $search)
-                    ->orWhere('cost', 'like', $search)
-                    ->orWhere('type', 'like', $search);
-            })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+        $query = Supplier::where(function ($query) use ($search) {
+            $query->where('name', 'like', $search)
+                ->orWhere('email', 'like', $search)
+                ->orWhere('phone_number', 'like', $search)
+                ->orWhere('address', 'like', $search)
+                ->orWhere('status', 'like', $search)
+                ->orWhere('description', 'like', $search);
+        })
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.supplier.index', compact('route', 'acc', 'suppliers'));
+        $total = $query->count();
+
+        $suppliers = $query->paginate($pick, ['*'], 'page', $page);
+        $suppliers->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.supplier.index', compact('route', 'acc', 'suppliers', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -42,9 +52,10 @@ class SupplierController extends Controller
     public function create()
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.supplier.create', compact('route', 'acc'));
+        return view('admin.supplier.create', compact('route', 'acc', 'status'));
     }
 
     /**
@@ -54,13 +65,11 @@ class SupplierController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'item' => 'required|string',
-            'quantity' => 'required|integer',
-            'cost' => 'required|numeric',
-            'type' => 'required|in:Rutin,Sekali',
-            'date' => 'required|date',
-            'interval' => 'integer',
-            'description' => 'string',
+            'email' => 'required|string|email|unique:users',
+            'phone_number' => 'required|numeric|digits_between:1,15',
+            'address' => 'required|string',
+            'status' => 'required|in:Aktif,Nonaktif',
+            'description' => 'nullable|string',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -70,18 +79,15 @@ class SupplierController extends Controller
         }
 
         Supplier::create([
-            'store_id' => null,
             'name' => $request->name,
-            'item' => $request->item,
-            'quantity' => $request->quantity,
-            'cost' => $request->cost,
-            'type' => $request->type,
-            'date' => $request->date,
-            'interval' => $request->interval,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'status' => $request->status,
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Pemasok telah berhasil dibuat!');
+        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil dibuat!');
     }
 
     /**
@@ -98,9 +104,10 @@ class SupplierController extends Controller
     public function edit(Supplier $supplier)
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.supplier.edit', compact('route', 'acc', 'types', 'supplier'));
+        return view('admin.supplier.edit', compact('route', 'acc', 'status', 'supplier'));
     }
 
     /**
@@ -110,13 +117,16 @@ class SupplierController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'item' => 'required|string',
-            'quantity' => 'required|integer',
-            'cost' => 'required|numeric',
-            'type' => 'required|in:Rutin,Sekali',
-            'date' => 'required|date',
-            'interval' => 'integer',
-            'description' => 'string',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                Rule::unique('suppliers')->ignore($supplier->id),
+            ],
+            'phone_number' => 'required|numeric|digits_between:1,15',
+            'address' => 'required|string',
+            'status' => 'required|in:Aktif,Nonaktif',
+            'description' => 'nullable|string',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -126,18 +136,15 @@ class SupplierController extends Controller
         }
 
         $supplier->update([
-            'store_id' => null,
             'name' => $request->name,
-            'item' => $request->item,
-            'quantity' => $request->quantity,
-            'cost' => $request->cost,
-            'type' => $request->type,
-            'date' => $request->date,
-            'interval' => $request->interval,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'status' => $request->status,
             'description' => $request->description
         ]);
 
-        return redirect($request->url)->with('message', 'Pemasok telah berhasil diperbarui!');
+        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil diperbarui!');
     }
 
     /**

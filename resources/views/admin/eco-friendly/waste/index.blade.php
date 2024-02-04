@@ -90,7 +90,7 @@
                             </svg>
                         </a>
                     </div>
-                      <a id="filter"
+                    <a id="filter"
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700 cursor-pointer">
                         <svg class="" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -160,7 +160,12 @@
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->product->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->type->name }}</td>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->type->category == 'Organik' ? 'text-green-600 border-green-600' : ($st->type->category == 'Anorganik' ? 'text-amber-400 border-amber-400' : '') }}">
+                                        {{ $st->type->name }}
+                                    </div>
+                                </td>
                                 <td class="py-3 text-start px-3">{{ $st->weight }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->unit }}</td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
@@ -280,7 +285,12 @@
                         @foreach ($units as $index => $st)
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3">{{ $st->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->category }}</td>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->category == 'Organik' ? 'text-green-600 border-green-600' : ($st->category == 'Anorganik' ? 'text-amber-400 border-amber-400' : '') }}">
+                                        {{ $st->category }}
+                                    </div>
+                                </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
                                         <a href="{{ route('adminWasteTypeEdit', $st) }}"
