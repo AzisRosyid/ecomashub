@@ -32,11 +32,18 @@ class Order extends Model
 
     public function getFormattedDateStartAttribute()
     {
-        return Carbon::parse($this->attributes['date_start'])->translatedFormat('h:i | d F Y');
+        return Carbon::parse($this->attributes['date_start'])->translatedFormat('H:i | d F Y');
     }
 
     public function getFormattedDateEndAttribute()
     {
-        return Carbon::parse($this->attributes['date_end'])->translatedFormat('h:i | d F Y');
+        return Carbon::parse($this->attributes['date_end'])->translatedFormat('H:i | d F Y');
+    }
+
+    public function getGrandTotalAttribute()
+    {
+        return Order::find($this->attributes['id'])->details->sum(function ($detail) {
+            return $detail->product->price * $detail->quantity;
+        });
     }
 }

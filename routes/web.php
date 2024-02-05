@@ -117,6 +117,7 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::post('/create', [AdminOrderController::class, 'store'])->name('adminOrderStore');
             Route::get('/edit/{order}', [AdminOrderController::class, 'edit'])->name('adminOrderEdit');
             Route::put('/edit/{order}', [AdminOrderController::class, 'update'])->name('adminOrderUpdate');
+            Route::put('/status/edit', [AdminOrderController::class, 'updateStatus'])->name('adminOrderUpdateStatus');
             Route::delete('/delete/{order}', [AdminOrderController::class, 'destroy'])->name('adminOrderDestroy');
         });
 

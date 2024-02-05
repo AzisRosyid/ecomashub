@@ -69,7 +69,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="cari aset">
+                        value="{{ request()->input('search') }}" placeholder="Cari pesanan...">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">
@@ -139,16 +139,16 @@
                     <head class="">
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Jumlah</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Satuan</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Lokasi</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Uang Muka</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Total Harga</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Status</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
 
                     <body>
-                        @foreach ($assets as $index => $st)
+                        @foreach ($orders as $index => $st)
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3 flex">
                                     <div id="" class="ms-2 cursor-pointer detail-item">
@@ -158,14 +158,16 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->quantity }} </td>
-                                <td class="py-3 text-start px-3">{{ $st->unit->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->location }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->formatted_down_payment }} </td>
+                                <td class="py-3 text-start px-3">
+                                    {{ $st->formatted_date_start ?? 'Belum ditentukan' }}<br>{{ $st->formatted_date_end ?? 'Belum Ditentukan' }}
+                                </td>
+                                <td class="py-3 text-start px-3">{{ $st->grand_total }}</td>
                                 <td class="py-3 text-start px-3">
                                     <div class="flex justify-start">
                                         <div class="flex">
                                             <div
-                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 {{ ($st->status == 'Tersedia' ? 'text-green-600 border-green-600' : $st->status == 'Dipinjam') ? 'text-amber-400 border-amber-400' : ($st->status == 'Digunakan' ? 'text-red-500 border-red-500' : '') }}">
+                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 {{ ($st->status == 'Selesai' ? 'text-green-600 border-green-600' : $st->status == 'Proses') ? 'text-amber-400 border-amber-400' : ($st->status == 'Pengajuan' ? 'text-zinc-700 border-gray-400' : '') }}">
                                                 {{ $st->status }}
                                             </div>
                                             <a value="{{ $st->id }}"
@@ -217,7 +219,7 @@
                 </table>
             </div>
             <div class="flex justify-between mt-4 px-4">
-                <a href="{{ $assets->previousPageUrl() }}"
+                <a href="{{ $orders->previousPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -238,14 +240,14 @@
                 </a>
                 <div class="flex">
                     @for ($i = 1; $i <= $pages; $i++)
-                        <a href="{{ $assets->url($i) }}"
+                        <a href="{{ $orders->url($i) }}"
                             class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-lime-600 text-white @endif">
                             <div class="text-sm font-normal font-fredokaRegular leading-tight">
                                 {{ $i }}</div>
                         </a>
                     @endfor
                 </div>
-                <a href="{{ $assets->nextPageUrl() }}"
+                <a href="{{ $orders->nextPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <p class="hidden sm:block">Selanjutnya</p>
                     <svg class="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none"

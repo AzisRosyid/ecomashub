@@ -38,6 +38,6 @@ class Expense extends Model
 
     public function getFormattedDateAttribute()
     {
-        return Carbon::parse($this->attributes['date'])->translatedFormat('d F Y');
+        return Carbon::parse($this->attributes['date'])->translatedFormat('H:i | d F Y');
     }
 }
