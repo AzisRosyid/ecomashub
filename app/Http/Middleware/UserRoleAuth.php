@@ -17,6 +17,8 @@ class UserRoleAuth
      */
     public function handle(Request $request, Closure $next, $requiredRole): Response
     {
+        $userRole = 'Tamu';
+
         if (Auth::check()) {
             $requiredRole = ucfirst(strtolower($requiredRole));
             $user = Auth::user()->fresh();
@@ -24,8 +26,6 @@ class UserRoleAuth
 
             if (isset($user)) {
                 $userRole = UserRole::find($user->role_id)->first()->type;
-            } else {
-                $userRole = 'Tamu';
             }
 
             if ($user->status != 'Aktif') {
@@ -35,10 +35,9 @@ class UserRoleAuth
             if ($userRole == $requiredRole) {
                 return $next($request);
             }
-
-            return $this->handleUnauthorizedRole($userRole);
         }
-        return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
+
+        return $this->handleUnauthorizedRole($userRole);
     }
 
     /**
