@@ -17,26 +17,28 @@ class UserRoleAuth
      */
     public function handle(Request $request, Closure $next, $requiredRole): Response
     {
+        if (Auth::check()) {
+            $requiredRole = ucfirst(strtolower($requiredRole));
+            $user = Auth::user()->fresh();
+            Auth::setUser($user);
 
-        $requiredRole = ucfirst(strtolower($requiredRole));
-        $user = Auth::user()->fresh();
-        Auth::setUser($user);
+            if (isset($user)) {
+                $userRole = UserRole::find($user->role_id)->first()->type;
+            } else {
+                $userRole = 'Tamu';
+            }
 
-        if (isset($user)) {
-            $userRole = UserRole::find($user->role_id)->first()->type;
-        } else {
-            $userRole = 'Tamu';
+            if ($user->status != 'Aktif') {
+                return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
+            }
+
+            if ($userRole == $requiredRole) {
+                return $next($request);
+            }
+
+            return $this->handleUnauthorizedRole($userRole);
         }
-
-        if ($user->status != 'Aktif') {
-            return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
-        }
-
-        if ($userRole == $requiredRole) {
-            return $next($request);
-        }
-
-        return $this->handleUnauthorizedRole($userRole);
+        return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
     }
 
     /**

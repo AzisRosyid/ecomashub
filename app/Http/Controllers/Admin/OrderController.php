@@ -7,22 +7,24 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
     private $route = 'adminOrder';
+    private $status = ['Pengajuan', 'Proses', 'Selesai'];
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
-
         $search = '%' . $request->input('search', '') . '%';
+        $pick = $request->input('pick', 10);
+        $page = $request->input('page', 1);
 
         $productIds = Product::where('name', 'like', $search)->pluck('id');
 
@@ -30,7 +32,7 @@ class OrderController extends Controller
             $query->whereIn('product_id', $productIds);
         })->pluck('order_id');
 
-        $orders = Order::where('store_id', null)
+        $query = Order::where('store_id', null)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('down_payment', 'like', $search)
@@ -42,10 +44,16 @@ class OrderController extends Controller
             ->when($detailIds->isNotEmpty(), function ($query) use ($detailIds) {
                 $query->whereIn('id', $detailIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'))
-            ->get();
+            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
 
-        return view('admin.order.index', compact('route', 'acc', 'orders'));
+        $total = $query->count();
+
+        $orders = $query->paginate($pick, ['*'], 'page', $page);
+        $orders->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+
+        $pages = ceil($total / $pick);
+
+        return view('admin.order.index', compact('route', 'acc', 'status', 'orders', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -68,10 +76,9 @@ class OrderController extends Controller
         $rules = [
             'name' => 'required|string',
             'down_payment' => 'required|numeric',
-            'description' => 'string',
-            'date_start' => 'date',
-            'date_end' => 'date',
-            'description' => 'string',
+            'description' => 'nullable|string',
+            'date_start' => 'nullable|date',
+            'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
             'product_ids.*' => 'required|integer|exists:products,id',
             'quantity.*' => 'required|integer'
@@ -105,7 +112,7 @@ class OrderController extends Controller
 
         OrderDetail::insert($orderDetails);
 
-        return redirect($request->url)->with('message', 'Pesanan telah berhasil dibuat!');
+        return redirect()->route('adminOrder') - with('message', 'Pesanan telah berhasil dibuat!');
     }
 
     /**
@@ -135,10 +142,10 @@ class OrderController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'description' => 'string',
-            'date_start' => 'required|date',
-            'date_end' => 'required|date',
-            'description' => 'string',
+            'down_payment' => 'required|numeric',
+            'description' => 'nullable|string',
+            'date_start' => 'nullable|date',
+            'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
             'product_ids.*' => 'required|integer|exists:products,id',
             'quantity.*' => 'required|integer'
@@ -177,7 +184,30 @@ class OrderController extends Controller
 
         OrderDetail::insert($orderDetails);
 
-        return redirect($request->url)->with('message', 'Pesanan telah berhasil diperbarui!');
+        return redirect()->route('adminOrder') - with('message', 'Pesanan telah berhasil diperbarui!');
+    }
+
+    /**
+     * Update Status
+     */
+    public function updateStatus(Request $request)
+    {
+        $rules = [
+            'id' => 'required|integer|exists:orders,id',
+            'status' => 'required|in:Pengajuan,Proses,Selesai',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['order' => $validator->errors()->first()]);
+        }
+
+        Order::find($request->id)->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('message', 'Status Pesanan telah berhasil diperbarui!');
     }
 
     /**
