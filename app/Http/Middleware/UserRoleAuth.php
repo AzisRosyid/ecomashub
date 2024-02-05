@@ -6,7 +6,6 @@ use App\Models\UserRole;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 
 class UserRoleAuth
@@ -20,7 +19,8 @@ class UserRoleAuth
     {
 
         $requiredRole = ucfirst(strtolower($requiredRole));
-        $user = Auth::user();
+        $user = Auth::user()->fresh();
+        Auth::setUser($user);
 
         if (isset($user)) {
             $userRole = UserRole::find($user->role_id)->first()->type;
@@ -28,12 +28,12 @@ class UserRoleAuth
             $userRole = 'Tamu';
         }
 
-        if ($userRole == $requiredRole) {
-            return $next($request);
-        }
-
         if ($user->status != 'Aktif') {
             return redirect()->route('home')->with('error', 'Unauthorized action.')->setStatusCode(403);
+        }
+
+        if ($userRole == $requiredRole) {
+            return $next($request);
         }
 
         return $this->handleUnauthorizedRole($userRole);

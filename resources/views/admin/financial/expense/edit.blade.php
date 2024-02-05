@@ -41,9 +41,9 @@
             @method('put')
             @csrf
             <div class="border-b sm:flex">
-                <label for="judulHutang" class="sm:w-40 block">Nama biaya*</label>
+                <label for="judulHutang" class="sm:w-40 block">Nama*</label>
                 <input type="text" name="name" id="judulHutang"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama"
+                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama biaya"
                     value="{{ old('name') ?? $expense->name }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">

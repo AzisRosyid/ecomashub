@@ -176,6 +176,7 @@ class AssetController extends Controller
      */
     public function updateStatus(Request $request)
     {
+
         $rules = [
             'id' => 'required|integer|exists:assets,id',
             'status' => 'required|in:Tersedia,Dipinjam,Digunakan'
@@ -187,7 +188,7 @@ class AssetController extends Controller
             return back()->withInput($request->all())->withErrors(['asset' => $validator->errors()->first()]);
         }
 
-        AssetUnit::find($request->id)->update([
+        Asset::find($request->id)->update([
             'status' => $request->status
         ]);
 

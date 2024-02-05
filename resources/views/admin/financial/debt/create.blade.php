@@ -39,10 +39,10 @@
         <form action="{{ route('adminDebtStore') }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @csrf
             <div class="border-b sm:flex">
-                <label for="judulHutang" class="sm:w-40 block">Nama hutang*</label>
+                <label for="judulHutang" class="sm:w-40 block">Nama*</label>
                 <input type="text" name="name" id="judulHutang"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama"
-                    value="{{ old('name') }}" required>
+                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                    placeholder="Nama hutang" value="{{ old('name') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>

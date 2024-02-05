@@ -145,7 +145,7 @@
                     class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" required>
                     <option value="">Pilih peran</option>
                     @foreach ($roles as $st)
-                        <option value="{{ $st->id }}" {{ old('role') == $st->id ? 'selected' : '' }}>
+                        <option value="{{ $st->id }}" {{ old('role_id') == $st->id ? 'selected' : '' }}>
                             {{ $st->name }}
                         </option>
                     @endforeach

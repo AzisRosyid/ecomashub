@@ -158,15 +158,9 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->jumlah }} </td>
+                                <td class="py-3 text-start px-3">{{ $st->quantity }} </td>
                                 <td class="py-3 text-start px-3">{{ $st->unit->name }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->location }}</td>
-                                <td class="py-3 text-start px-3 items-center">
-                                    <div
-                                        class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto {{ $st->source_type == 'Internal' ? 'text-green-600 border-green-600' : ($st->source_type == 'External' ? 'text-amber-400 border-amber-400' : '') }}">
-                                        {{ $st->source_type }}
-                                    </div>
-                                </td>
                                 <td class="py-3 text-start px-3">
                                     <div class="flex justify-start">
                                         <div class="flex">
@@ -473,14 +467,14 @@
                 <select name="status" id="status"
                     class="w-full outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4">
                     @foreach ($status as $st)
-                        <option value="{{ $st }}" {{ old('status') == $st ? 'selected' : '' }}>
+                        <option value="{{ $st }}">
                             {{ $st }}
                         </option>
                     @endforeach
                 </select>
                 <div class="flex">
-                    <button class="px-3 w-1/2 sm:w-[140px] py-2 bg-lime-600 rounded-lg text-white me-3">
-                        Simpan
+                    <button class="px-3 w-1/2 sm:w-[140px] py-2 bg-amber-400 rounded-lg text-white me-3">
+                        Update
                     </button>
                     <a id="closeDetail"
                         class="px-3 w-1/2 sm:w-[140px] h-full py-2 border border-gray-400 bg-white rounded-lg text-slate-500 text-center cursor-pointer">Batal</a>
@@ -489,49 +483,4 @@
         </div>
     </div>
     <!-- akhir edit -->
-    <!-- terima user -->
-    <div id="terima"
-        class="hidden p-8 bg-white rounded-2xl fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div class="font-fredokaRegular text-center">
-            <p class="text-zinc-700 text-lg font-semibold font-fredokaBold">Apakah anda yakin terima user ini</p>
-            <form action="{{ route('adminAssetUpdateStatus') }}" method="POST" class="text-center">
-                @method('put')
-                @csrf
-                <input id="acceptId" type="number" name="id" value="" hidden>
-                <p class="block text-zinc-700 mb-4">Pastikan langkah yang anda ambil</p>
-                <div class="flex">
-                    <button type="submit" class="px-3 w-1/2 sm:w-[140px] py-2 bg-lime-600 rounded-lg text-white me-3"
-                        name="status" value="Aktif">
-                        Iya
-                    </button>
-                    <a id="close-accept"
-                        class="px-3 w-1/2 sm:w-[140px] h-full py-2 border border-red-500 bg-red-500 rounded-lg text-white text-center cursor-pointer">Tidak
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- akhir terima -->
-    <!-- terima tolak -->
-    <div id="tolak"
-        class="hidden p-8 bg-white rounded-2xl fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div class="font-fredokaRegular text-center">
-            <p class="text-zinc-700 text-lg font-semibold font-fredokaBold">Apakah anda yakin tolak user ini</p>
-            <form action="{{ route('adminAssetUpdateStatus') }}" method="POST" class="text-center">
-                @method('put')
-                @csrf
-                <input id="rejectId" type="number" name="id" value="" hidden>
-                <p class="block text-zinc-700 mb-4">Pastikan langkah yang anda ambil</p>
-                <div class="flex">
-                    <button type="submit" class="px-3 w-1/2 sm:w-[140px] py-2 bg-red-500 rounded-lg text-white me-3"
-                        name="status" value="Blok">
-                        Iya
-                    </button>
-                    <a id="close-reject"
-                        class="px-3 w-1/2 sm:w-[140px] h-full py-2 border border-lime-600 bg-lime-600 rounded-lg text-white text-center cursor-pointer">Tidak
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
 @endsection
