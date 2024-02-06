@@ -149,3 +149,4 @@ expenseTypes.forEach(function(element) {
         intervalInput.value = null;
     });
 });
+

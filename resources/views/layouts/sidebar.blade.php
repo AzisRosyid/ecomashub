@@ -304,8 +304,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list">
+                    <a href="{{ route('adminProfile') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list {{ $route == 'adminProfile' ? 'sidebar-active' : '' }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"

@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\EcoFriendly\Unit\WasteTypeController as AdminWast
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;
 use App\Http\Controllers\Admin\Financial\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseController;
+use App\Http\Controllers\Admin\Auth\ProfileController as AdminProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -181,6 +182,11 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::get('/edit/{debt}', [AdminDebtController::class, 'edit'])->name('adminDebtEdit');
             Route::put('/edit/{debt}', [AdminDebtController::class, 'update'])->name('adminDebtUpdate');
             Route::delete('/delete/{debt}', [AdminDebtController::class, 'destroy'])->name('adminDebtDestroy');
+        });
+
+        // Profile
+        Route::prefix('/profile')->group(function () {
+            Route::get('/', [AdminProfileController::class, 'index'])->name('adminProfile');
         });
     });
 });

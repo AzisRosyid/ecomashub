@@ -7,14 +7,23 @@
         <script src="{{ Vite::asset('resources/js/login.js') }}"></script>
     @endif
 
-    @if (strpos($route, 'admin') !== false)
-        <script src="{{ Vite::asset('resources/js/admin.js') }}"></script>
+
+    {{-- Dashboard --}}
+    @if ($route == 'notadminDashboard')
+        <script src="{{ Vite::asset('resources/js/chart.umd.js') }}"></script>
+        <script src="{{ Vite::asset('resources/js/kalender.js') }}"></script>
+        <script src="{{ Vite::asset('resources/js/chart.js') }}"></script>
     @endif
 
     {{-- event --}}
     @if ($route == 'adminEventCreate')
         <script src="{{ Vite::asset('resources/js/tambah-kegiatan.js') }}"></script>
     @endif
+
+    @if (strpos($route, 'admin') !== false)
+        <script src="{{ Vite::asset('resources/js/admin.js') }}"></script>
+    @endif
+
 
     {{-- User --}}
 

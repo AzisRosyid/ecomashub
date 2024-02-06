@@ -11,7 +11,10 @@ export default defineConfig({
                 'resources/js/login.js',
                 'resources/js/admin.js',
                 'resources/js/dashboard.js',
-                'resources/js/tambah-kegiatan.js'
+                'resources/js/tambah-kegiatan.js',
+                'resources/js/chart.js',
+                'resources/js/chart.umd.js',
+                'resources/js/kalender.js',
             ],
             refresh: true,
         }),

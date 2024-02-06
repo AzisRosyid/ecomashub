@@ -62,10 +62,11 @@ class OrderController extends Controller
     public function create()
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
         $products = Product::where('store_id', null);
 
-        return view('admin.order.create', compact('route', 'acc', 'products'));
+        return view('admin.order.create', compact('route', 'acc', 'status', 'products'));
     }
 
     /**
@@ -128,11 +129,12 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $route = $this->route;
+        $status = $this->status;
         $acc = Auth::user();
         $products = Product::where('store_id', null)->get();
         $details = OrderDetail::where('order_id', $order->id)->get();
 
-        return view('admin.order.edit', compact('route', 'acc', 'products', 'order', 'details'));
+        return view('admin.order.edit', compact('route', 'acc', 'status', 'products', 'order', 'details'));
     }
 
     /**
