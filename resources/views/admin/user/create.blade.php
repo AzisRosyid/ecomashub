@@ -42,14 +42,14 @@
                 <label for="" class="sm:w-40 block">Nama</label>
                 <div class="flex sm:w-[600px]">
                     <div>
-                        <label for="mulai" class="block">Nama depan*</label>
-                        <input type="text"
+                        <label for="depan" class="block">Nama depan*</label>
+                        <input type="text" id="depan"
                             class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             placeholder="Nama depan" name="first_name" value="{{ old('first_name') }}" required>
                     </div>
                     <div class="ms-6">
-                        <label for="selesai" class="block">Nama belakang*</label>
-                        <input type="text"
+                        <label for="belakang" class="block">Nama belakang*</label>
+                        <input type="text" id="belakang"
                             class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             placeholder="Nama belakang" name="last_name" value="{{ old('last_name') }}" required>
                     </div>
@@ -66,6 +66,18 @@
                 <input type="text" name="username" id="username"
                     class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Username"
                     value="{{ old('username') }}" required>
+            </div>
+            <div class="border-b mt-3 sm:flex">
+                <label for="" class="sm:w-40 block">Peran*</label>
+                <select name="role_id" id="" class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                    required>
+                    <option value="">Pilih peran</option>
+                    @foreach ($roles as $st)
+                        <option value="{{ $st->id }}" {{ old('role_id') == $st->id ? 'selected' : '' }}>
+                            {{ $st->name . ' | ' . $st->type }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="" class="sm:w-40 block">Jenis kelamin*</label>
@@ -94,18 +106,17 @@
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="alamat" class="sm:w-40 block">Alamat*</label>
-                <input type="text" id="alamat"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Alamat"
-                    name="address" value="{{ old('address') }}" required>
+                <textarea name="address" id="alamat" cols="30" rows="3"
+                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Alamat">{{ old('address') }}</textarea>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Tipe anggota*</label>
+                <label for="" class="sm:w-40 block">Jenis pengguna*</label>
                 <div class="flex sm:w-[600px] mb-4">
                     @foreach ($types as $index => $st)
                         <div class="flex @if ($index > 0) ms-6 @endif">
                             <input type="radio" name="source_type" value="{{ $st }}"
                                 id="{{ strtolower($st) }}" @if ($index === 0) required @endif
-                                @if (old('source_type') == $st) checked @endif>
+                                @if (old('source_type') === $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach
@@ -140,16 +151,17 @@
                 </label>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Peran*</label>
-                <select name="role_id" id=""
-                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" required>
-                    <option value="">Pilih peran</option>
-                    @foreach ($roles as $st)
-                        <option value="{{ $st->id }}" {{ old('role_id') == $st->id ? 'selected' : '' }}>
-                            {{ $st->name }}
-                        </option>
+                <label for="" class="sm:w-40 block">Status*</label>
+                <div class="flex sm:w-[600px] mb-4">
+                    @foreach ($status as $index => $st)
+                        <div class="flex @if ($index > 0) ms-6 @endif">
+                            <input type="radio" name="status" value="{{ $st }}"
+                                id="{{ strtolower($st) }}" @if ($index === 0) required @endif
+                                @if (old('status') === $st) checked @endif>
+                            <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
+                        </div>
                     @endforeach
-                </select>
+                </div>
             </div>
             <div class="flex justify-end mt-4">
                 <a href="{{ route('adminUser') }}"

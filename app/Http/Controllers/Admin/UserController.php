@@ -83,10 +83,11 @@ class UserController extends Controller
         $route = $this->route;
         $types = $this->types;
         $genders = $this->genders;
+        $status = $this->status;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.create', compact('route', 'acc', 'types', 'genders', 'roles'));
+        return view('admin.user.create', compact('route', 'acc', 'types', 'status', 'genders', 'roles'));
     }
 
     /**
@@ -105,6 +106,7 @@ class UserController extends Controller
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
+            'status' => 'required|in:Aktif,Menunggu,Blok',
             'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
 
@@ -129,11 +131,12 @@ class UserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
+            'status' => $request->status,
             //    'image' => $request->image,
             'status' => 'Menunggu'
         ]);
 
-        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil dibuat!');
+        return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil dibuat!');
     }
 
     /**
@@ -151,11 +154,12 @@ class UserController extends Controller
     {
         $route = $this->route;
         $types = $this->types;
+        $status = $this->status;
         $genders = $this->genders;
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.user.edit', compact('route', 'acc', 'types', 'genders', 'roles', 'user'));
+        return view('admin.user.edit', compact('route', 'acc', 'types', 'status', 'genders', 'roles', 'user'));
     }
 
     /**
@@ -182,6 +186,7 @@ class UserController extends Controller
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
+            'status' => 'required|in:Aktif,Menunggu,Blok',
             'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
 
@@ -205,10 +210,11 @@ class UserController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
+            'status' => $request->status,
             //    'image' => $request->image,
         ]);
 
-        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil diperbarui!');
+        return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil diperbarui!');
     }
 
     /**
@@ -231,7 +237,7 @@ class UserController extends Controller
             'status' => $request->status
         ]);
 
-        return back()->with('message', 'Status Anggota telah berhasil diperbarui!');
+        return back()->with('message', 'Status Pengguna telah berhasil diperbarui!');
     }
 
     /**
@@ -241,6 +247,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('adminUser')->with('message', 'Anggota telah berhasil dihapus!');
+        return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil dihapus!');
     }
 }

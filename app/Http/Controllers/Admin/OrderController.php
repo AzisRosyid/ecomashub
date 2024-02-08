@@ -74,6 +74,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $rules = [
             'name' => 'required|string',
             'down_payment' => 'required|numeric',
@@ -82,7 +83,7 @@ class OrderController extends Controller
             'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
             'product_ids.*' => 'required|integer|exists:products,id',
-            'quantity.*' => 'required|integer'
+            'product_quantity.*' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -107,7 +108,7 @@ class OrderController extends Controller
             $orderDetails[] = [
                 'order_id' => $order->id,
                 'product_id' => $id,
-                'quantity' => $request->quantity[$key]
+                'quantity' => $request->product_quantity[$key]
             ];
         }
 
@@ -149,8 +150,8 @@ class OrderController extends Controller
             'date_start' => 'nullable|date',
             'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
-            'product_ids.*' => 'required|integer|exists:products,id',
-            'quantity.*' => 'required|integer'
+            'product_id.*' => 'required|integer|exists:products,id',
+            'product_quantity.*' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -176,11 +177,11 @@ class OrderController extends Controller
         //     Product::find($id)->delete();
         // }
 
-        foreach ($request->product_ids as $key => $id) {
+        foreach ($request->product_id as $key => $id) {
             $orderDetails[] = [
                 'order_id' => $order->id,
                 'product_id' => $id,
-                'quantity' => $request->quantity[$key]
+                'quantity' => $request->product_quantity[$key]
             ];
         }
 

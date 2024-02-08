@@ -1,31 +1,28 @@
 @isset($route)
     @if ($route == 'home')
-        <script src="{{ Vite::asset('resources/js/home.js') }}"></script>
+        <script src="{{ Vite::asset('resources/js/home.js') }}" type="module"></script>
     @endif
 
     @if ($route == 'authLogin')
-        <script src="{{ Vite::asset('resources/js/login.js') }}"></script>
+        <script src="{{ Vite::asset('resources/js/login.js') }}" type="module"></script>
     @endif
 
 
     {{-- Dashboard --}}
-    @if ($route == 'notadminDashboard')
-        <script src="{{ Vite::asset('resources/js/chart.umd.js') }}"></script>
-        <script src="{{ Vite::asset('resources/js/kalender.js') }}"></script>
-        <script src="{{ Vite::asset('resources/js/chart.js') }}"></script>
-    @endif
-
-    {{-- event --}}
-    @if ($route == 'adminEventCreate')
-        <script src="{{ Vite::asset('resources/js/tambah-kegiatan.js') }}"></script>
+    @if ($route == 'adminDashboard')
+        <script src="{{ Vite::asset('resources/js/chart.umd.js') }}" type="module"></script>
+        <script src="{{ Vite::asset('resources/js/calendar.js') }}" type="module"></script>
+        <script src="{{ Vite::asset('resources/js/chart.js') }}" type="module"></script>
     @endif
 
     @if (strpos($route, 'admin') !== false)
-        <script src="{{ Vite::asset('resources/js/admin.js') }}"></script>
+        <script src="{{ Vite::asset('resources/js/admin.js') }}" type="module"></script>
     @endif
 
 
-    {{-- User --}}
+    {{-- Modal --}}
+    @if ($route == 'adminOrderCreate' || $route == 'adminOrderEdit')
+        <script src="{{ Vite::asset('resources/js/product.modal.js') }}" type="module"></script>
+    @endif
 
-    {{-- Search --}}
 @endisset

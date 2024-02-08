@@ -39,6 +39,7 @@
                     @yield('content')
                 </section>
                 @yield('filter')
+                @yield('modal')
                 @isset($pick)
                 </form>
             @endisset

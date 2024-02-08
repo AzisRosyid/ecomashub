@@ -67,6 +67,10 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at', 'date_of_birth'];
 
+    public function getRoleAttribute()
+    {
+        return UserRole::find($this->attributes['role_id']);
+    }
 
     public function getFormattedDateOfBirthAttribute()
     {

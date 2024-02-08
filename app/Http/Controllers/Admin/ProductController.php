@@ -47,6 +47,10 @@ class ProductController extends Controller
 
         $pages = ceil($total / $pick);
 
+        if ($request->has('api')) {
+            return response()->json(compact('total', 'products'), 200);
+        }
+
         // Unit
         $pickUnit = 5;
         $pageUnit = $request->input('pageUnit', 1);

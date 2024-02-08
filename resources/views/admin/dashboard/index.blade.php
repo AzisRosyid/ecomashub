@@ -228,7 +228,7 @@
                     </div>
                 </a>
             </div>
-            <div class="sm:grid grid-cols-12 gap-3 mt-4">
+            <div class="sm:grid grid-cols-12 gap-3 mt-4" id="dashboardCalendar">
                 <div class="col-span-4">
                     <div class="shadow-lg font-fredokaRegular rounded-md">
                         <div class="flex items-center justify-center gap-7 bg-green-600 text-white py-2 rounded-t-md">
@@ -268,21 +268,21 @@
                     </div>
                     <div class="px-4 font-fredokaRegular h-[298px] overflow-y-scroll">
                         <div class="flex py-3 border-b">
-                            <img src="../img/Avatar.png" alt="" class="w-12 h-12">
+                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
                             <div class="ms-3">
                                 <p class="font-fredokaBold">Judul Kegiatan</p>
                                 <p>Sun Feb 04 2024</p>
                             </div>
                         </div>
                         <div class="flex py-3 border-b">
-                            <img src="../img/Avatar.png" alt="" class="w-12 h-12">
+                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
                             <div class="ms-3">
                                 <p class="font-fredokaBold">Judul Kegiatan</p>
                                 <p>Sun Feb 04 2024</p>
                             </div>
                         </div>
                         <div class="flex py-3 border-b">
-                            <img src="../img/Avatar.png" alt="" class="w-12 h-12">
+                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
                             <div class="ms-3">
                                 <p class="font-fredokaBold">Judul Kegiatan</p>
                                 <p>Sun Feb 04 2024</p>
@@ -298,6 +298,79 @@
     </section>
 
     <script>
-        
+        const keuntungan = document.getElementById('keuntungan');
+        const pengeluaran = document.getElementById('pengeluaran');
+        const pesanan = document.getElementById('pesanan');
+        // chart keuntungan
+        new Chart(keuntungan, {
+            type: 'line',
+            data: {
+                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                    'Oktober', 'November', 'Desember'
+                ],
+                datasets: [{
+                    label: 'Keuntungan',
+                    data: [300000, 200000, 400000, 500000, 200000, 300000],
+                    borderWidth: 2,
+                    borderColor: 'green'
+                }]
+            },
+            options: {
+                tension: 0.4,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // chart pengeluaran
+        new Chart(pengeluaran, {
+            type: 'line',
+            data: {
+                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                    'Oktober', 'November', 'Desember'
+                ],
+                datasets: [{
+                    label: 'Pengeluaran',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 2,
+                    borderColor: 'green'
+                }]
+            },
+            options: {
+                tension: 0.4,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // chart pesanan
+        new Chart(pesanan, {
+            type: 'line',
+            data: {
+                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                    'Oktober', 'November', 'Desember'
+                ],
+                datasets: [{
+                    label: 'Pesanan',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 2,
+                    borderColor: 'green'
+                }]
+            },
+            options: {
+                tension: 0.4,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     </script>
 @endsection

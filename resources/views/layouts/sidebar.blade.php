@@ -1,7 +1,7 @@
 @isset($route)
     @if (strpos($route, 'admin') !== false)
         <div id="nav-menu"
-            class="w-[250px] sm:w-[330px] overflow-y-auto h-full py-8 bg-white items-end fixed sm:static top-0 left-0 hidden lg:block">
+            class="w-[250px] sm:w-[330px] overflow-y-auto h-full py-8 bg-white items-end fixed lg:static top-0 left-0 hidden lg:block">
             <a href="" class="flex justify-center mb-8">
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-[40px]">
                 <img src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="EchoMashub" class="h-[35px] ms-2">

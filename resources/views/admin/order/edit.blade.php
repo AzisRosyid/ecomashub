@@ -3,3 +3,4 @@
 @section('content')
     <strong>This is Admin</strong>
 @endsection
+

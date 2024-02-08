@@ -69,7 +69,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="cari pengguna">
+                        value="{{ request()->input('search') }}" placeholder="Cari pengguna">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">
@@ -141,6 +141,7 @@
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Username</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Email</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Peran</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Jenis kelamin</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Tanggal lahir</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Sumber</th>
@@ -163,6 +164,12 @@
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->username }} </td>
                                 <td class="py-3 text-start px-3">{{ $st->email }}</td>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto {{ $st->role->type == 'Anggota' ? 'text-green-600 border-green-600' : ($st->role->type == 'Pengurus' ? 'text-red-500 border-red-500' : '') }}">
+                                        {{ $st->role->name }}
+                                    </div>
+                                </td>
                                 <td class="py-3 text-start px-3">{{ $st->gender }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->formatted_date_of_birth }}</td>
                                 <td class="py-3 text-start px-3 items-center">

@@ -187,6 +187,8 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
         // Profile
         Route::prefix('/profile')->group(function () {
             Route::get('/', [AdminProfileController::class, 'index'])->name('adminProfile');
+            Route::get('/edit', [AdminProfileController::class, 'edit'])->name('adminProfileEdit');
+            Route::put('/edit', [AdminProfileController::class, 'update'])->name('adminProfileUpdate');
         });
     });
 });
