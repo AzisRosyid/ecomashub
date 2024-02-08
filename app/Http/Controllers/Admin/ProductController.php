@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     private $route = 'adminProduct';
-    private $units = ['Milligram', 'Gram', 'Kilogram', 'Mililiter', 'Liter'];
+    private $units = ['Milligram', 'Gram', 'Kilogram'];
     /**
      * Display a listing of the resource.
      */
@@ -99,7 +99,6 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            dd($validator->errors()->first());
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 

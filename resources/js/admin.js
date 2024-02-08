@@ -208,6 +208,30 @@ if (productModal != null) {
 
     productModalSave.addEventListener('click', function () {
         productItems = [...productItemTemps];
+        loadProductInput();
+    });
+
+    const startProductInput = () => {
+        const oldId = JSON.parse(productInput.getAttribute('oldid'));
+        const oldName = JSON.parse(productInput.getAttribute('oldname'));
+        const oldQuantity = JSON.parse(productInput.getAttribute('oldquantity'));
+
+        if (oldId != null) {
+            for (let i = 0; i < oldId.length; i++) {
+                const productItem = {
+                    id: oldId[i],
+                    name: oldName[i],
+                    quantity: oldQuantity[i]
+                };
+
+                productItems.push(productItem);
+            }
+
+            loadProductInput();
+        }
+    }
+
+    const loadProductInput = () => {
         productInput.innerHTML = '';
         productItems.forEach((item, index) => {
             let number = index + 1;
@@ -233,7 +257,7 @@ if (productModal != null) {
             `;
             productInput.innerHTML += elementHtml;
         });
-    });
+    }
 
     const clearModal = () => {
         return new Promise((resolve, reject) => {
@@ -281,7 +305,7 @@ if (productModal != null) {
                                     ${product.stock}
                                 </td>
                                 <td class="py-3 text-center px-3 min-w-[150px]">
-                                    <button class="border border-green-600 p-2 rounded-full cursor-pointer product-modal-table-action" id="${product.category_id}" name="${product.name}">
+                                    <button class="border border-green-600 p-2 rounded-full cursor-pointer product-modal-table-action" id="${product.id}" name="${product.name}">
                                     </button>
                                 </td>
                             </tr>
@@ -382,4 +406,6 @@ if (productModal != null) {
                 transform="translate(0, 1)" /></svg></a>`;
         }
     }
+
+    startProductInput();
 }

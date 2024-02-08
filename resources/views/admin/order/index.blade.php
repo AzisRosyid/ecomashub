@@ -69,7 +69,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="Cari pesanan...">
+                        value="{{ request()->input('search') }}" placeholder="Cari pesanan">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">
@@ -118,7 +118,7 @@
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
-                            {{ $total }} aset
+                            {{ $total }} pesanan
                         </div>
                     </div>
                 </div>
@@ -140,8 +140,8 @@
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Uang Muka</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Total Harga</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Status</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
@@ -159,10 +159,10 @@
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->formatted_down_payment }} </td>
+                                <td class="py-3 text-start px-3">{{ $st->formatted_grand_total }}</td>
                                 <td class="py-3 text-start px-3">
                                     {{ $st->formatted_date_start ?? 'Belum ditentukan' }}<br>{{ $st->formatted_date_end ?? 'Belum Ditentukan' }}
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->grand_total }}</td>
                                 <td class="py-3 text-start px-3">
                                     <div class="flex justify-start">
                                         <div class="flex">

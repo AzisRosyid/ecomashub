@@ -74,7 +74,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $rules = [
             'name' => 'required|string',
             'down_payment' => 'required|numeric',
@@ -82,13 +81,14 @@ class OrderController extends Controller
             'date_start' => 'nullable|date',
             'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
-            'product_ids.*' => 'required|integer|exists:products,id',
+            'product_id.*' => 'required|exists:products,id',
             'product_quantity.*' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            dd($validator->errors());
             return back()->withInput($request->all())->withErrors(['order' => $validator->errors()->first()]);
         }
 
@@ -104,7 +104,7 @@ class OrderController extends Controller
 
         $orderDetails = [];
 
-        foreach ($request->product_ids as $key => $id) {
+        foreach ($request->product_id as $key => $id) {
             $orderDetails[] = [
                 'order_id' => $order->id,
                 'product_id' => $id,
@@ -114,7 +114,7 @@ class OrderController extends Controller
 
         OrderDetail::insert($orderDetails);
 
-        return redirect()->route('adminOrder') - with('message', 'Pesanan telah berhasil dibuat!');
+        return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil dibuat!');
     }
 
     /**
@@ -150,7 +150,7 @@ class OrderController extends Controller
             'date_start' => 'nullable|date',
             'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
-            'product_id.*' => 'required|integer|exists:products,id',
+            'product_id.*' => 'required|exists:products,id',
             'product_quantity.*' => 'required|integer'
         ];
 
@@ -169,7 +169,7 @@ class OrderController extends Controller
             'status' => $request->status
         ]);
 
-        $order->orderDetails()->delete();
+        $order->details()->delete();
 
         $orderDetails = [];
 
@@ -187,7 +187,7 @@ class OrderController extends Controller
 
         OrderDetail::insert($orderDetails);
 
-        return redirect()->route('adminOrder') - with('message', 'Pesanan telah berhasil diperbarui!');
+        return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil diperbarui!');
     }
 
     /**

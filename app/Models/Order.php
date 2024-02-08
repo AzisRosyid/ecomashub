@@ -42,8 +42,35 @@ class Order extends Model
 
     public function getGrandTotalAttribute()
     {
-        return Order::find($this->attributes['id'])->details->sum(function ($detail) {
+        return $this->details->sum(function ($detail) {
             return $detail->product->price * $detail->quantity;
         });
+    }
+
+    public function getFormattedGrandTotalAttribute()
+    {
+        return 'Rp' . number_format($this->details->sum(function ($detail) {
+            return $detail->product->price * $detail->quantity;
+        }), 0, ',', '.') . ',00';
+    }
+
+    public function getOldDetailIdAttribute()
+    {
+        return $this->details->pluck('product.id')->toArray();
+    }
+
+    public function getOldDetailQuantityAttribute()
+    {
+        return $this->details->pluck('quantity')->toArray();
+    }
+
+    public function getOldDetailNameAttribute()
+    {
+        return $this->details->pluck('product.name')->toArray();
+    }
+
+    public function details()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 }

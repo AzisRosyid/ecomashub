@@ -59,16 +59,16 @@
                 <label for="" class="sm:w-40 block">Waktu</label>
                 <div class="flex sm:w-[600px]">
                     <div>
-                        <label for="mulai" class="block">Tanggal mulai*</label>
+                        <label for="mulai" class="block">Tanggal mulai</label>
                         <input type="datetime-local" name="date_start"
                             class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                            value="{{ old('date_start') }}" required>
+                            value="{{ old('date_start') }}">
                     </div>
                     <div class="ms-6">
-                        <label for="selesai" class="block">Tanggal selesai*</label>
+                        <label for="selesai" class="block">Tanggal selesai</label>
                         <input type="datetime-local" name="date_end"
                             class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                            value="{{ old('date_end') }}" required>
+                            value="{{ old('date_end') }}">
                     </div>
                 </div>
             </div>
@@ -102,8 +102,9 @@
                         <div class="product-modal-show w-full h-full absolute left-0 rounded-lg"></div>
                     </a>
                     <div class="sm:flex sm:w-[600px] mt-2"></div>
-                    <div id="productInput" class=""></div>
-
+                    <div id="productInput" oldid="{{ json_encode(old('product_id')) }}"
+                        oldname="{{ json_encode(old('product_name')) }}"
+                        oldquantity="{{ json_encode(old('product_quantity')) }}"></div>
                     <div class="grid grid-cols-8 sm:grid-cols-12">
                         <div class="col-span-3 items-center flex">
                             <hr class="border border-gray-400 w-full">
