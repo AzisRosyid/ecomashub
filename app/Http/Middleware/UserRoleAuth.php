@@ -26,7 +26,7 @@ class UserRoleAuth
             Auth::setUser($user);
 
             if (isset($user)) {
-                $userRole = UserRole::find($user->role_id)->first()->type;
+                $userRole = UserRole::find($user->role_id)->type;
             }
 
             if ($user->status != 'Aktif') {
@@ -34,7 +34,7 @@ class UserRoleAuth
             }
         }
 
-        if ($userRole == $requiredRole) {
+        if ($userRole === $requiredRole) {
             return $next($request);
         }
 

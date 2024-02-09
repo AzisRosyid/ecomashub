@@ -1,12 +1,13 @@
 @isset($route)
+    <script src="{{ Vite::asset('resources/js/script.js') }}" type="module"></script>
+
     @if ($route == 'home')
         <script src="{{ Vite::asset('resources/js/home.js') }}" type="module"></script>
     @endif
 
-    @if ($route == 'authLogin')
-        <script src="{{ Vite::asset('resources/js/login.js') }}" type="module"></script>
+    @if (strpos($route, 'auth') !== false)
+        <script src="{{ Vite::asset('resources/js/auth.js') }}" type="module"></script>
     @endif
-
 
     {{-- Dashboard --}}
     @if ($route == 'adminDashboard')
@@ -15,10 +16,10 @@
         <script src="{{ Vite::asset('resources/js/chart.js') }}" type="module"></script>
     @endif
 
+    {{-- Admin --}}
     @if (strpos($route, 'admin') !== false)
         <script src="{{ Vite::asset('resources/js/admin.js') }}" type="module"></script>
     @endif
-
 
     {{-- Modal --}}
     @if ($route == 'adminOrderCreate' || $route == 'adminOrderEdit')

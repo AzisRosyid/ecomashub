@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseContro
 use App\Http\Controllers\Admin\Auth\ProfileController as AdminProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 /*
@@ -46,6 +47,8 @@ Route::middleware(['auth.role:tamu'])->group(function () {
     // Auth
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('loginUser');
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('registerUser');
 });
 
 // < Admin >
@@ -189,6 +192,8 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::get('/', [AdminProfileController::class, 'index'])->name('adminProfile');
             Route::get('/edit', [AdminProfileController::class, 'edit'])->name('adminProfileEdit');
             Route::put('/edit', [AdminProfileController::class, 'update'])->name('adminProfileUpdate');
+            Route::get('/edit/password', [AdminProfileController::class, 'editPassword'])->name('adminProfileEditPassword');
+            Route::put('/edit/password', [AdminProfileController::class, 'updatePassword'])->name('adminProfileUpdatePassword');
         });
     });
 });

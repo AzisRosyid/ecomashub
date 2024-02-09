@@ -43,10 +43,11 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="mb-1 flex justify-between w-56 rounded-[7px] border-2 border-green-700 p-1">
-                            <input id="passwordInput" type="password" name="password" class="outline-none"
+                        <div
+                            class="mb-1 flex justify-between w-56 rounded-[7px] border-2 border-green-700 p-1 password-section">
+                            <input id="password" type="password" name="password" class="outline-none password-input"
                                 placeholder="Password" required>
-                            <div class="text-green-700 cursor-pointer tampilkan">
+                            <div class="text-green-700 cursor-pointer show-password">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                     class="bi bi-eye" viewBox="0 0 16 16">
                                     <path
@@ -55,7 +56,7 @@
                                         d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                                 </svg>
                             </div>
-                            <div class="text-green-700 cursor-pointer sembunyikan hidden">
+                            <div class="text-green-700 cursor-pointer hide-password hidden">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                     class="bi bi-eye-slash" viewBox="0 0 16 16">
                                     <path
@@ -84,6 +85,9 @@
                         <button type="submit"
                             class="text-white bg-green-700 hover:bg-green-600 active:bg-green-700 w-56 rounded-[7px] py-1">Login</button>
                     </form>
+                    <p class="font-fredokaRegular text-sm mt-3">Belum punya akun? daftar <a href="{{ route('register') }}"
+                            class="text-blue-600">di
+                            sini</a></p>
                 </div>
             </div>
         </div>

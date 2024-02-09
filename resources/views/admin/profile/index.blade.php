@@ -66,11 +66,21 @@
                         <p class="col-span-1 font-bold">Jenis pengguna</p>
                         <p class="col-span-3">{{ $acc->source_type }}</p>
                     </div>
-                    <div class="pt-2">
-                        <a href="{{ route('adminProfileEdit') }}"
-                            class="bg-amber-400 text-white font-fredokaRegular px-4 py-2 rounded-md">Edit</a>
+                    <div class="pt-4 flex justify-between w-full">
+                        <div class="flex">
+                            <a href="{{ route('adminProfileEdit') }}"
+                                class="bg-green-600 text-white font-fredokaRegular px-4 py-2 rounded-md me-3">Edit
+                                Profil</a>
+                            <a href="{{ route('adminProfileEditPassword') }}"
+                                class="bg-amber-400 text-white font-fredokaRegular px-4 py-2 rounded-md me-3">Ubah
+                                Password</a>
+                        </div>
+                        <a href="{{ route('logoutUser') }}"
+                            class="bg-red-500 text-white font-fredokaRegular px-4 py-2 rounded-md">Logout</a>
                     </div>
                 </div>
+
+
             </div>
         </div>
         <!-- end body -->

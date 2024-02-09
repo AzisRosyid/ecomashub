@@ -82,6 +82,20 @@ class ProfileController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editPassword()
+    {
+        $route = $this->route;
+        $acc = Auth::user();
+
+        return view('admin.profile.password', compact('route', 'acc'));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -117,7 +131,7 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return back()->withInput($request->all())->withErrors(['user' => $validator->errors()->first()]);
+            return back()->withInput($request->all())->withErrors(['profile' => $validator->errors()->first()]);
         }
 
         $password = $request->filled('password') ? Hash::make($request->password) : $user->password;
@@ -137,6 +151,41 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->route('adminProfile')->with('message', 'Pengguna telah berhasil diperbarui!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request)
+    {
+        $acc = Auth::user();
+        $user = User::find($acc->id);
+
+        $rules = [
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+            'new_password_confirmation' => 'required|string|same:new_password',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withInput($request->all())->withErrors(['profile' => $validator->errors()->first()]);
+        }
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->withErrors(['profile' => 'The provided old password does not match your current password.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return redirect()->route('adminProfile')->with('message', 'Password telah berhasil diperbarui!');
     }
 
     /**
