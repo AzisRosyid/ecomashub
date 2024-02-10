@@ -26,6 +26,12 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
+                @if ($errors->any())
+                    <div class="border border-red-500 bg-red-50 px-4 py-2 text-center rounded-md mt-2">
+                        <p class="text-red-500 font-normal font-fredokaRegular leading-tight block">
+                            {{ $errors->first() }}</p>
+                    </div>
+                @endif
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -41,8 +47,8 @@
             <div class="border-b sm:flex">
                 <label for="judulHutang" class="sm:w-40 block">Nama*</label>
                 <input type="text" name="name" id="judulHutang"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama hutang"
-                    value="{{ old('name') ?? $debt->name }}" required>
+                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                    placeholder="Nama hutang" value="{{ old('name') ?? $debt->name }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>

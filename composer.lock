@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb3f60dafec1b2828d6c41f5ce7ec515",
+    "content-hash": "3eb3e4e3066544ea737d5eb152f8c310",
     "packages": [
         {
             "name": "brick/math",
@@ -500,6 +500,51 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "ferdhika31/laravel-lang-id",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ferdhika31/laravel-lang-id.git",
+                "reference": "41b8cf24ae1d0500bd79b520803ca74ba2b764f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ferdhika31/laravel-lang-id/zipball/41b8cf24ae1d0500bd79b520803ca74ba2b764f7",
+                "reference": "41b8cf24ae1d0500bd79b520803ca74ba2b764f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.4"
+            },
+            "type": "language",
+            "autoload": {
+                "psr-4": {
+                    "Ferdhika31\\LaravelLangID\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ferdhika Yudira",
+                    "email": "rpl4rt08@gmail.com"
+                }
+            ],
+            "description": "Indonesian language localization for Laravel 5.4",
+            "keywords": [
+                "indonesian",
+                "laravel",
+                "localization"
+            ],
+            "support": {
+                "issues": "https://github.com/ferdhika31/laravel-lang-id/issues",
+                "source": "https://github.com/ferdhika31/laravel-lang-id/tree/master"
+            },
+            "time": "2018-08-28T03:45:02+00:00"
         },
         {
             "name": "firebase/php-jwt",
