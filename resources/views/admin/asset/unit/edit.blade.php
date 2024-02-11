@@ -23,15 +23,10 @@
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
                 <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Edit Satuan Aset</p>
-                                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
+                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @if ($errors->any())
-                    <div class="border border-red-500 bg-red-50 px-4 py-2 text-center rounded-md mt-2">
-                        <p class="text-red-500 font-normal font-fredokaRegular leading-tight block">
-                            {{ $errors->first() }}</p>
-                    </div>
-                @endif
+                @include('admin.alert.error')
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -42,7 +37,8 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminAssetUnitUpdate', $unit) }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
+        <form action="{{ route('adminAssetUnitUpdate', $unit) }}" method="POST"
+            class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @method('put')
             @csrf
             <div class="border-b mt-3 sm:flex">

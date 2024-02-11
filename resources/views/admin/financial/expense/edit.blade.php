@@ -26,12 +26,7 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @if ($errors->any())
-                    <div class="border border-red-500 bg-red-50 px-4 py-2 text-center rounded-md mt-2">
-                        <p class="text-red-500 font-normal font-fredokaRegular leading-tight block">
-                            {{ $errors->first() }}</p>
-                    </div>
-                @endif
+                @include('admin.alert.error')
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -64,7 +59,7 @@
                     <option value="">Pilih supplier</option>
                     @foreach ($suppliers as $st)
                         <option value="{{ $st->id }}"
-                            {{ old('supplier_id') ?? $expense->supplier_id == $st->id ? 'selected' : '' }}>
+                            {{ (old('supplier_id') ?? $expense->supplier_id) === $st->id ? 'selected' : '' }}>
                             {{ $st->name }}
                         </option>
                     @endforeach
@@ -83,7 +78,7 @@
                         <div class="flex @if ($index > 0) ms-6 @endif">
                             <input type="radio" name="type" class="expense-type" value="{{ $st }}"
                                 id="{{ strtolower($st) }}" @if ($index === 0) required @endif
-                                @if (old('type') ?? $expense->type == $st) checked @endif>
+                                @if ((old('type') ?? $expense->type) === $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach

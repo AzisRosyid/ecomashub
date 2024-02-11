@@ -48,43 +48,25 @@
                     <input type="text" class="p-1 bg-white rounded-md border border-gray-400" placeholder="search">
                 </form>
             </div>
-            <!-- cart -->
-            <div class="sm:grid grid-cols-12 gap-3">
+            <!-- chart -->
+            <div id="moneyFlow" class="sm:grid grid-cols-12 gap-3">
                 <div class="col-span-4 p-2 border rounded-lg">
-                    <p class="text-slate-600 font-fredokaBold text-2xl">Keuntungan</p>
-                    <p class="flex text-green-500 gap-1 items-center">
-                        <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path
-                                d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                        </svg>
-                        +2.45%
+                    <p class="text-slate-600 font-fredokaBold text-2xl">Arus Uang</p>
+                    <p class="flex gap-1 items-center chart-percentage">
                     </p>
-                    <canvas id="keuntungan"></canvas>
+                    <canvas></canvas>
                 </div>
-                <div class="col-span-4 p-2 border rounded-lg">
-                    <p class="text-slate-600 font-fredokaBold text-2xl">Pengeluaran</p>
-                    <p class="flex text-red-500 gap-1 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                        </svg>
-                        -2.45%
+                <div id="netIncome" class="col-span-4 p-2 border rounded-lg">
+                    <p class="text-slate-600 font-fredokaBold text-2xl">Pendapatan Bersih</p>
+                    <p class="flex gap-1 items-center chart-percentage">
                     </p>
-                    <canvas id="pengeluaran"></canvas>
+                    <canvas></canvas>
                 </div>
-                <div class="col-span-4 p-2 border rounded-lg">
+                <div id="order" class="col-span-4 p-2 border rounded-lg">
                     <p class="text-slate-600 font-fredokaBold text-2xl">Pesanan</p>
-                    <p class="flex text-green-500 gap-1 items-center">
-                        <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path
-                                d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                        </svg>
-                        +2.45%
+                    <p class="flex gap-1 items-center chart-percentage">
                     </p>
-                    <canvas id="pesanan"></canvas>
+                    <canvas></canvas>
                 </div>
             </div>
             <!-- akhir chart -->
@@ -108,8 +90,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total anggota</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Anggota</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['users'] }}</p>
                     </div>
                 </a>
                 <a href="aset.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
@@ -131,8 +113,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total aset</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Aset</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['assets'] }}</p>
                     </div>
                 </a>
                 <a href="produk.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
@@ -154,8 +136,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total produk</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Produk</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['products'] }}</p>
                     </div>
                 </a>
                 <a href="pemasok.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
@@ -177,8 +159,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total pemasok</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Pemasok</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['suppliers'] }}</p>
                     </div>
                 </a>
                 <a href="penitipan.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
@@ -200,8 +182,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total penitipan</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Penitipan</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['entrusts'] }}</p>
                     </div>
                 </a>
                 <a href="waste.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
@@ -223,8 +205,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total eco-friendly</p>
-                        <p class="font-fredokaBold text-3xl">100</p>
+                        <p class="font-fredokaRegular">Total Eco-Friendly</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['wastes'] }}</p>
                     </div>
                 </a>
             </div>
@@ -267,27 +249,16 @@
                         <p class="font-fredokaBold text-3xl">Kegiatan</p>
                     </div>
                     <div class="px-4 font-fredokaRegular h-[298px] overflow-y-scroll">
-                        <div class="flex py-3 border-b">
-                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
-                            <div class="ms-3">
-                                <p class="font-fredokaBold">Judul Kegiatan</p>
-                                <p>Sun Feb 04 2024</p>
+                        @foreach ($events as $st)
+                            <div class="flex py-3 border-b">
+                                <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
+                                    class="w-12 h-12">
+                                <div class="ms-3">
+                                    <p class="font-fredokaBold">{{ $st->title }}</p>
+                                    <p>{{ $st->formatted_date_start }}<br>{{ $st->formatted_date_end }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex py-3 border-b">
-                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
-                            <div class="ms-3">
-                                <p class="font-fredokaBold">Judul Kegiatan</p>
-                                <p>Sun Feb 04 2024</p>
-                            </div>
-                        </div>
-                        <div class="flex py-3 border-b">
-                            <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-12 h-12">
-                            <div class="ms-3">
-                                <p class="font-fredokaBold">Judul Kegiatan</p>
-                                <p>Sun Feb 04 2024</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -296,81 +267,4 @@
     </div>
     <!-- end main dashboard -->
     </section>
-
-    <script>
-        const keuntungan = document.getElementById('keuntungan');
-        const pengeluaran = document.getElementById('pengeluaran');
-        const pesanan = document.getElementById('pesanan');
-        // chart keuntungan
-        new Chart(keuntungan, {
-            type: 'line',
-            data: {
-                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober', 'November', 'Desember'
-                ],
-                datasets: [{
-                    label: 'Keuntungan',
-                    data: [300000, 200000, 400000, 500000, 200000, 300000],
-                    borderWidth: 2,
-                    borderColor: 'green'
-                }]
-            },
-            options: {
-                tension: 0.4,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // chart pengeluaran
-        new Chart(pengeluaran, {
-            type: 'line',
-            data: {
-                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober', 'November', 'Desember'
-                ],
-                datasets: [{
-                    label: 'Pengeluaran',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 2,
-                    borderColor: 'green'
-                }]
-            },
-            options: {
-                tension: 0.4,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // chart pesanan
-        new Chart(pesanan, {
-            type: 'line',
-            data: {
-                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober', 'November', 'Desember'
-                ],
-                datasets: [{
-                    label: 'Pesanan',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 2,
-                    borderColor: 'green'
-                }]
-            },
-            options: {
-                tension: 0.4,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
 @endsection

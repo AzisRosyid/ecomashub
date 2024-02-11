@@ -23,15 +23,10 @@
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
                 <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Edit Aset</p>
-                                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
+                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @if ($errors->any())
-                    <div class="border border-red-500 bg-red-50 px-4 py-2 text-center rounded-md mt-2">
-                        <p class="text-red-500 font-normal font-fredokaRegular leading-tight block">
-                            {{ $errors->first() }}</p>
-                    </div>
-                @endif
+                @include('admin.alert.error')
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -64,7 +59,7 @@
                         <div class="flex @if ($index > 0) ms-6 @endif">
                             <input type="radio" name="category" value="{{ $st }}" id="{{ strtolower($st) }}"
                                 @if ($index === 0) required @endif
-                                @if (old('category') ?? $asset->category == $st) checked @endif>
+                                @if ((old('category') ?? $asset->category) === $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach
@@ -83,7 +78,7 @@
                     <option value="">Pilih satuan</option>
                     @foreach ($units as $st)
                         <option value="{{ $st->id }}"
-                            {{ old('unit_id') ?? $asset->unit_id == $st->id ? 'selected' : '' }}>
+                            {{ (old('unit_id') ?? $asset->unit_id) === $st->id ? 'selected' : '' }}>
                             {{ $st->name }}
                         </option>
                     @endforeach
@@ -102,7 +97,7 @@
                         <div class="flex @if ($index > 0) ms-6 @endif">
                             <input type="radio" name="status" value="{{ $st }}" id="{{ strtolower($st) }}"
                                 @if ($index === 0) required @endif
-                                @if (old('status') ?? $asset->status == $st) checked @endif>
+                                @if ((old('status') ?? $asset->status) === $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>
                         </div>
                     @endforeach

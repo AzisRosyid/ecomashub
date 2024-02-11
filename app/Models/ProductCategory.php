@@ -14,8 +14,6 @@ class ProductCategory extends Model
 
     use HasFactory;
 
-    use SoftDeletes;
-
     protected $dates = ['deleted_at'];
 
     public function getTotalReferenceAttribute()

@@ -12,6 +12,7 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
+                @include('admin.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="{{ route('adminSupplierCreate') }}" class="">
@@ -70,7 +71,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="cari pemasok">
+                        value="{{ request()->input('search') }}" placeholder="Cari pemasok">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">

@@ -150,7 +150,7 @@ class ProfileController extends Controller
             //    'image' => $request->image,
         ]);
 
-        return redirect()->route('adminProfile')->with('message', 'Pengguna telah berhasil diperbarui!');
+        return redirect()->route('adminProfile')->with('message', 'Profil telah berhasil diperbarui!');
     }
 
     /**

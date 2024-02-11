@@ -12,6 +12,7 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
+                @include('admin.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="post" class="">

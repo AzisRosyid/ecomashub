@@ -10,6 +10,7 @@
                         Profil
                     </p>
                 </div>
+                @include('admin.alert.message')
             </div>
             <div class=" w-1/2">
                 <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
@@ -26,7 +27,9 @@
         <div class="mx-2 sm:mx-10 pt-4 lg:pt-8">
             <div class="sm:grid grid-cols-12 gap-4">
                 <div class="col-span-3 bg-white shadow-lg rounded-lg justify-center flex py-8">
-                    <img src="https://unyacid-my.sharepoint.com/personal/azisrosyid_2022_student_uny_ac_id/Documents/Pictures/Nitro/Nitro_Wallpaper_01_3840x2400.jpg"
+                    {{-- <img src="https://unyacid-my.sharepoint.com/personal/azisrosyid_2022_student_uny_ac_id/Documents/Pictures/Nitro/Nitro_Wallpaper_01_3840x2400.jpg"
+                        alt="" class="h-[200px] w-[200px]"> --}}
+                    <img src="https://lh3.googleusercontent.com/u/1/drive-viewer/AEYmBYQmOCo4f9eWUJ9THnWHdKzgANfJnklUHL0w4wP1GSoP5tvEN2RoGnIOeU8Rh6wBfwXAfz_SFDfAL2Z1bY465iBVhc3o7Q=w3860-h1028"
                         alt="" class="h-[200px] w-[200px]">
                 </div>
                 <div class="col-span-8 bg-white shadow-lg rounded-lg p-4 text-slate-600">

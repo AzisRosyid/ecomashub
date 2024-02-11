@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/chart.umd.js',
                 'resources/js/calendar.js',
                 'resources/js/script.js',
+                'resources/js/firebase.js'
             ],
             refresh: true,
         }),

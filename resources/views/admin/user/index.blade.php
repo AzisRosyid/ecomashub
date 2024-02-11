@@ -12,12 +12,7 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @if (session('message'))
-                    <div class="border border-green-500 bg-green-50 px-4 py-2 text-center rounded-md mt-2">
-                        <p class="text-green-500 font-normal font-fredokaRegular leading-tight block">
-                            {{ session('message') . ' | ' . session('status') }}</p>
-                    </div>
-                @endif
+                @include('admin.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="post" class="">

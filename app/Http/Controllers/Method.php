@@ -30,6 +30,11 @@ class Method extends Controller
         return false;
     }
 
+    public static function comparisonStatus($value, $comparisonValue)
+    {
+        return $value > $comparisonValue ? 'more' : ($value < $comparisonValue ? 'less' : 'equal');
+    }
+
     // public static function uploadToGooglePhotos($image, $productName)
     // {
     //     // Google API client setup

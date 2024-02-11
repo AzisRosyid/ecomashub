@@ -1,4 +1,5 @@
 @isset($route)
+    <script src="{{ Vite::asset('resources/js/firebase.js') }}" type="module"></script>
     <script src="{{ Vite::asset('resources/js/script.js') }}" type="module"></script>
 
     @if ($route == 'home')

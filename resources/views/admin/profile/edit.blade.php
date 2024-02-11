@@ -11,12 +11,7 @@
                         Edit Profil
                     </p>
                 </div>
-                @if ($errors->any())
-                    <div class="border border-red-500 bg-red-50 px-4 py-2 text-center rounded-md mt-2">
-                        <p class="text-red-500 font-normal font-fredokaRegular leading-tight block">
-                            {{ $errors->first() }}</p>
-                    </div>
-                @endif
+                @include('admin.alert.error')
             </div>
             <div class=" w-1/2">
                 <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">

@@ -34,7 +34,7 @@ class UserRoleController extends Controller
         $rules = [
             'name' => 'required|string',
             'type' => 'required|in:Pengurus,Anggota',
-            'name_type_combination' => Rule::unique('your_table_name')->where(function ($query) {
+            'name_type_combination' => Rule::unique('user_roles')->where(function ($query) {
                 return $query->where('name', request()->input('name'))->where('type', request()->input('type'));
             })
         ];
@@ -78,7 +78,7 @@ class UserRoleController extends Controller
         $rules = [
             'name' => 'required|string',
             'type' => 'required|in:Pengurus,Anggota',
-            'name_type_combination' => Rule::unique('your_table_name')->where(function ($query) use ($role) {
+            'name_type_combination' => Rule::unique('user_roles')->where(function ($query) use ($role) {
                 return $query->where('name', request()->input('name'))->where('type', request()->input('type'))
                     ->whereNotIn('id', [$role->id]);
             })

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->enum('type', ['Pengurus', 'Anggota']);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['name', 'type']);
         });
     }
 
