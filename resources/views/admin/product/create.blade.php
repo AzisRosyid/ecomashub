@@ -23,10 +23,10 @@
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
                 <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Tambah Produk</p>
-                                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
+                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-@include('admin.alert.error')
+                @include('admin.alert.error')
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -37,7 +37,8 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminProductStore') }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
+        <form action="{{ route('adminProductStore') }}" method="POST" enctype="multipart/form-data"
+            class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @csrf
             <div class="border-b sm:flex">
                 <label for="produk" class="sm:w-40 block">Nama produk*</label>
@@ -96,9 +97,9 @@
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="gambar" class="sm:w-40">Gambar</label>
-                <input type="file" name="gambar" id="gambar"
+                <input type="file" name="image" id="gambar"
                     class="w-full outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 hidden"
-                    placeholder="Total dana kegiatan">
+                    accept="image/png, image/jpg, image/jpeg" placeholder="Masukkan gambar">
                 <label for="gambar"
                     class="sm:w-[600px] sm:border border-gray-400 p-2 rounded-lg mt-2 mb-4 cursor-pointer">
                     <div class="text-center py-4 border border-gray-400 p-2 rounded-lg sm:border-none">

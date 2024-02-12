@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('phone_number', 15);
             $table->string('address');
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('status', ['Aktif', 'Menunggu', 'Blok']);
             $table->rememberToken();
             $table->timestamps();

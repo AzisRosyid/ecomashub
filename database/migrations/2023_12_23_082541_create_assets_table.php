@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->foreignId('unit_id')->constrained(table: 'asset_units', indexName: 'unit_id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('location');
+            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->enum('status', ['Tersedia', 'Dipinjam', 'Digunakan']);
             $table->timestamps();

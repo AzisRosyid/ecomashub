@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone_number', 15);
             $table->string('address');
+            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->timestamps();

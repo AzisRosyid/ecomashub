@@ -27,8 +27,10 @@ class ProfileController extends Controller
     {
         $route = $this->route;
         $acc = Auth::user();
+        $image = "https://drive.usercontent.google.com/download?id=1Ez08HPljQWbw6XHkZ8t-bEUlxrQeuOrB&export=view";
 
-        return view('admin.profile.index', compact('route', 'acc'));
+
+        return view('admin.profile.index', compact('route', 'acc', 'image'));
     }
 
     /**

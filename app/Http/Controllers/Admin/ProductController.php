@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -101,6 +102,16 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
+
+        Method::uploadFile($request->file('image'), $request->name);
+
+        // $file = null;
+        // if ($request->file('photo') != null) {
+        //     $request->file('photo')->getClientMimeType();
+        //     $photo = $request->file('photo')->getClientOriginalExtension();
+        //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
+        //     $request->file('photo')->move('images', $file);
+        // }
 
         Product::create([
             'store_id' => null,

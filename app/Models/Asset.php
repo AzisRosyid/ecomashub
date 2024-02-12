@@ -14,6 +14,7 @@ class Asset extends Model
         'category',
         'quantity',
         'unit_id',
+        'image',
         'description',
         'location',
         'status'

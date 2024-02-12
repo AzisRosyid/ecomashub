@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('type', ['Pengurus', 'Anggota']);
+            $table->enum('type', ['File', 'Gambar']);
+            $table->enum('provider', ['Google Drive', 'One Drive', 'Google Photos', 'Mega', 'TeraBox']);
+            $table->string('content');
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['name', 'type']);
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('media');
     }
 };

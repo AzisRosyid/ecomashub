@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Google_Client;
 use Google_Service_PhotosLibrary;
 use Google_Service_PhotosLibrary_MediaItem;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Google\Client;
+use Google\Service\Drive;
+use Google\Service\Drive\PermissionTeamDrivePermissionDetails;
 
 class Method extends Controller
 {
@@ -34,6 +42,71 @@ class Method extends Controller
     {
         return $value > $comparisonValue ? 'more' : ($value < $comparisonValue ? 'less' : 'equal');
     }
+
+    private static function token()
+    {
+        $clientId = \Config('services.google.client_id');
+        $clientSecret = \Config('services.google.client_secret');
+        $refreshToken = \Config('services.google.refresh_token');
+
+        $response = Http::post('https://oauth2.googleapis.com/token', [
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'refresh_token' => $refreshToken,
+            'grant_type' => 'refresh_token',
+        ]);
+
+        $accessToken = json_decode((string)$response->getBody(), true)['access_token'];
+
+        return $accessToken;
+    }
+
+    public static function uploadFile($file, $name)
+    {
+        return null;
+        $accessToken = Method::token();
+        if ($file != null) {
+            $fileName = Carbon::now()->format('Y_m_d_His') . '_' . $name . '.' . $file->getClientOriginalExtension();
+            $mime = $file->getClientMimeType();
+
+            try {
+                $client = new Client();
+                $client->setAccessToken($accessToken);
+                $client->addScope(Drive::DRIVE);
+                $driveService = new Drive($client);
+                $folderId = \Config('services.google.folder_id');
+
+                $fileMetadata = new Drive\DriveFile([
+                    'name' => $fileName,
+                    'parents' => [$folderId],
+                ]);
+
+                $file = $driveService->files->create($fileMetadata, array(
+                    'data' => $file->getContent(),
+                    'mimeType' => $mime,
+                    'uploadType' => 'multipart',
+                    'fields' => 'id'
+                ));
+                printf("File ID: %s\n", $file->id);
+
+                $permission = new Drive\Permission([
+                    'type' => 'anyone',
+                    'value' => 'anyone',
+                    'role' => 'reader',
+                ]);
+
+                $driveService->permissions->create($file->id, $permission);
+
+                return $file->id;
+
+                $url = 'https://drive.google.com/thumbnail?id=';
+            } catch (Exception $e) {
+                echo "Error Message: " . $e;
+            }
+        }
+        return response('Failed');
+    }
+
 
     // public static function uploadToGooglePhotos($image, $productName)
     // {

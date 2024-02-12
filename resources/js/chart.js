@@ -50,7 +50,6 @@ const loadChart = () => {
                     percentageMode(net_income.percentage, net_income.comparison, netIncomeChart.querySelector('.chart-percentage'));
                     percentageMode(orders.percentage, orders.comparison, orderChart.querySelector('.chart-percentage'));
 
-
                     new Chart(moneyFlowChart.querySelector('canvas'), {
                         type: 'line',
                         data: {

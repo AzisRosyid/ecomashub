@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('category_id')->constrained(table: 'product_categories', indexName: 'category_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->double('weight');
-            $table->enum('unit', ['Milligram', 'Gram', 'Kilogram', 'Mililiter', 'Liter']);
+            $table->enum('unit', ['Milligram', 'Gram', 'Kilogram']);
             $table->integer('stock');
             $table->double('price');
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
