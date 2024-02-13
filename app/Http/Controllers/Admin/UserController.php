@@ -33,6 +33,8 @@ class UserController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $roleIds = UserRole::where('name', 'like', $search)->orWhere('type', 'like', $search)->pluck('id');
 
@@ -50,7 +52,7 @@ class UserController extends Controller
             ->when($roleIds->isNotEmpty(), function ($query) use ($roleIds) {
                 $query->whereIn('role_id', $roleIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 

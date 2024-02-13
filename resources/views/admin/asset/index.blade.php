@@ -141,7 +141,6 @@
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Jumlah</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Satuan</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Lokasi</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Status</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
@@ -159,8 +158,7 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->quantity }} </td>
-                                <td class="py-3 text-start px-3">{{ $st->unit->name }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->quantity }} {{ $st->unit->name }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->location }}</td>
                                 <td class="py-3 text-start px-3">
                                     <div class="flex justify-start">

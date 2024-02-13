@@ -25,6 +25,8 @@ class SupplierController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $query = Supplier::where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
@@ -34,7 +36,7 @@ class SupplierController extends Controller
                 ->orWhere('status', 'like', $search)
                 ->orWhere('description', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 

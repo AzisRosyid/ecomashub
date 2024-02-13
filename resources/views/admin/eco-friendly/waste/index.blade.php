@@ -144,7 +144,6 @@
                             <th class="bg-gray-200 py-3 text-start px-3">Produk</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Jenis</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Berat</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Satuan</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
@@ -167,8 +166,7 @@
                                         {{ $st->type->name }}
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->weight }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->unit }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->weight }} {{ $st->unit }}</td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
                                         <a href="{{ route('adminWasteEdit', $st) }}"

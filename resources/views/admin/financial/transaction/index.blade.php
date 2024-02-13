@@ -73,7 +73,7 @@
                             </button>
                         </form>
                     </div>
-                      <a id="filter"
+                    <a id="filter"
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700 cursor-pointer">
                         <svg class="" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,7 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua transaksi</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Transaksi</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
@@ -158,8 +158,8 @@
 
                                 <td class="py-3 text-start px-3 items-center">
                                     <div
-                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->value_type == 'Untung' ? 'text-green-600 border-green-600' : ($st->value_type == 'Rugi' ? 'text-red-500 border-red-500' : '') }}">
-                                        {{ $st->value_type }}
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->type == 'Untung' ? 'text-green-600 border-green-600' : ($st->type == 'Rugi' ? 'text-red-500 border-red-500' : '') }}">
+                                        {{ $st->type }}
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->formatted_value }}</td>

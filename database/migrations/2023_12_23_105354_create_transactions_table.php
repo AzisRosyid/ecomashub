@@ -17,8 +17,10 @@ return new class extends Migration
             $table->integer('category_id');
             $table->enum('category', ['Kegiatan', 'Pesanan', 'Biaya', 'Hutang']);
             $table->double('value');
-            $table->enum('value_type', ['Untung', 'Rugi']);
+            $table->enum('type', ['Untung', 'Rugi']);
             $table->dateTime('date');
+            $table->enum('status', ['Menunggu', 'Selesai']);
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

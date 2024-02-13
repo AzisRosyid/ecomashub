@@ -26,6 +26,8 @@ class AssetController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $unitIds = AssetUnit::where('name', 'like', $search)->pluck('id');
 
@@ -41,7 +43,7 @@ class AssetController extends Controller
             ->when($unitIds->isNotEmpty(), function ($query) use ($unitIds) {
                 $query->whereIn('unit_id', $unitIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 

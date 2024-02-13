@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +26,8 @@ class OrderController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $productIds = Product::where('name', 'like', $search)->pluck('id');
 
@@ -44,7 +47,7 @@ class OrderController extends Controller
             ->when($detailIds->isNotEmpty(), function ($query) use ($detailIds) {
                 $query->whereIn('id', $detailIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 
@@ -88,8 +91,20 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            dd($validator->errors());
             return back()->withInput($request->all())->withErrors(['order' => $validator->errors()->first()]);
+        }
+
+        $total = 0;
+        foreach ($request->product_id as $key => $id) {
+            $product = Product::find($id);
+            if ($product->stock - $request->product_quantity[$key] < 0) {
+                return back()->withInput($request->all())->withErrors(['order' => 'Jumlah produk tidak bisa melebihi stok (produk: ' . $product->name . ')']);
+            }
+            $total += $product->price * $request->product_quantity[$key];
+        }
+
+        if ($total < $request->down_payment) {
+            return back()->withInput($request->all())->withErrors(['order' => 'Nilai Uang Muka harus lebih rendah dibanding jumlah harga pemesanan!']);
         }
 
         $order = Order::create([
@@ -102,9 +117,32 @@ class OrderController extends Controller
             'status' => $request->status
         ]);
 
+        Transaction::create([
+            'store_id' => $order->store_id,
+            'category_id' => $order->id,
+            'category' => 'Pesanan',
+            'value' => $order->down_payment ?? 0,
+            'type' => 'Untung',
+            'date' => $order->date_start,
+            'status' => 'Selesai'
+        ]);
+
+        Transaction::create([
+            'store_id' => $order->store_id,
+            'category_id' => $order->id,
+            'category' => 'Pesanan',
+            'value' => $total - $order->down_payment ?? 0,
+            'type' => 'Untung',
+            'date' => $order->date_end,
+            'status' => 'Menunggu'
+        ]);
+
         $orderDetails = [];
 
         foreach ($request->product_id as $key => $id) {
+            $product = Product::find($id);
+            $product->update(['stock' => $product->stock - $request->product_quantity[$key]]);
+
             $orderDetails[] = [
                 'order_id' => $order->id,
                 'product_id' => $id,
@@ -150,8 +188,8 @@ class OrderController extends Controller
             'date_start' => 'nullable|date',
             'date_end' => 'nullable|date',
             'status' => 'required|in:Pengajuan,Proses,Selesai',
-            'product_id.*' => 'required|exists:products,id',
-            'product_quantity.*' => 'required|integer'
+            // 'product_id.*' => 'required|exists:products,id',
+            // 'product_quantity.*' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -160,32 +198,47 @@ class OrderController extends Controller
             return back()->withInput($request->all())->withErrors(['order' => $validator->errors()->first()]);
         }
 
+        $total = 0;
+        foreach ($request->product_id as $key => $id) {
+            $product = Product::find($id);
+            $total += $product->price * $request->product_quantity[$key];
+        }
+
+        if ($total < $request->down_payment) {
+            return back()->withInput($request->all())->withErrors(['order' => 'Nilai Uang Muka harus lebih rendah dibanding jumlah harga pemesanan!']);
+        }
+
         $order->update([
             'store_id' => null,
             'name' => $request->name,
+            'down_payment' => $request->down_payment,
             'description' => $request->description,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
             'status' => $request->status
         ]);
 
-        $order->details()->delete();
+        $transaction = Transaction::where('category_id', $order->id)->orderBy('date')->get();
+        $downPayment = $transaction[0];
 
-        $orderDetails = [];
+        $downPayment->update([
+            'value' => $order->down_payment ?? 0,
+            'date' => $order->date_start
+        ]);
 
-        // foreach (OrderDetail::where('order_id', $order->id) as $id) {
-        //     Product::find($id)->delete();
+        // $order->details()->delete();
+
+        // $orderDetails = [];
+
+        // foreach ($request->product_id as $key => $id) {
+        //     $orderDetails[] = [
+        //         'order_id' => $order->id,
+        //         'product_id' => $id,
+        //         'quantity' => $request->product_quantity[$key]
+        //     ];
         // }
 
-        foreach ($request->product_id as $key => $id) {
-            $orderDetails[] = [
-                'order_id' => $order->id,
-                'product_id' => $id,
-                'quantity' => $request->product_quantity[$key]
-            ];
-        }
-
-        OrderDetail::insert($orderDetails);
+        // OrderDetail::insert($orderDetails);
 
         return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil diperbarui!');
     }

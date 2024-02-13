@@ -36,32 +36,36 @@ class DashboardController extends Controller
         $currentMonth = Carbon::now()->month;
 
         if ($request->has('api')) {
-            $profit = Transaction::where('store_id', 'null')->where('value_type', 'Untung')
+            $profit = Transaction::whereNull('store_id')->where('type', 'Untung')->where('status', 'Selesai')
                 ->whereYear('date', $currentYear)
                 ->selectRaw('MONTH(date) as month, SUM(value) as total')
                 ->groupBy('month')
                 ->get();
 
-            $loss = Transaction::where('value_type', 'Rugi')
+            $loss = Transaction::whereNull('store_id')->where('type', 'Rugi')->where('status', 'Selesai')
                 ->whereYear('date', $currentYear)
                 ->selectRaw('MONTH(date) as month, SUM(value) as total')
                 ->groupBy('month')
                 ->get();
 
-            $order = Order::whereYear('date_start', $currentYear)
+            $order = Order::whereNull('store_id')->whereYear('date_start', $currentYear)
                 ->selectRaw('MONTH(date_start) as month, COUNT(id) as total')
                 ->groupBy('month')
                 ->get();
 
-            $netIncome = Transaction::whereNull('store_id')
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN value_type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$currentMonth])
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN value_type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+            $netIncome = Transaction::whereNull('store_id')->where('status', 'Selesai')
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$currentMonth])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
                 ->whereYear('date', $currentYear)
                 ->first();
 
             $percentageNetIncome = 0;
-            if ($netIncome->previous_month_total != 0) {
-                $percentageNetIncome = ($netIncome->current_month_total / $netIncome->previous_month_total) * 100;
+            if ($netIncome->previous_month_total > 0) {
+                if ($netIncome->current_month_total >= $netIncome->previous_month_total) {
+                    $percentageNetIncome = ($netIncome->current_month_total / $netIncome->previous_month_total) * 100;
+                } else {
+                    $percentageNetIncome = ($netIncome->previous_month_total / $netIncome->current_month_total) * 100;
+                }
             }
 
             $currentMonthMoneyFlow = 0;
@@ -88,17 +92,17 @@ class DashboardController extends Controller
             // Return JSON response with the calculated values
             return response()->json([
                 'money_flow' => [
-                    'percentage' => $percentageChangeMoneyFlow,
+                    'percentage' => number_format($percentageChangeMoneyFlow, 2),
                     'comparison' => Method::comparisonStatus($currentMonthMoneyFlow, $lastMonthMoneyFlow),
                 ],
                 'net_income' => [
-                    'percentage' => $percentageNetIncome,
+                    'percentage' => number_format($percentageNetIncome, 2),
                     'comparison' => Method::comparisonStatus($netIncome->current_month_total, $netIncome->previous_month_total),
                     'profit_data' => $profit,
                     'loss_data' => $loss
                 ],
                 'orders' => [
-                    'percentage' => $percentageOrders,
+                    'percentage' => number_format($percentageOrders, 2),
                     'comparison' => Method::comparisonStatus($orders->current_month_total, $orders->previous_month_date),
                     'data' => $order
                 ]

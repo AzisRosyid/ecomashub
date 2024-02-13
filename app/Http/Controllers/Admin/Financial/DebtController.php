@@ -21,6 +21,8 @@ class DebtController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $query = Debt::where('store_id', null)->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
@@ -30,7 +32,7 @@ class DebtController extends Controller
                 ->orWhere('date_start', 'like', $search)
                 ->orWhere('date_end', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 

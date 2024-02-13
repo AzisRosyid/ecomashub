@@ -168,7 +168,7 @@
                                     <div class="flex justify-start">
                                         <div class="flex">
                                             <div
-                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 {{ ($st->status == 'Selesai' ? 'text-green-600 border-green-600' : $st->status == 'Proses') ? 'text-amber-400 border-amber-400' : ($st->status == 'Pengajuan' ? 'text-zinc-700 border-gray-400' : '') }}">
+                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 @if ($st->status == 'Selesai') text-green-600 border-green-600 @elseif($st->status == 'Proses') text-amber-400 border-amber-400 @elseif($st->status == 'Pengajuan') 'text-zinc-700 border-gray-400 @endif">
                                                 {{ $st->status }}
                                             </div>
                                             <a value="{{ $st->id }}"

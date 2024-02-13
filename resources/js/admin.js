@@ -183,7 +183,8 @@ if (productModal != null) {
         element.addEventListener('click', function () {
             productPage = 1;
             productModalSearch.value = '';
-            loadModal().then(s => {
+            productItemTemps = [...productItems];
+            loadModal().then(() => {
                 productModal.classList.remove('hidden');
                 productModalContent.classList.remove('hidden');
             });
@@ -219,9 +220,9 @@ if (productModal != null) {
         if (oldId != null) {
             for (let i = 0; i < oldId.length; i++) {
                 const productItem = {
-                    id: oldId[i],
+                    id: parseInt(oldId[i]),
                     name: oldName[i],
-                    quantity: oldQuantity[i]
+                    quantity: parseInt(oldQuantity[i])
                 };
 
                 productItems.push(productItem);
@@ -232,6 +233,10 @@ if (productModal != null) {
     }
 
     const loadProductInput = () => {
+        document.querySelectorAll('.product-modal-input-quantity').forEach(function (element) {
+            removeEvent(element);
+        });
+
         productInput.innerHTML = '';
         productItems.forEach((item, index) => {
             let number = index + 1;
@@ -257,6 +262,19 @@ if (productModal != null) {
             `;
             productInput.innerHTML += elementHtml;
         });
+
+        document.querySelectorAll('.product-modal-input-quantity').forEach(function (element) {
+            element.addEventListener('keydown', function () {
+                if (this.value) {
+                    const itemId = parseInt(element.getAttribute('itemid'));
+                    const itemIndex = productItemTemps.findIndex(s => s.id == itemId);
+
+                    if (itemIndex !== -1) {
+                        productItemTemps[itemIndex].quantity = parseInt(element.value);
+                    }
+                }
+            });
+        });
     }
 
     const clearModal = () => {
@@ -266,9 +284,6 @@ if (productModal != null) {
                     removeEvent(element);
                 });
                 document.querySelectorAll('.product-modal-table-action').forEach(function (element) {
-                    removeEvent(element);
-                });
-                document.querySelectorAll('.product-modal-input-quantity').forEach(function (element) {
                     removeEvent(element);
                 });
                 resolve();
@@ -351,19 +366,6 @@ if (productModal != null) {
                                     }
 
                                     actionMode(this, existingProductIndex !== -1)
-                                }
-                            });
-                        });
-
-                        document.querySelectorAll('.product-modal-input-quantity').forEach(function (element) {
-                            element.addEventListener('change', function () {
-                                if (this.value) {
-                                    const itemId = parseInt(element.getAttribute('itemid'));
-                                    const itemIndex = productItemTemps.findIndex(s => s.id == itemId);
-
-                                    if (itemIndex !== -1) {
-                                        productItemTemps[itemIndex].quantity = parseInt(element.value);
-                                    }
                                 }
                             });
                         });

@@ -14,8 +14,10 @@ class Transaction extends Model
         'category_id',
         'category',
         'value',
-        'value_type',
-        'date'
+        'type',
+        'date',
+        'status',
+        'description'
     ];
 
     use HasFactory;

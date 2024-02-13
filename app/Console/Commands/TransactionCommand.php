@@ -51,7 +51,7 @@ class TransactionCommand extends Command
         $events = Event::whereIn('id', $eventIds)->get();
 
         foreach ($events as $event) {
-            $transaction = Transaction::where('category_id', $event->id)->first();
+            $transaction = Transaction::where('category_id', $event->id)->where('category', 'Kegiatan')->first();
 
             if ($transaction && ($transaction->value != $event->fund || $transaction->date != $event->date_end) && $current >= $event->date_end) {
                 $transaction->update([
@@ -64,7 +64,8 @@ class TransactionCommand extends Command
                     'category_id' => $event->id,
                     'category' => 'Kegiatan',
                     'value' => $event->fund ?? 0,
-                    'value_type' => 'Rugi',
+                    'type' => 'Rugi',
+                    'status' => 'Selesai',
                     'date' => $event->date_end,
                 ]);
             }
@@ -82,32 +83,27 @@ class TransactionCommand extends Command
         $orders = Order::with('details.product')->whereIn('id', $orderIds)->get();
 
         foreach ($orders as $order) {
-            $transaction = Transaction::where('category_id', $order->id)->first();
+            $transaction = Transaction::where('category_id', $order->id)->where('category', 'Pesanan')->orderBy('date')->get();
 
-            if (!$transaction) {
-                if ($order->down_payment > 0 && $current >= $order->date_start) {
-                    Transaction::create([
-                        'store_id' => $order->store_id,
-                        'category_id' => $order->id,
-                        'category' => 'Pesanan',
-                        'value' => $order->down_payment,
-                        'value_type' => 'Untung',
+            if ($transaction) {
+                if ($transaction[0]->date != $order->date_start || $transaction[0]->status != 'Selesai') {
+                    $transaction[0]->update([
                         'date' => $order->date_start,
+                        'status' => 'Selesai'
+                    ]);
+                } else if ($transaction[1]->date != $order->date_end) {
+                    $transaction[1]->update([
+                        'date' => $order->date_end
                     ]);
                 }
 
-                if ($order->status == 'Selesai') {
-                    $orderValue = $order->details->sum(function ($detail) {
-                        return $detail->product->price * $detail->quantity;
-                    });
-
-                    Transaction::create([
-                        'store_id' => $order->store_id,
-                        'category_id' => $order->id,
-                        'category' => 'Pesanan',
-                        'value' => $orderValue,
-                        'value_type' => 'Untung',
-                        'date' => $order->date_end,
+                if ($order->status != 'Selesai' && $transaction[1]->status == 'Selesai') {
+                    $transaction[1]->update([
+                        'status' => 'Menunggu'
+                    ]);
+                } else if ($order->status == 'Selesai' && $transaction[1]->status != 'Selesai') {
+                    $transaction[1]->update([
+                        'status' => 'Selesai'
                     ]);
                 }
             }
@@ -125,7 +121,7 @@ class TransactionCommand extends Command
         $expenses = Expense::whereIn('id', $expenseIds)->get();
 
         foreach ($expenses as $expense) {
-            $transaction = Transaction::where('category_id', $expense->id)->first();
+            $transaction = Transaction::where('category_id', $expense->id)->where('category', 'Biaya')->first();
 
             if (!$transaction && $current >= $expense->date) {
                 $loop = 1;
@@ -142,7 +138,7 @@ class TransactionCommand extends Command
                         'category_id' => $expense->id,
                         'category' => 'Biaya',
                         'value' => $expense->value,
-                        'value_type' => 'Rugi',
+                        'type' => 'Rugi',
                         'date' => $date,
                     ]);
                 }
@@ -161,7 +157,7 @@ class TransactionCommand extends Command
         $debts = Expense::whereIn('id', $debtIds)->get();
 
         foreach ($debts as $debt) {
-            $transaction = Transaction::where('category_id', $debt->id)->first();
+            $transaction = Transaction::where('category_id', $debt->id)->where('category', 'Hutang')->first();
 
             if (!$transaction && $current >= $debt->date_start) {
                 $loop = $current->diffInMonths($debt->date_end);
@@ -174,7 +170,7 @@ class TransactionCommand extends Command
                         'category_id' => $debt->id,
                         'category' => 'Hutang',
                         'value' => $debt->value * (1 + $debt->interest),
-                        'value_type' => 'Rugi',
+                        'type' => 'Rugi',
                         'date' => $date,
                     ]);
                 }

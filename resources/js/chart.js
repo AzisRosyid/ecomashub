@@ -29,6 +29,7 @@ const loadChart = () => {
             clearChart().then(s => fetch(window.location.origin + `/admin/dashboard?api`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     const { net_income, money_flow, orders } = data;
 
                     const profit = Array.from({ length: currentMonth + 1 }, (_, index) => {

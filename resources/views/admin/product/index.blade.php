@@ -116,7 +116,7 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua produk</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Produk</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
@@ -142,10 +142,9 @@
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Kategori</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Berat</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Satuan</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Harga</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Stok</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Berat</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Harga</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
@@ -166,10 +165,10 @@
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->category->name }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->weight }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->unit }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->formatted_price }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->stock }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->weight }} {{ $st->unit }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->formatted_price }}</td>
+
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
                                         <a href="{{ route('adminProductEdit', $st) }}"
@@ -252,7 +251,7 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua kategori</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Kategori</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">

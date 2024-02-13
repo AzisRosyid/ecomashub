@@ -24,6 +24,8 @@ class ProductController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
@@ -39,7 +41,7 @@ class ProductController extends Controller
             ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
                 $query->whereIn('category_id', $categoryIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 

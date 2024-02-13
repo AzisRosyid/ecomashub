@@ -20,14 +20,17 @@ class TransactionController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'date');
+        $method = $request->input('method', 'desc');
 
-        $query = Transaction::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Transaction::whereNull('store_id')->where('status', 'Selesai')->where(function ($query) use ($search) {
             $query->where('category', 'like', $search)
                 ->orWhere('value', 'like', $search)
-                ->orWhere('value_type', 'like', $search)
+                ->orWhere('type', 'like', $search)
+                ->orWhere('status', 'like', $search)
                 ->orWhere('date', 'like', $search);
         })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 
@@ -58,7 +61,7 @@ class TransactionController extends Controller
     //             'category_id' => 'required|integer',
     //             'category' => 'required|in:Kegiatan,Pesanan,Biaya,Hutang',
     //             'value' => 'required|numeric',
-    //             'value_type' => 'required|in:Untung,Rugi',
+    //             'type' => 'required|in:Untung,Rugi',
     //             'date' => 'required|date',
     //         ];
 
@@ -73,7 +76,7 @@ class TransactionController extends Controller
     //             'category_id' => $request->category_id,
     //             'category' => $request->category,
     //             'value' => $request->value,
-    //             'value_type' => $request->value_type,
+    //             'type' => $request->type,
     //             'date' => $request->date
     //         ]);
 

@@ -23,6 +23,8 @@ class ExpenseController extends Controller
         $search = '%' . $request->input('search', '') . '%';
         $pick = $request->input('pick', 10);
         $page = $request->input('page', 1);
+        $order = $request->input('order', 'id');
+        $method = $request->input('method', 'desc');
 
         $supplierIds = Supplier::where('name', 'like', $search)->pluck('id');
 
@@ -37,7 +39,7 @@ class ExpenseController extends Controller
             ->when($supplierIds->isNotEmpty(), function ($query) use ($supplierIds) {
                 $query->whereIn('id', $supplierIds);
             })
-            ->orderBy($request->input('order', 'id'), $request->input('method', 'asc'));
+            ->orderBy($order, $method);
 
         $total = $query->count();
 
