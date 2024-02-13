@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('role_id')->constrained(table: 'user_roles', indexName: 'role_id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained(table: 'user_roles')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('source_type', ['Internal', 'External']);
             $table->enum('gender', ['Laki-Laki', 'Perempuan']);
             $table->date('date_of_birth');
             $table->string('phone_number', 15);
             $table->string('address');
-            $table->foreignId('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('image')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
             $table->enum('status', ['Aktif', 'Menunggu', 'Blok']);
             $table->rememberToken();
             $table->timestamps();

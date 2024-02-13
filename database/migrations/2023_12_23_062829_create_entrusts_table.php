@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('entrusts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained(table: 'users', indexName: 'user_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('admin_id')->constrained(table: 'users', indexName: 'admin_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained(table: 'users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('admin_id')->constrained(table: 'users')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
             $table->double('price');
             $table->text('description')->nullable();

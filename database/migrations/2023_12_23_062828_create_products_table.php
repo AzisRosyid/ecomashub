@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->foreignId('category_id')->constrained(table: 'product_categories', indexName: 'category_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained(table: 'product_categories')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->double('weight');
             $table->enum('unit', ['Milligram', 'Gram', 'Kilogram']);
             $table->integer('stock');
             $table->double('price');
             $table->text('description')->nullable();
-            $table->foreignId('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('image')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->enum('category', ['Alat', 'Bahan', 'Properti']);
             $table->integer('quantity');
-            $table->foreignId('unit_id')->constrained(table: 'asset_units', indexName: 'unit_id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('unit_id')->constrained(table: 'asset_units')->onUpdate('cascade')->onDelete('cascade');
             $table->string('location');
-            $table->foreignId('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('image')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->enum('status', ['Tersedia', 'Dipinjam', 'Digunakan']);
             $table->timestamps();
