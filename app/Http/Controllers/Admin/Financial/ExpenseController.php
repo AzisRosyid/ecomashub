@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Financial;
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -28,16 +29,20 @@ class ExpenseController extends Controller
 
         $supplierIds = Supplier::where('name', 'like', $search)->pluck('id');
 
-        $query = Expense::where('store_id', null)->where(function ($query) use ($search) {
-            $query->where('name', 'like', $search)
-                ->orWhere('value', 'like', $search)
-                ->orWhere('description', 'like', $search)
-                ->orWhere('interval', 'like', $search)
-                ->orWhere('type', 'like', $search)
-                ->orWhere('date', 'like', $search);
-        })
-            ->when($supplierIds->isNotEmpty(), function ($query) use ($supplierIds) {
-                $query->whereIn('id', $supplierIds);
+        $query = Expense::whereNull('store_id')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'like', $search)
+                    ->orWhere('value', 'like', $search)
+                    ->orWhere('description', 'like', $search)
+                    ->orWhere('interval', 'like', $search)
+                    ->orWhere('type', 'like', $search)
+                    ->orWhere('date_start', 'like', $search)
+                    ->orWhere('date_end', 'like', $search);
+            })
+            ->where(function ($query) use ($supplierIds) {
+                $query->when($supplierIds->isNotEmpty(), function ($query) use ($supplierIds) {
+                    $query->whereIn('supplier_id', $supplierIds);
+                })->orWhereNull('supplier_id');
             })
             ->orderBy($order, $method);
 
@@ -74,8 +79,9 @@ class ExpenseController extends Controller
             'supplier_id' => 'nullable|exists:suppliers,id',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
-            'interval' => 'nullable|integer|required_if:type,Rutin',
-            'date' => 'required|date',
+            'interval' => 'nullable|required_if:type,Rutin|integer',
+            'date_start' => 'required|date',
+            'date_end' => 'nullable|required_if:type,Rutin|date|after:date_start',
             'description' => 'nullable|string'
         ];
 
@@ -91,7 +97,8 @@ class ExpenseController extends Controller
             'name' => $request->name,
             'value' => $request->value,
             'type' => $request->type,
-            'date' => $request->date,
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'interval' => $request->interval,
             'description' => $request->description
         ]);
@@ -130,8 +137,9 @@ class ExpenseController extends Controller
             'supplier_id' => 'nullable|exists:suppliers,id',
             'value' => 'required|numeric',
             'type' => 'required|in:Sekali,Rutin',
-            'interval' => 'nullable|integer|required_if:type,Rutin',
-            'date' => 'required|date',
+            'interval' => 'nullable|required_if:type,Rutin|integer',
+            'date_start' => 'required|date',
+            'date_end' => 'nullable|required_if:type,Rutin|date|after:date_start',
             'description' => 'nullable|string'
         ];
 
@@ -147,9 +155,11 @@ class ExpenseController extends Controller
             'name' => $request->name,
             'value' => $request->value,
             'type' => $request->type,
-            'date' => $request->date,
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'interval' => $request->interval,
-            'description' => $request->description
+            'description' => $request->description,
+            'is_updated' => true,
         ]);
 
         return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil diperbarui!');

@@ -68,6 +68,13 @@ class DashboardController extends Controller
                 }
             }
 
+
+            $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$currentMonth])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+                ->whereYear('date', $currentYear)
+                ->first();
+
             $currentMonthMoneyFlow = 0;
 
             $lastMonthMoneyFlow = 0;

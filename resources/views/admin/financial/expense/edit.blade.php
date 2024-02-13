@@ -85,16 +85,31 @@
                 </div>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="interval" id="intervalTitle" class="sm:w-40 block">Interval (bulan)</label>
+                <label for="interval" id="intervalLabel"
+                    class="sm:w-40 block">{{ (old('type') ?? $expense->type) === 'Rutin' ? 'Interval (bulan)*' : 'interval (bulan)' }}</label>
                 <input type="number" name="interval" id="interval"
                     class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Interval"
+                    {{ (old('type') ?? $expense->type) === 'Rutin' ? 'required' : 'disabled' }}
                     value="{{ old('interval') ?? $expense->interval }}">
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="tanggal" class="sm:w-40 block">Tanggal*</label>
-                <input type="datetime-local" name="date" id="tanggal"
-                    class="outline-none border text-gray-400 border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Tanggal" value="{{ old('date') ?? $expense->date }}" required>
+                <label for="" class="sm:w-40 block">Waktu</label>
+                <div class="flex sm:w-[600px]">
+                    <div>
+                        <label for="mulai" class="block">Tanggal mulai*</label>
+                        <input type="datetime-local" name="date_start"
+                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            value="{{ old('date_start') ?? $expense->date_start }}" required>
+                    </div>
+                    <div class="ms-6">
+                        <label for="selesai" class="block"
+                            id="dateEndLabel">{{ (old('type') ?? $expense->type) === 'Rutin' ? 'Tanggal selesai*' : 'Tanggal selesai' }}</label>
+                        <input type="datetime-local" name="date_end" id="dateEnd"
+                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            value="{{ old('date_end') ?? $expense->date_end }}"
+                            {{ (old('type') ?? $expense->type) === 'Rutin' ? 'required' : 'disabled' }}>
+                    </div>
+                </div>
             </div>
             <div class="flex justify-end mt-4">
                 <a href="{{ route('adminExpense') }}"

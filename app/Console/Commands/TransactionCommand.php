@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class TransactionCommand extends Command
 {
@@ -23,7 +24,7 @@ class TransactionCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Transaction Controller';
 
     /**
      * Execute the console command.
@@ -121,17 +122,23 @@ class TransactionCommand extends Command
         $expenses = Expense::whereIn('id', $expenseIds)->get();
 
         foreach ($expenses as $expense) {
-            $transaction = Transaction::where('category_id', $expense->id)->where('category', 'Biaya')->first();
+            $transaction = Transaction::where('category_id', $expense->id)->where('category', 'Biaya')->orderBy('date')->get();
 
-            if (!$transaction && $current >= $expense->date) {
+            if ($transaction && $expense->is_updated) {
+                foreach ($transaction as $st) {
+                    $st->delete();
+                }
+            }
+
+            if ((!$transaction || ($transaction && $expense->is_updated)) && $current >= $expense->date_start) {
                 $loop = 1;
 
-                if ($expense->type == 'Rutin') {
-                    $loop = floor(($current->diffInMonths($expense->date)) / $expense->interval);
+                if ($expense->type === 'Rutin') {
+                    $loop = ((Carbon::parse($expense->date_start)->diffInMonths(min($expense->date_end, $current))) / $expense->interval) + 1;
                 }
 
                 for ($i = 0; $i < $loop; $i++) {
-                    $date = $expense->date->addMonths($expense->interval * $i);
+                    $date = Carbon::parse($expense->date_start)->addMonths($expense->interval * $i);
 
                     Transaction::create([
                         'store_id' => $expense->store_id,
@@ -140,8 +147,11 @@ class TransactionCommand extends Command
                         'value' => $expense->value,
                         'type' => 'Rugi',
                         'date' => $date,
+                        'status' => 'Selesai'
                     ]);
                 }
+
+                $expense->update(['is_updated' => false]);
             }
         }
     }
@@ -172,6 +182,7 @@ class TransactionCommand extends Command
                         'value' => $debt->value * (1 + $debt->interest),
                         'type' => 'Rugi',
                         'date' => $date,
+
                     ]);
                 }
             }

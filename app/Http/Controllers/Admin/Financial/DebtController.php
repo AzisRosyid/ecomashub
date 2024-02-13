@@ -134,7 +134,8 @@ class DebtController extends Controller
             'interest' => $request->interest / 100,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
-            'description' => $request->description
+            'description' => $request->description,
+            'is_updated' => true,
         ]);
 
         return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil diperbarui!');

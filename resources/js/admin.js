@@ -28,8 +28,6 @@ const detailItems = document.querySelectorAll('.detail-item');
 const acceptUsers = document.querySelectorAll('.accept-user');
 const rejectUsers = document.querySelectorAll('.reject-user');
 const expenseTypes = document.querySelectorAll('.expense-type');
-const intervalInput = document.querySelector('#interval');
-const intervalTitle = document.querySelector('#intervalTitle');
 const productModal = document.querySelector('#productModal');
 
 // Financial Menu
@@ -144,15 +142,26 @@ if (closeReject != null) {
 }
 
 // Expense
-expenseTypes.forEach(function (element) {
-    element.addEventListener('change', function () {
-        const isRutin = element.value === 'Rutin';
-        intervalInput.disabled = !isRutin;
-        intervalInput.required = isRutin;
-        intervalTitle.innerHTML = isRutin ? 'Interval (bulan)*' : 'interval (bulan)';
-        intervalInput.value = null;
+if (expenseTypes.length > 0) {
+    const intervalInput = document.querySelector('#interval');
+    const intervalLabel = document.querySelector('#intervalLabel');
+    const dateEndInput = document.querySelector('#dateEnd');
+    const dateEndLabel = document.querySelector('#dateEndLabel');
+
+    expenseTypes.forEach(function (element) {
+        element.addEventListener('change', function () {
+            const isRutin = element.value === 'Rutin';
+            intervalInput.disabled = !isRutin;
+            intervalInput.required = isRutin;
+            intervalLabel.innerHTML = isRutin ? 'Interval (bulan)*' : 'interval (bulan)';
+            intervalInput.value = null;
+            dateEndInput.disabled = !isRutin;
+            dateEndInput.required = isRutin;
+            dateEndLabel.innerHTML = isRutin ? 'Tanggal selesai*' : 'Tanggal selesai';
+            dateEndInput.value = null;
+        });
     });
-});
+}
 
 // Order Modal
 if (productModal != null) {

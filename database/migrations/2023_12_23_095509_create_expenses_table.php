@@ -18,9 +18,11 @@ return new class extends Migration
             $table->foreignId('supplier_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->double('value');
             $table->enum('type', ['Sekali', 'Rutin']);
-            $table->dateTime('date');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end')->nullable();
             $table->integer('interval')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('is_updated')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

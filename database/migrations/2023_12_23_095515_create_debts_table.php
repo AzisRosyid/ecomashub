@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('date_start');
             $table->dateTime('date_end');
             $table->text('description')->nullable();
+            $table->boolean('is_updated')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

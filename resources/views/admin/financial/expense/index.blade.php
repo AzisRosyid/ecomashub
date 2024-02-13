@@ -169,7 +169,9 @@
                                         {{ $st->type }}
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->formatted_date }}</td>
+                                <td class="py-3 text-start px-3">
+                                    {!! $st->formatted_date_start . ($st->date_end ? '<br>' . $st->formatted_date_end : '') !!}
+                                </td>
                                 <td class="py-3 text-start px-3">
                                     {{ $st->interval == null ? 'Tidak Ada' : $st->interval . ' bulan' }}</td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">

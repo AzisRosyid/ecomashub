@@ -17,14 +17,16 @@ class Expense extends Model
         'value',
         'interval',
         'type',
-        'date'
+        'date_start',
+        'date_end',
+        'is_updated',
     ];
 
     use HasFactory;
 
     use SoftDeletes;
 
-    protected $dates = ['deleted_at', 'date'];
+    protected $dates = ['deleted_at', 'date_start', 'date_end'];
 
     public function getSupplierAttribute()
     {
@@ -36,8 +38,13 @@ class Expense extends Model
         return 'Rp' . number_format($this->attributes['value'], 0, ',', '.') . ',00';
     }
 
-    public function getFormattedDateAttribute()
+    public function getFormattedDateStartAttribute()
     {
-        return Carbon::parse($this->attributes['date'])->translatedFormat('H:i | d F Y');
+        return Carbon::parse($this->attributes['date_start'])->translatedFormat('H:i | d F Y');
+    }
+
+    public function getFormattedDateEndAttribute()
+    {
+        return Carbon::parse($this->attributes['date_end'])->translatedFormat('H:i | d F Y');
     }
 }
