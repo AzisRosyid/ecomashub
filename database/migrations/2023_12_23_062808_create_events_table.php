@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('organizer');
             $table->text('description')->nullable();
             $table->double('fund')->nullable();
-            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('file')->nullable()->constrained(table: 'media', indexName: 'file')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('file')->nullable()->constrained(table: 'media', indexName: 'file')->onUpdate('cascade')->onDelete('cascade');
             $table->string('location')->nullable();
             $table->enum('type', ['Luring', 'Daring']);
             $table->integer('theme');

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->double('price');
             $table->text('description')->nullable();
-            $table->string('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('image')->nullable()->constrained(table: 'media', indexName: 'image')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
