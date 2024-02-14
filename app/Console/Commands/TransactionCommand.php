@@ -130,7 +130,7 @@ class TransactionCommand extends Command
                 }
             }
 
-            if ((!$transaction || ($transaction && $expense->is_updated)) && $current >= $expense->date_start) {
+            if (($transaction->count() <= 0 || ($transaction && $expense->is_updated)) && $current >= $expense->date_start) {
                 $loop = 1;
 
                 if ($expense->type === 'Rutin') {

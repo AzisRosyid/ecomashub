@@ -68,20 +68,15 @@ class DashboardController extends Controller
                 }
             }
 
-
             $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$currentMonth])
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$currentMonth])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7) END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
                 ->whereYear('date', $currentYear)
                 ->first();
 
-            $currentMonthMoneyFlow = 0;
-
-            $lastMonthMoneyFlow = 0;
-
-            $percentageChangeMoneyFlow = 0;
-            if ($lastMonthMoneyFlow != 0) {
-                $percentageChangeMoneyFlow = (($currentMonthMoneyFlow - $lastMonthMoneyFlow) / $lastMonthMoneyFlow) * 100;
+            $percentageMoneyFlow = 0;
+            if ($moneyFlow->previous_month_total > 0) {
+                $percentageMoneyFlow = ($moneyFlow->current_month_total / $moneyFlow->previous_month_total) * 100;
             }
 
             $orders = Order::whereNull('store_id')
@@ -90,17 +85,15 @@ class DashboardController extends Controller
                 ->whereYear('date_start', $currentYear)
                 ->first();
 
-            // Calculate the percentage change in orders
             $percentageOrders = 0;
             if ($orders->previous_month_total != 0) {
                 $percentageOrders = (($orders->current_month_total - $orders->previous_month_total) / $orders->previous_month_total) * 100;
             }
 
-            // Return JSON response with the calculated values
             return response()->json([
                 'money_flow' => [
-                    'percentage' => number_format($percentageChangeMoneyFlow, 2),
-                    'comparison' => Method::comparisonStatus($currentMonthMoneyFlow, $lastMonthMoneyFlow),
+                    'percentage' => number_format($percentageMoneyFlow, 2),
+                    'comparison' => Method::comparisonStatus($moneyFlow->current_month_total, $moneyFlow->previous_month_total),
                 ],
                 'net_income' => [
                     'percentage' => number_format($percentageNetIncome, 2),

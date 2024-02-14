@@ -71,7 +71,7 @@
             </div>
             <!-- akhir chart -->
             <div class="sm:grid grid-cols-12 gap-3 mt-4">
-                <a href="anggota.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('adminUser') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['users'] }}</p>
                     </div>
                 </a>
-                <a href="aset.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('adminAsset') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +117,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['assets'] }}</p>
                     </div>
                 </a>
-                <a href="produk.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('adminProduct') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -140,7 +140,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['products'] }}</p>
                     </div>
                 </a>
-                <a href="pemasok.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('adminSupplier') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +163,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['suppliers'] }}</p>
                     </div>
                 </a>
-                <a href="penitipan.html" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="#" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -255,7 +255,8 @@
                                     class="w-12 h-12">
                                 <div class="ms-3">
                                     <p class="font-fredokaBold">{{ $st->title }}</p>
-                                    <p>{{ $st->formatted_date_start }}<br>{{ $st->formatted_date_end }}</p>
+                                    <p>Mulai: {{ $st->formatted_date_start }}, Selesai: {{ $st->formatted_date_end }}</p>
+                                    <p>Lokasi: {{ $st->location }}</p>
                                 </div>
                             </div>
                         @endforeach
