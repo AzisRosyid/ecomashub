@@ -53,13 +53,13 @@
                     class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 sm:w-[600px]" placeholder="Deskripsi">{{ old('description') ?? $expense->description }}</textarea>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Supplier</label>
-                <select name="supplier_id" id=""
-                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih supplier">
-                    <option value="">Pilih supplier</option>
-                    @foreach ($suppliers as $st)
+                <label for="" class="sm:w-40 block">Pemasok</label>
+                <select name="collaboration_id" id=""
+                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih collaboration">
+                    <option value="">Pilih pemasok</option>
+                    @foreach ($collaborations as $st)
                         <option value="{{ $st->id }}"
-                            {{ (old('supplier_id') ?? $expense->supplier_id) === $st->id ? 'selected' : '' }}>
+                            {{ (old('collaboration_id') ?? $expense->collaboration_id) === $st->id ? 'selected' : '' }}>
                             {{ $st->name }}
                         </option>
                     @endforeach

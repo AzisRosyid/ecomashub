@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\AssetController as AdminAssetController;
-use App\Http\Controllers\Admin\SupplierController as AdminSupplierController;
+use App\Http\Controllers\Admin\CollaborationController as AdminCollaborationController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\Unit\ProductCategoryController as AdminProductCategoryController;
@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\EcoFriendly\Unit\WasteTypeController as AdminWast
 use App\Http\Controllers\Admin\Financial\DebtController as AdminDebtController;
 use App\Http\Controllers\Admin\Financial\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseController;
+use App\Http\Controllers\Admin\Financial\CashController as AdminCashController;
 use App\Http\Controllers\Admin\Auth\ProfileController as AdminProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -104,14 +105,14 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::delete('/delete/{unit}', [AdminAssetUnitController::class, 'destroy'])->name('adminAssetUnitDestroy');
         });
 
-        // Supplier
-        Route::prefix('/supplier')->group(function () {
-            Route::get('/', [AdminSupplierController::class, 'index'])->name('adminSupplier');
-            Route::get('/create', [AdminSupplierController::class, 'create'])->name('adminSupplierCreate');
-            Route::post('/create', [AdminSupplierController::class, 'store'])->name('adminSupplierStore');
-            Route::get('/edit/{supplier}', [AdminSupplierController::class, 'edit'])->name('adminSupplierEdit');
-            Route::put('/edit/{supplier}', [AdminSupplierController::class, 'update'])->name('adminSupplierUpdate');
-            Route::delete('/delete/{supplier}', [AdminSupplierController::class, 'destroy'])->name('adminSupplierDestroy');
+        // Collaboration
+        Route::prefix('/collaboration')->group(function () {
+            Route::get('/', [AdminCollaborationController::class, 'index'])->name('adminCollaboration');
+            Route::get('/create', [AdminCollaborationController::class, 'create'])->name('adminCollaborationCreate');
+            Route::post('/create', [AdminCollaborationController::class, 'store'])->name('adminCollaborationStore');
+            Route::get('/edit/{collaboration}', [AdminCollaborationController::class, 'edit'])->name('adminCollaborationEdit');
+            Route::put('/edit/{collaboration}', [AdminCollaborationController::class, 'update'])->name('adminCollaborationUpdate');
+            Route::delete('/delete/{collaboration}', [AdminCollaborationController::class, 'destroy'])->name('adminCollaborationDestroy');
         });
 
         // Order
@@ -165,6 +166,16 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
         // Transaction
         Route::prefix('/transaction')->group(function () {
             Route::get('/', [AdminTransactionController::class, 'index'])->name('adminTransaction');
+        });
+
+        // Cash
+        Route::prefix('/cash')->group(function () {
+            Route::get('/', [AdminCashController::class, 'index'])->name('adminCash');
+            Route::get('/create', [AdminCashController::class, 'create'])->name('adminCashCreate');
+            Route::post('/create', [AdminCashController::class, 'store'])->name('adminCashStore');
+            Route::get('/edit/{cash}', [AdminCashController::class, 'edit'])->name('adminCashEdit');
+            Route::put('/edit/{cash}', [AdminCashController::class, 'update'])->name('adminCashUpdate');
+            Route::delete('/delete/{cash}', [AdminCashController::class, 'destroy'])->name('adminCashDestroy');
         });
 
         // Expense

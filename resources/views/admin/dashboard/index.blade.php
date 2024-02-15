@@ -90,7 +90,7 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total Anggota</p>
+                        <p class="font-fredokaRegular">Total Pengguna</p>
                         <p class="font-fredokaBold text-3xl">{{ $total['users'] }}</p>
                     </div>
                 </a>
@@ -140,7 +140,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['products'] }}</p>
                     </div>
                 </a>
-                <a href="{{ route('adminSupplier') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('adminCollaboration') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -159,8 +159,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="font-fredokaRegular">Total Pemasok</p>
-                        <p class="font-fredokaBold text-3xl">{{ $total['suppliers'] }}</p>
+                        <p class="font-fredokaRegular">Total Kolaborasi</p>
+                        <p class="font-fredokaBold text-3xl">{{ $total['collaborations'] }}</p>
                     </div>
                 </a>
                 <a href="#" class="col-span-4 flex p-2 border rounded-lg gap-3">

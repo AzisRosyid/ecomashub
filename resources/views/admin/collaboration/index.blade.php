@@ -7,7 +7,7 @@
         <div class="flex mx-4 sm:mx-10 justify-between border-b pb-4">
             <div>
                 <p class="text-zinc-700 text-2xl sm:text-[28px] font-semibold font-fredokaBold leading-9">
-                    Biaya
+                    Kolaborasi
                 </p>
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
@@ -15,7 +15,7 @@
                 @include('admin.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
-                <form action="{{ route('adminExpenseCreate') }}" class="">
+                <form action="{{ route('adminCollaborationCreate') }}" class="">
                     @csrf
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
@@ -36,7 +36,7 @@
                         </svg>
                         Export</button>
                 </form>
-                <a href="{{ route('adminExpenseCreate') }}"
+                <a href="{{ route('adminCollaborationCreate') }}"
                     class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
                     <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -44,7 +44,7 @@
                             d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
                             fill="#ffffff" />
                     </svg> Tambah
-                    Biaya</a>
+                    Kolaborasi</a>
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -71,7 +71,7 @@
                     </label>
 
                     <input id="search" type="text" class="outline-none ms-2 w-full" name="search"
-                        value="{{ request()->input('search') }}" placeholder="Cari biaya">
+                        value="{{ request()->input('search') }}" placeholder="Cari kolaborasi">
                 </div>
                 <div class="w-1/2 flex justify-end">
                     <div class="justify-end flex lg:hidden">
@@ -81,7 +81,7 @@
                                 <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                             </button>
                         </form>
-                        <a href="{{ route('adminExpenseCreate') }}"
+                        <a href="{{ route('adminCollaborationCreate') }}"
                             class="px-3 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex mx-1">
                             <svg class="" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -116,11 +116,11 @@
         <div class="border rounded-lg mt-4 py-3 sm:mx-10">
             <div class="flex justify-between px-6">
                 <div class="flex gap-2">
-                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Biaya</p>
+                    <p class="text-zinc-700 text-lg font-semibold font-fredokaBold leading-9">Semua Kolaborasi</p>
                     <div class="items-center inline-flex">
                         <div
                             class="rounded-full bg-lime-50 border border-green-600 items-center inline-flex text-xs font-fredokaRegular text-green-600 h-5 px-2 mx-auto">
-                            {{ $total }} biaya
+                            {{ $total }} kolaborasi
                         </div>
                     </div>
                 </div>
@@ -141,17 +141,16 @@
                     <head class="">
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Pemasok</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Nilai</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Tipe</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
-                            <th class="bg-gray-200 py-3 text-start px-3">Interval</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Email</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Nomor Telepon</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Alamat</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Status</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
 
                     <body>
-                        @foreach ($expenses as $index => $st)
+                        @foreach ($collaborations as $index => $st)
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3 flex">
                                     <div id="" class="ms-2 cursor-pointer detail-item">
@@ -161,28 +160,24 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->expense->name ?? 'Tidak Ada' }}</td>
-                                <td class="py-3 text-start px-3">{{ $st->formatted_value }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->email }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->phone_number }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->address }}</td>
                                 <td class="py-3 text-start px-3 items-center">
                                     <div
-                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->type == 'Rutin' ? 'text-green-600 border-green-600' : ($st->type == 'Sekali' ? 'text-amber-400 border-amber-400' : '') }}">
-                                        {{ $st->type }}
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->status == 'Aktif' ? 'text-green-600 border-green-600' : ($st->status == 'Nonaktif' ? 'text-red-500 border-red-500' : '') }}">
+                                        {{ $st->status }}
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">
-                                    {!! $st->formatted_date_start . ($st->date_end ? '<br>' . $st->formatted_date_end : '') !!}
-                                </td>
-                                <td class="py-3 text-start px-3">
-                                    {{ $st->interval == null ? 'Tidak Ada' : $st->interval . ' bulan' }}</td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
-                                        <a href="{{ route('adminExpenseEdit', $st) }}"
+                                        <a href="{{ route('adminCollaborationEdit', $st) }}"
                                             class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
                                             <div
                                                 class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
                                                 Edit</div>
                                         </a>
-                                        <form action="{{ route('adminExpenseDestroy', $st) }}" method="POST"
+                                        <form action="{{ route('adminCollaborationDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
                                             @csrf
@@ -203,7 +198,7 @@
 
             {{-- Make navigator working --}}
             <div class="flex justify-between mt-4 px-4">
-                <a href="{{ $expenses->previousPageUrl() }}"
+                <a href="{{ $collaborations->previousPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -224,14 +219,14 @@
                 </a>
                 <div class="flex">
                     @for ($i = 1; $i <= $pages; $i++)
-                        <a href="{{ $expenses->url($i) }}"
+                        <a href="{{ $collaborations->url($i) }}"
                             class="w-8 p-2.5 bg-gray-50 rounded-lg flex-col justify-center items-center gap-2.5 inline-flex @if ($page == $i) bg-lime-600 text-white @endif">
                             <div class="text-sm font-normal font-fredokaRegular leading-tight">
                                 {{ $i }}</div>
                         </a>
                     @endfor
                 </div>
-                <a href="{{ $expenses->nextPageUrl() }}"
+                <a href="{{ $collaborations->nextPageUrl() }}"
                     class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                     <p class="hidden sm:block">Selanjutnya</p>
                     <svg class="ms-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -278,22 +273,22 @@
             </svg>
         </a>
         <div class="border-b">
-            <label for="biaya" class="block">Tipe biaya</label>
-            <select name="biaya" id="biaya" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
+            <label for="kolaborasi" class="block">Tipe kolaborasi</label>
+            <select name="kolaborasi" id="kolaborasi" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
                 <option value="semuaTipe">Semua tipe</option>
                 <option value="Luring">Luring</option>
                 <option value="Daring">Daring</option>
             </select>
         </div>
         <div class="border-b mt-4">
-            <label for="harga" class="block">Dana biaya</label>
+            <label for="harga" class="block">Dana kolaborasi</label>
             <input type="number" id="harga" class="w-full outline-none border p-2 rounded-lg mt-2"
                 placeholder="Harga minimum">
             <input type="number" id="harga" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4"
                 placeholder="Harga maksimum">
         </div>
         <div class="border-b mt-4">
-            <label for="kegiatan1" class="block">Tipe biaya</label>
+            <label for="kegiatan1" class="block">Tipe kolaborasi</label>
             <select name="kegiatan1" id="kegiatan1" class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
                 <option value="semuaTipe">Semua tipe</option>
                 <option value="Luring">Luring</option>
@@ -301,7 +296,7 @@
             </select>
         </div>
         <div class="border-b mt-4">
-            <label for="pelaksanaan" class="block">Pelaksanaan biaya</label>
+            <label for="pelaksanaan" class="block">Pelaksanaan kolaborasi</label>
             <select name="pelaksanaan id=" pelaksanaan class="w-full outline-none border p-2 rounded-lg mt-2 mb-4">
                 <option value="semuaWaktu">Semua waktu</option>
                 <option value="Luring">Luring</option>
@@ -328,12 +323,12 @@
         </div>
     </div>
     <!-- end filter -->
-    <!-- detail biaya -->
+    <!-- detail kolaborasi -->
     <div class="hidden w-full h-full bg-[rgba(0,0,0,0.5)] fixed z-10 top-0 left-0 justify-end" id="bgDetail"></div>
     <div id="isiDetail"
         class="hidden sm:w-[900px] h-auto p-8 bg-white rounded-2xl fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="font-fredokaRegular pt-4">
-            <p class="text-xl font-fredokaBold">Nama Biaya</p>
+            <p class="text-xl font-fredokaBold">Nama Kolaborasi</p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque officia quisquam blanditiis libero
             perferendis harum illo vel, voluptatum exercitationem necessitatibus ipsam voluptates, amet possimus
             voluptas enim ea. Ipsam, quisquam commodi?

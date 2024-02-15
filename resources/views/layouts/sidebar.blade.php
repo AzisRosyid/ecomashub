@@ -85,8 +85,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('adminSupplier') }}"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminSupplier') sidebar-active @endif">
+                    <a href="{{ route('adminCollaboration') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminCollaboration') sidebar-active @endif">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -102,7 +102,7 @@
                                 <rect y="0.544434" width="24" height="24" fill="#394149" />
                             </g>
                         </svg>
-                        <p class="ms-2">Pemasok</p>
+                        <p class="ms-2">Kolaborasi</p>
                     </a>
                 </li>
                 <li>
@@ -292,6 +292,10 @@
                         <li
                             class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminTransaction') list-active @endif">
                             <a href="{{ route('adminTransaction') }}" class="">Transaksi</a>
+                        </li>
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminCash') list-active @endif">
+                            <a href="{{ route('adminCash') }}" class="">Kas</a>
                         </li>
                         <li
                             class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminExpense') list-active @endif">

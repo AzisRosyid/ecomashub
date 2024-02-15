@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
-use App\Models\Expense;
+use App\Models\Cash;
 use App\Models\Collaboration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ExpenseController extends Controller
+class CashController extends Controller
 {
-    private $route = 'adminExpense';
+    private $route = 'adminCash';
     private $types = ['Sekali', 'Rutin'];
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class ExpenseController extends Controller
 
         $collaborationIds = Collaboration::where('name', 'like', $search)->pluck('id');
 
-        $query = Expense::whereNull('store_id')
+        $query = Cash::whereNull('store_id')
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('value', 'like', $search)
@@ -48,12 +48,12 @@ class ExpenseController extends Controller
 
         $total = $query->count();
 
-        $expenses = $query->paginate($pick, ['*'], 'page', $page);
-        $expenses->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+        $cashes = $query->paginate($pick, ['*'], 'page', $page);
+        $cashes->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
+        return view('admin.financial.cash.index', compact('route', 'acc', 'cashes', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -66,7 +66,7 @@ class ExpenseController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
 
-        return view('admin.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
+        return view('admin.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
     }
 
     /**
@@ -91,7 +91,7 @@ class ExpenseController extends Controller
             return back()->withInput($request->all())->withErrors(['biaya' => $validator->errors()->first()]);
         }
 
-        Expense::create([
+        Cash::create([
             'store_id' => null,
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
@@ -103,13 +103,13 @@ class ExpenseController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil dibuat!');
+        return redirect()->route('adminCash')->with('message', 'Kas telah berhasil dibuat!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Expense $expense)
+    public function show(Cash $cash)
     {
         //
     }
@@ -117,20 +117,20 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Expense $expense)
+    public function edit(Cash $cash)
     {
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
 
-        return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
+        return view('admin.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, Cash $cash)
     {
         $rules = [
             'name' => 'required|string',
@@ -149,7 +149,7 @@ class ExpenseController extends Controller
             return back()->withInput($request->all())->withErrors(['biaya' => $validator->errors()->first()]);
         }
 
-        $expense->update([
+        $cash->update([
             'store_id' => null,
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
@@ -162,16 +162,16 @@ class ExpenseController extends Controller
             'is_updated' => true,
         ]);
 
-        return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil diperbarui!');
+        return redirect()->route('adminCash')->with('message', 'Kas telah berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Expense $expense)
+    public function destroy(Cash $cash)
     {
-        $expense->delete();
+        $cash->delete();
 
-        return redirect()->route('adminExpense')->with('message', 'Biaya telah berhasil dihapus!');
+        return redirect()->route('adminCash')->with('message', 'Kas telah berhasil dihapus!');
     }
 }

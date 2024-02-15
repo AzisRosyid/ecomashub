@@ -167,13 +167,19 @@ class TransactionCommand extends Command
         $debts = Expense::whereIn('id', $debtIds)->get();
 
         foreach ($debts as $debt) {
-            $transaction = Transaction::where('category_id', $debt->id)->where('category', 'Hutang')->first();
+            $transaction = Transaction::where('category_id', $debt->id)->where('category', 'Hutang')->get();
 
-            if (!$transaction && $current >= $debt->date_start) {
-                $loop = $current->diffInMonths($debt->date_end);
+            if ($transaction && $debt->is_updated) {
+                foreach ($transaction as $st) {
+                    $st->delete();
+                }
+            }
+
+            if (($transaction->count() <= 0 || ($transaction && $debt->is_updated)) && $current >= $debt->date_start) {
+                $loop = ((Carbon::parse($debt->date_start)->diffInMonths(min($debt->date_end, $current))) / $debt->interval) + 1;
 
                 for ($i = 0; $i < $loop; $i++) {
-                    $date = $debt->date_start->addMonths($i);
+                    $date = Carbon::parse($debt->date_start)->addMonths($debt->interval * $i);
 
                     Transaction::create([
                         'store_id' => $debt->store_id,
@@ -182,7 +188,7 @@ class TransactionCommand extends Command
                         'value' => $debt->value * (1 + $debt->interest),
                         'type' => 'Rugi',
                         'date' => $date,
-
+                        'status' => 'Selesai'
                     ]);
                 }
             }

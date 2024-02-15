@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Supplier extends Model
+class Collaboration extends Model
 {
     protected $fillable = [
         'name',
+        'type',
         'email',
         'phone_number',
         'address',

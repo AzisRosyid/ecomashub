@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Store;
-use App\Models\Supplier;
+use App\Models\Collaboration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class SupplierController extends Controller
+class CollaborationController extends Controller
 {
-    private $route = 'adminSupplier';
+    private $route = 'adminCollaboration';
+    private $types = ['Mitra', 'Pemasok', 'Konsumen'];
     private $status = ['Aktif', 'Nonaktif'];
 
     /**
@@ -28,8 +28,9 @@ class SupplierController extends Controller
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
 
-        $query = Supplier::where(function ($query) use ($search) {
+        $query = Collaboration::where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
+                ->orWhere('type', 'like', $search)
                 ->orWhere('email', 'like', $search)
                 ->orWhere('phone_number', 'like', $search)
                 ->orWhere('address', 'like', $search)
@@ -40,12 +41,12 @@ class SupplierController extends Controller
 
         $total = $query->count();
 
-        $suppliers = $query->paginate($pick, ['*'], 'page', $page);
-        $suppliers->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
+        $collaborations = $query->paginate($pick, ['*'], 'page', $page);
+        $collaborations->appends(['search' => $request->input('search', ''), 'pick' => $pick]);
 
         $pages = ceil($total / $pick);
 
-        return view('admin.supplier.index', compact('route', 'acc', 'suppliers', 'pick', 'page', 'total', 'pages'));
+        return view('admin.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -54,10 +55,11 @@ class SupplierController extends Controller
     public function create()
     {
         $route = $this->route;
+        $types = $this->types;
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.supplier.create', compact('route', 'acc', 'status'));
+        return view('admin.collaboration.create', compact('route', 'acc', 'status', 'types'));
     }
 
     /**
@@ -67,6 +69,7 @@ class SupplierController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'type' => 'required|in:Mitra,Pemasok,Konsumen',
             'email' => 'required|string|email|unique:users',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
@@ -77,11 +80,12 @@ class SupplierController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return back()->withInput($request->all())->withErrors(['supplier' => $validator->errors()->first()]);
+            return back()->withInput($request->all())->withErrors(['collaboration' => $validator->errors()->first()]);
         }
 
-        Supplier::create([
+        Collaboration::create([
             'name' => $request->name,
+            'type' => $request->type,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
@@ -89,13 +93,13 @@ class SupplierController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil dibuat!');
+        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dibuat!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show(Collaboration $collaboration)
     {
         //
     }
@@ -103,27 +107,29 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function edit(Collaboration $collaboration)
     {
         $route = $this->route;
+        $types = $this->types;
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.supplier.edit', compact('route', 'acc', 'status', 'supplier'));
+        return view('admin.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, Collaboration $collaboration)
     {
         $rules = [
             'name' => 'required|string',
+            'type' => 'required|in:Mitra,Pemasok,Konsumen',
             'email' => [
                 'required',
                 'string',
                 'email',
-                Rule::unique('suppliers')->ignore($supplier->id),
+                Rule::unique('collaborations')->ignore($collaboration->id),
             ],
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
@@ -134,11 +140,12 @@ class SupplierController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return back()->withInput($request->all())->withErrors(['supplier' => $validator->errors()->first()]);
+            return back()->withInput($request->all())->withErrors(['collaboration' => $validator->errors()->first()]);
         }
 
-        $supplier->update([
+        $collaboration->update([
             'name' => $request->name,
+            'type' => $request->type,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
@@ -146,16 +153,16 @@ class SupplierController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil diperbarui!');
+        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Collaboration $collaboration)
     {
-        $supplier->delete();
+        $collaboration->delete();
 
-        return redirect()->route('adminSupplier')->with('message', 'Pemasok telah berhasil dihapus!');
+        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dihapus!');
     }
 }

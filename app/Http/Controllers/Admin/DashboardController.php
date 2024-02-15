@@ -9,7 +9,7 @@ use App\Models\Entrust;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Supplier;
+use App\Models\Collaboration;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Waste;
@@ -67,6 +67,7 @@ class DashboardController extends Controller
                     $percentageNetIncome = ($netIncome->previous_month_total / $netIncome->current_month_total) * 100;
                 }
             }
+            // Absolute formula
 
             $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$currentMonth])
@@ -96,7 +97,7 @@ class DashboardController extends Controller
                     'comparison' => Method::comparisonStatus($moneyFlow->current_month_total, $moneyFlow->previous_month_total),
                 ],
                 'net_income' => [
-                    'percentage' => number_format($percentageNetIncome, 2),
+                    'percentage' => number_format(abs($percentageNetIncome), 2),
                     'comparison' => Method::comparisonStatus($netIncome->current_month_total, $netIncome->previous_month_total),
                     'profit_data' => $profit,
                     'loss_data' => $loss
@@ -117,7 +118,7 @@ class DashboardController extends Controller
             'users' => User::count(),
             'assets' => Asset::count(),
             'products' => Product::count(),
-            'suppliers' => Supplier::count(),
+            'collaborations' => Collaboration::count(),
             'entrusts' => Entrust::count(),
             'wastes' => Waste::count()
         ];
