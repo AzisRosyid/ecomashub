@@ -143,6 +143,9 @@
                                             @case('Kegiatan')
                                                 text-amber-400 border-amber-400
                                                 @break
+                                            @case('Kas')
+                                                bg-lime-50 text-green-600 border-green-600
+                                                @break
                                             @case('Biaya')
                                                 text-red-500 border-red-500
                                                 @break

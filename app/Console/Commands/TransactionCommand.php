@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Cash;
 use App\Models\Debt;
 use App\Models\Event;
 use App\Models\Expense;
@@ -37,6 +38,7 @@ class TransactionCommand extends Command
 
         $this->eventTransaction($current);
         $this->orderTransaction($current);
+        $this->cashTransaction($current);
         $this->expenseTransaction($current);
         $this->debtTransaction($current);
     }
@@ -107,6 +109,51 @@ class TransactionCommand extends Command
                         'status' => 'Selesai'
                     ]);
                 }
+            }
+        }
+    }
+
+    private function cashTransaction($current)
+    {
+        $cashIds = Cash::pluck('id')->toArray();
+
+        Transaction::where('category', 'Kas')
+            ->whereNotIn('category_id', $cashIds)
+            ->delete();
+
+        $cashes = Expense::whereIn('id', $cashIds)->get();
+
+        foreach ($cashes as $cash) {
+            $transaction = Transaction::where('category_id', $cash->id)->where('category', 'Kas')->orderBy('date')->get();
+
+            if ($transaction && $cash->is_updated) {
+                foreach ($transaction as $st) {
+                    $st->delete();
+                }
+            }
+
+            if (($transaction->count() <= 0 || ($transaction && $cash->is_updated)) && $current >= $cash->date_start) {
+                $loop = 1;
+
+                if ($cash->type === 'Rutin') {
+                    $loop = ((Carbon::parse($cash->date_start)->diffInMonths(min($cash->date_end, $current))) / $cash->interval) + 1;
+                }
+
+                for ($i = 0; $i < $loop; $i++) {
+                    $date = Carbon::parse($cash->date_start)->addMonths($cash->interval * $i);
+
+                    Transaction::create([
+                        'store_id' => $cash->store_id,
+                        'category_id' => $cash->id,
+                        'category' => 'Biaya',
+                        'value' => $cash->value,
+                        'type' => 'Untung',
+                        'date' => $date,
+                        'status' => 'Selesai'
+                    ]);
+                }
+
+                $cash->update(['is_updated' => false]);
             }
         }
     }

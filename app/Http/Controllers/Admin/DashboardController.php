@@ -67,7 +67,6 @@ class DashboardController extends Controller
                     $percentageNetIncome = ($netIncome->previous_month_total / $netIncome->current_month_total) * 100;
                 }
             }
-            // Absolute formula
 
             $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$currentMonth])

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('store_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('category_id');
-            $table->enum('category', ['Kegiatan', 'Pesanan', 'Biaya', 'Hutang']);
+            $table->enum('category', ['Kegiatan', 'Pesanan', 'Kas', 'Biaya', 'Hutang']);
             $table->double('value');
             $table->enum('type', ['Untung', 'Rugi']);
             $table->dateTime('date');

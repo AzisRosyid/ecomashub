@@ -141,6 +141,7 @@
                     <head class="">
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Jenis</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Email</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Nomor Telepon</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Alamat</th>
@@ -158,6 +159,12 @@
                                         <p class="w-24 text-xs text-slate-500 overflow-hidden h-4">
                                             {{ $st->description ?? 'Tidak Ada' }}
                                         </p>
+                                    </div>
+                                </td>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border px-2 mx-auto items-center inline-flex font-fredokaRegular {{ $st->type == 'Mitra' ? 'text-green-600 border-green-600' : ($st->type == 'Pemasok' ? 'text-red-500 border-red-500' : 'text-amber-400 border-amber-400') }}">
+                                        {{ $st->type }}
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->email }}</td>

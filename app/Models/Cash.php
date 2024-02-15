@@ -28,7 +28,7 @@ class Cash extends Model
 
     protected $dates = ['deleted_at', 'date_start', 'date_end'];
 
-    public function getSupplierAttribute()
+    public function getCollaborationAttribute()
     {
         return Collaboration::find($this->attributes['collaboration_id']);
     }

@@ -236,7 +236,7 @@
             <ul class="ps-10 pt-3">
                 <li class="mb-6">
                     <a id="keuangan"
-                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminTransaction' || $route == 'adminExpense' || $route == 'adminDebt') sidebar-active @endif cursor-pointer">
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminTransaction' || $route == 'adminExpense' || $route == 'adminDebt' || $route == 'adminCash') sidebar-active @endif cursor-pointer">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -288,11 +288,7 @@
 
 
                     </a>
-                    <ul class="ms-6 @if ($route != 'adminTransaction' && $route != 'adminExpense' && $route != 'adminDebt') hidden @endif" id="menuKeuangan">
-                        <li
-                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminTransaction') list-active @endif">
-                            <a href="{{ route('adminTransaction') }}" class="">Transaksi</a>
-                        </li>
+                    <ul class="ms-6 @if ($route != 'adminTransaction' && $route != 'adminExpense' && $route != 'adminDebt' && $route != 'adminCash') hidden @endif" id="menuKeuangan">
                         <li
                             class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminCash') list-active @endif">
                             <a href="{{ route('adminCash') }}" class="">Kas</a>
@@ -304,6 +300,10 @@
                         <li
                             class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminDebt') list-active @endif">
                             <a href="{{ route('adminDebt') }}" class="">Hutang</a>
+                        </li>
+                        <li
+                            class="py-2 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 @if ($route == 'adminTransaction') list-active @endif">
+                            <a href="{{ route('adminTransaction') }}" class="">Transaksi</a>
                         </li>
                     </ul>
                 </li>

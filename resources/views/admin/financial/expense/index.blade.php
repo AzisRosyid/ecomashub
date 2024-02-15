@@ -161,7 +161,7 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="py-3 text-start px-3">{{ $st->expense->name ?? 'Tidak Ada' }}</td>
+                                <td class="py-3 text-start px-3">{{ $st->collaboration->name ?? 'Tidak Ada' }}</td>
                                 <td class="py-3 text-start px-3">{{ $st->formatted_value }}</td>
                                 <td class="py-3 text-start px-3 items-center">
                                     <div
