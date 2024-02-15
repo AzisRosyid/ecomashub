@@ -11,9 +11,7 @@ export default defineConfig({
                 'resources/js/auth.js',
                 'resources/js/admin.js',
                 'resources/js/dashboard.js',
-                'resources/js/chart.js',
                 'resources/js/chart.umd.js',
-                'resources/js/calendar.js',
                 'resources/js/script.js',
                 'resources/js/firebase.js'
             ],

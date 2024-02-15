@@ -248,18 +248,18 @@
                     <div class="py-4 bg-slate-200 px-4">
                         <p class="font-fredokaBold text-3xl">Kegiatan</p>
                     </div>
-                    <div class="px-4 font-fredokaRegular h-[298px] overflow-y-scroll">
-                        @foreach ($events as $st)
+                    <div class="px-4 font-fredokaRegular h-[298px] overflow-y-scroll" id="eventCalendar"
+                        defaultImg="{{ Vite::asset('resources/images/logo.png') }}">
+                        {{-- @foreach ($events as $st)
                             <div class="flex py-3 border-b">
-                                <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
-                                    class="w-12 h-12">
+                                <img src="" alt="" class="w-12 h-12">
                                 <div class="ms-3">
                                     <p class="font-fredokaBold">{{ $st->title }}</p>
                                     <p>Mulai: {{ $st->formatted_date_start }}, Selesai: {{ $st->formatted_date_end }}</p>
                                     <p>Lokasi: {{ $st->location }}</p>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                 </div>
             </div>

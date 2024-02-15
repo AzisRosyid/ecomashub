@@ -13,8 +13,7 @@
     {{-- Dashboard --}}
     @if ($route == 'adminDashboard')
         <script src="{{ Vite::asset('resources/js/chart.umd.js') }}" type="module"></script>
-        <script src="{{ Vite::asset('resources/js/calendar.js') }}" type="module"></script>
-        <script src="{{ Vite::asset('resources/js/chart.js') }}" type="module"></script>
+        <script src="{{ Vite::asset('resources/js/dashboard.js') }}" type="module"></script>
     @endif
 
     {{-- Admin --}}

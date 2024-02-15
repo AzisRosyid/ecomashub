@@ -35,6 +35,8 @@ class DashboardController extends Controller
         $currentYear = Carbon::now()->year;
         $currentMonth = Carbon::now()->month;
 
+        $month = $request->input('month', $currentMonth);
+
         if ($request->has('api')) {
             $profit = Transaction::whereNull('store_id')->where('type', 'Untung')->where('status', 'Selesai')
                 ->whereYear('date', $currentYear)
@@ -53,9 +55,15 @@ class DashboardController extends Controller
                 ->groupBy('month')
                 ->get();
 
+            $event = Event::whereNull('store_id')->whereYear('date_start', $currentYear)
+                ->whereMonth('date_start', $month)
+                ->orWhereMonth('date_end', $month)
+                ->orderBy('date_start')
+                ->get();
+
             $netIncome = Transaction::whereNull('store_id')->where('status', 'Selesai')
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$currentMonth])
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$month])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date', $currentYear)
                 ->first();
 
@@ -69,8 +77,8 @@ class DashboardController extends Controller
             }
 
             $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$currentMonth])
-                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7) END ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$month])
+                ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7) END ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date', $currentYear)
                 ->first();
 
@@ -80,8 +88,8 @@ class DashboardController extends Controller
             }
 
             $orders = Order::whereNull('store_id')
-                ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as current_month_total', [$currentMonth])
-                ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as previous_month_total', [$currentMonth - 1])
+                ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as current_month_total', [$month])
+                ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date_start', $currentYear)
                 ->first();
 
@@ -105,6 +113,9 @@ class DashboardController extends Controller
                     'percentage' => number_format($percentageOrders, 2),
                     'comparison' => Method::comparisonStatus($orders->current_month_total, $orders->previous_month_date),
                     'data' => $order
+                ],
+                'events' => [
+                    'data' => $event
                 ]
             ], 200);
         }
