@@ -69,11 +69,11 @@
                     value="{{ old('value') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="" class="sm:w-40 block">Jenis biaya*</label>
+                <label for="" class="sm:w-40 block">Jenis kas*</label>
                 <div class="flex sm:w-[600px] mb-4">
                     @foreach ($types as $index => $st)
                         <div class="flex @if ($index > 0) ms-6 @endif">
-                            <input type="radio" name="type" class="expense-type" value="{{ $st }}"
+                            <input type="radio" name="type" class="cash-type" value="{{ $st }}"
                                 id="{{ strtolower($st) }}" @if ($index === 0) required @endif
                                 @if (old('type') == $st) checked @endif>
                             <label for="{{ strtolower($st) }}" class="ms-2">{{ $st }}</label>

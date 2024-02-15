@@ -121,18 +121,18 @@ class TransactionCommand extends Command
             ->whereNotIn('category_id', $cashIds)
             ->delete();
 
-        $cashes = Expense::whereIn('id', $cashIds)->get();
+        $cashes = Cash::whereIn('id', $cashIds)->get();
 
         foreach ($cashes as $cash) {
-            $transaction = Transaction::where('category_id', $cash->id)->where('category', 'Kas')->orderBy('date')->get();
+            $transactions = Transaction::where('category_id', $cash->id)->where('category', 'Kas')->orderBy('date')->get();
 
-            if ($transaction && $cash->is_updated) {
-                foreach ($transaction as $st) {
+            if ($transactions->count() > 0 && $cash->is_updated) {
+                foreach ($transactions as $st) {
                     $st->delete();
                 }
             }
 
-            if (($transaction->count() <= 0 || ($transaction && $cash->is_updated)) && $current >= $cash->date_start) {
+            if (($transactions->count() <= 0 || ($transactions->count() > 0 && $cash->is_updated)) && $current >= $cash->date_start) {
                 $loop = 1;
 
                 if ($cash->type === 'Rutin') {
@@ -145,7 +145,7 @@ class TransactionCommand extends Command
                     Transaction::create([
                         'store_id' => $cash->store_id,
                         'category_id' => $cash->id,
-                        'category' => 'Biaya',
+                        'category' => 'Kas',
                         'value' => $cash->value,
                         'type' => 'Untung',
                         'date' => $date,
@@ -169,15 +169,15 @@ class TransactionCommand extends Command
         $expenses = Expense::whereIn('id', $expenseIds)->get();
 
         foreach ($expenses as $expense) {
-            $transaction = Transaction::where('category_id', $expense->id)->where('category', 'Biaya')->orderBy('date')->get();
+            $transactions = Transaction::where('category_id', $expense->id)->where('category', 'Biaya')->orderBy('date')->get();
 
-            if ($transaction && $expense->is_updated) {
-                foreach ($transaction as $st) {
+            if ($transactions->count() > 0 && $expense->is_updated) {
+                foreach ($transactions as $st) {
                     $st->delete();
                 }
             }
 
-            if (($transaction->count() <= 0 || ($transaction && $expense->is_updated)) && $current >= $expense->date_start) {
+            if (($transactions->count() <= 0 || ($transactions->count() > 0 && $expense->is_updated)) && $current >= $expense->date_start) {
                 $loop = 1;
 
                 if ($expense->type === 'Rutin') {
@@ -211,18 +211,18 @@ class TransactionCommand extends Command
             ->whereNotIn('category_id', $debtIds)
             ->delete();
 
-        $debts = Expense::whereIn('id', $debtIds)->get();
+        $debts = Debt::whereIn('id', $debtIds)->get();
 
         foreach ($debts as $debt) {
-            $transaction = Transaction::where('category_id', $debt->id)->where('category', 'Hutang')->get();
+            $transactions = Transaction::where('category_id', $debt->id)->where('category', 'Hutang')->get();
 
-            if ($transaction && $debt->is_updated) {
-                foreach ($transaction as $st) {
+            if ($transactions->count() > 0 && $debt->is_updated) {
+                foreach ($transactions as $st) {
                     $st->delete();
                 }
             }
 
-            if (($transaction->count() <= 0 || ($transaction && $debt->is_updated)) && $current >= $debt->date_start) {
+            if (($transactions->count() <= 0 || ($transactions->count() > 0 && $debt->is_updated)) && $current >= $debt->date_start) {
                 $loop = ((Carbon::parse($debt->date_start)->diffInMonths(min($debt->date_end, $current))) / $debt->interval) + 1;
 
                 for ($i = 0; $i < $loop; $i++) {

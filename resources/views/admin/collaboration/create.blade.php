@@ -42,8 +42,8 @@
             <div class="border-b mt-3 sm:flex">
                 <label for="nama" class="sm:w-40 block">Nama*</label>
                 <input type="text" name="name" id="nama"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Nama pemasok" value="{{ old('name') }}" required>
+                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama"
+                    value="{{ old('name') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>

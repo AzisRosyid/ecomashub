@@ -64,7 +64,7 @@ class CashController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
-        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
+        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
         return view('admin.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
     }
@@ -122,7 +122,7 @@ class CashController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
-        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
+        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
         return view('admin.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
     }

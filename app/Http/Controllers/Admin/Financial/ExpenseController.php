@@ -64,7 +64,7 @@ class ExpenseController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
-        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
+        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
         return view('admin.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
     }
@@ -122,7 +122,7 @@ class ExpenseController extends Controller
         $route = $this->route;
         $types = $this->types;
         $acc = Auth::user();
-        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Supplier')->get();
+        $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
         return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
     }
