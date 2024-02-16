@@ -79,7 +79,7 @@
             <div class="flex flex-wrap">
                 <div class="w-full self-center px-4 sm:w-1/2">
                     <h1 class="font-fredokaBold text-green-700 text-2xl mb-5 sm:text-4xl">Selamat Datang !👋</h1>
-                    <p class="text-sm mb-10 sm:text-base">Ecomashub adalah sebuah platform yang dapat digunakan untuk
+                    <p class="text-sm mb-10 sm:text-base">EcomasHub adalah sebuah platform yang dapat digunakan untuk
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis perferendis quidem tenetur ad
                         modi reprehenderit eaque veniam inventore placeat laudantium suscipit recusandae, excepturi
                         optio adipisci ullam provident magnam, aspernatur facilis.
@@ -87,7 +87,7 @@
 
                     <a href="#tentang"
                         class="text-sm text-white bg-green-600 py-2 px-4 rounded-lg hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tentang
-                        Ecomashub</a>
+                        EcomasHub</a>
                     <div class="mt-10">
                         <div class="flex flex-wrap sm:flex-nowrap gap-3">
                             <img src="{{ Vite::asset('resources/images/chat.png') }}" alt=""
