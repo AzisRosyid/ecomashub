@@ -28,7 +28,7 @@
     @vite('resources/js/app.js')
 </head>
 
-<body>
+<body id="body" class="font-fredokaRegular">
     @isset($route)
         @if (strpos($route, 'admin') !== false)
             @isset($pick)
