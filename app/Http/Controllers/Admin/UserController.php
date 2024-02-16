@@ -135,7 +135,6 @@ class UserController extends Controller
             'address' => $request->address,
             'status' => $request->status,
             //    'image' => $request->image,
-            'status' => 'Menunggu'
         ]);
 
         return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil dibuat!');
