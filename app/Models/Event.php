@@ -32,6 +32,10 @@ class Event extends Model
 
     public function getFormattedFundAttribute()
     {
+        if (!($this->attributes['fund'] > 0)) {
+            return 'Tidak Ada';
+        }
+
         return 'Rp' . number_format($this->attributes['fund'], 0, ',', '.') . ',00';
     }
 

@@ -83,13 +83,13 @@
                     <div>
                         <label for="mulai" class="block">Tanggal mulai*</label>
                         <input type="datetime-local" name="date_start" id="mulai"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             value="{{ old('date_start') ?? $event->date_start }}" required>
                     </div>
                     <div class="ms-6">
                         <label for="selesai" class="block">Tanggal selesai*</label>
                         <input type="datetime-local" name="date_end" id="selesai"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             value="{{ old('date_end') ?? $event->date_end }}" required>
                     </div>
                 </div>

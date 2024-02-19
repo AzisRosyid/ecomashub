@@ -49,6 +49,7 @@ class TransactionCommand extends Command
 
         Transaction::where('category', 'Kegiatan')
             ->whereNotIn('category_id', $eventIds)
+            ->orWhere('value', 0)
             ->delete();
 
         $events = Event::whereIn('id', $eventIds)->get();
@@ -57,11 +58,15 @@ class TransactionCommand extends Command
             $transaction = Transaction::where('category_id', $event->id)->where('category', 'Kegiatan')->first();
 
             if ($transaction && ($transaction->value != $event->fund || $transaction->date != $event->date_end) && $current >= $event->date_end) {
-                $transaction->update([
-                    'value' => $event->fund ?? 0,
-                    'date' => $event->date_end,
-                ]);
-            } else if (!$transaction && $current >= $event->date_end) {
+                if ($event->fund > 0) {
+                    $transaction->update([
+                        'value' => $event->fund ?? 0,
+                        'date' => $event->date_end,
+                    ]);
+                } else {
+                    $transaction->delete();
+                }
+            } else if (!$transaction && $current >= $event->date_end && $event->fund > 0) {
                 Transaction::create([
                     'store_id' => $event->store_id,
                     'category_id' => $event->id,

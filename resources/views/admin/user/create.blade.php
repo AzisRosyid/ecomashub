@@ -45,14 +45,14 @@
                     <div>
                         <label for="depan" class="block">Nama depan*</label>
                         <input type="text" id="depan"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                            placeholder="Nama depan" name="first_name" value="{{ old('first_name') }}" required>
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama depan"
+                            name="first_name" value="{{ old('first_name') }}" required>
                     </div>
                     <div class="ms-6">
                         <label for="belakang" class="block">Nama belakang*</label>
                         <input type="text" id="belakang"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                            placeholder="Nama belakang" name="last_name" value="{{ old('last_name') }}" required>
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama belakang"
+                            name="last_name" value="{{ old('last_name') }}" required>
                     </div>
                 </div>
             </div>
@@ -96,8 +96,8 @@
             <div class="border-b mt-3 sm:flex">
                 <label for="birth" class="sm:w-40 block">Tanggal lahir*</label>
                 <input type="date" name="date_of_birth" id="birth"
-                    class="outline-none border text-gray-400 border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Tanggal lahir" value="{{ old('date_of_birth') }}" required>
+                    class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Tanggal lahir"
+                    value="{{ old('date_of_birth') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="nomor" class="sm:w-40 block">Nomor telepon*</label>

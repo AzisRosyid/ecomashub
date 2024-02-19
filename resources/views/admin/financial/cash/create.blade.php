@@ -42,8 +42,8 @@
             <div class="border-b sm:flex">
                 <label for="judulHutang" class="sm:w-40 block">Nama*</label>
                 <input type="text" name="name" id="judulHutang"
-                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
-                    placeholder="Nama kas" value="{{ old('name') }}" required>
+                    class="sm:w-[600px] outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Nama kas"
+                    value="{{ old('name') }}" required>
             </div>
             <div class="border-b mt-3 sm:flex">
                 <label for="deskripsi" class="sm:w-40 block">Deskripsi</label>
@@ -94,14 +94,14 @@
                     <div>
                         <label for="mulai" class="block">Tanggal mulai*</label>
                         <input type="datetime-local" name="date_start"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             value="{{ old('date_start') }}" required>
                     </div>
                     <div class="ms-6">
                         <label for="selesai" class="block"
                             id="dateEndLabel">{{ old('type') == 'Rutin' ? 'Tanggal selesai*' : 'Tanggal selesai' }}</label>
                         <input type="datetime-local" name="date_end" id="dateEnd"
-                            class="outline-none text-gray-400 border border-gray-400 p-2 rounded-lg mt-2 mb-4"
+                            class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4"
                             value="{{ old('date_end') }}" {{ old('type') == 'Rutin' ? 'required' : 'disabled' }}>
                     </div>
                 </div>
