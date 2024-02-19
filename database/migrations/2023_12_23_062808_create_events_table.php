@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('organizer');
             $table->text('description')->nullable();
-            $table->double('fund');
+            $table->double('fund')->nullable();
             $table->foreignId('image')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('file')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
             $table->string('location')->nullable();

@@ -2,7 +2,7 @@
 
 @section('content')
     <header
-        class="bg-transparent .max-[1024px]:navbar-fixed absolute top-0 left-0 sm:fixed w-full flex items-center py-3 lg:py-4 sm:px-20 z-10">
+        class="bg-transparent justify-center .max-[1024px]:navbar-fixed absolute top-0 left-0 sm:fixed w-full flex items-center py-3 lg:py-4 sm:px-20 z-10">
         <div class="container">
             <div class="flex item-center justify-between bg-transparent relative">
                 <div class="px-2 sm:px-4">
@@ -61,6 +61,13 @@
                             <li class="group">
                                 <a href="#testimoni"
                                     class="sm:text-xl text-green-700 py-2 mx-8 lg:mx-3 flex group-hover:text-green-500 relative">Testimoni
+                                    <span
+                                        class="absolute w-full h-1 bottom-0 rounded-full lg:group-hover:bg-green-700"></span>
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('login') }}"
+                                    class="sm:text-xl text-green-700 py-2 mx-8 lg:mx-3 flex group-hover:text-green-500 relative">Login
                                     <span
                                         class="absolute w-full h-1 bottom-0 rounded-full lg:group-hover:bg-green-700"></span>
                                 </a>
@@ -239,7 +246,7 @@
 
     <!-- mitra start -->
     <section id="mitra" class="justify-center flex mt-10 sm:pt-28 pt-20">
-        <div class="w-full bg-lime-100 sm:px-20 pb-5">
+        <div class="w-full bg-lime-100 sm:px-20 pb-5 flex justify-center">
             <div class="container">
                 <div class="flex flex-wrap justify-center">
                     <p class="font-fredokaBold w-full text-center sm:text-base text-xs my-5">Berkolaborasi dengan lebih
@@ -376,7 +383,7 @@
 
     <!-- testimoni start -->
     <section id="testimoni" class="justify-center flex mt-10 sm:pt-28 pt-20">
-        <div class="w-full sm:px-20 pb-5">
+        <div class="w-full sm:px-20 pb-5 flex justify-center">
             <div class="container">
                 <div class="flex flex-wrap">
                     <div class="text-2xl sm:text-4xl font-fredokaBold w-full sm:w-1/2">
@@ -481,10 +488,9 @@
         </div>
     </section>
     <!-- testimoni end -->
-
     <footer>
         <section id="testimoni" class="justify-center flex mt-10 sm:pt-28">
-            <div class="w-full sm:px-20 pb-5">
+            <div class="w-full sm:px-20 pb-5 flex justify-center">
                 <div class="container">
                     <div class="flex flex-wrap justify-between">
                         <div class="flex justify-center w-full sm:w-auto">
