@@ -141,6 +141,7 @@
                         <tr>
                             <th class="bg-gray-200 py-3 text-start px-3">Nama</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Jumlah</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Kategori</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Lokasi</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Status</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
@@ -159,12 +160,18 @@
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3">{{ $st->quantity }} {{ $st->unit->name }}</td>
+                                <td class="py-3 text-start px-3 items-center">
+                                    <div
+                                        class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto @if ($st->category == 'Bahan') text-green-600 border-green-600 @elseif ($st->category == 'Alat') text-amber-400 border-amber-400 @elseif ($st->category == 'Properti') text-red-500 border-red-500 @endif">
+                                        {{ $st->category }}
+                                    </div>
+                                </td>
                                 <td class="py-3 text-start px-3">{{ $st->location }}</td>
                                 <td class="py-3 text-start px-3">
                                     <div class="flex justify-start">
                                         <div class="flex">
                                             <div
-                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 {{ ($st->status == 'Tersedia' ? 'text-green-600 border-green-600' : $st->status == 'Dipinjam') ? 'text-amber-400 border-amber-400' : ($st->status == 'Digunakan' ? 'text-red-500 border-red-500' : '') }}">
+                                                class="rounded-full bg-lime-50 border items-center inline-flex font-fredokaRegular px-2 mx-auto me-3 @if ($st->status == 'Tersedia') text-green-600 border-green-600 @elseif ($st->status == 'Dipinjam') text-amber-400 border-amber-400 @elseif ($st->status == 'Digunakan') text-red-500 border-red-500 @endif">
                                                 {{ $st->status }}
                                             </div>
                                             <a value="{{ $st->id }}"
