@@ -29,6 +29,10 @@ const acceptUsers = document.querySelectorAll('.accept-user');
 const rejectUsers = document.querySelectorAll('.reject-user');
 const expenseTypes = document.querySelectorAll('.expense-type');
 const productModal = document.querySelector('#productModal');
+const image = document.querySelector('#image');
+const file = document.querySelector('#file');
+const fieldInput1 = document.querySelector('.fieldImage1');
+const fieldInput2 = document.querySelector('.fieldImage2');
 
 // Financial Menu
 keuangan.addEventListener('click', function () {
@@ -138,6 +142,41 @@ if (closeReject != null) {
     bgDetail.addEventListener('click', function () {
         tolak.classList.add('hidden');
         bgDetail.classList.add('hidden');
+    });
+}
+
+//preview image
+if (image != null) {
+    image.addEventListener('change', function () {
+        const imgPreview1 = document.querySelector('.img-preview1');
+
+        imgPreview1.style.display = 'block';
+
+        const oFReader1 = new FileReader();
+        oFReader1.readAsDataURL(image.files[0])
+
+        oFReader1.onload = function (oFREvent) {
+            imgPreview1.src = oFREvent.target.result;
+        }
+
+        fieldInput1.classList.add('hidden');
+    });
+}
+
+if (file != null) {
+    file.addEventListener('change', function () {
+        const imgPreview2 = document.querySelector('.img-preview2');
+
+        imgPreview2.style.display = 'block';
+
+        const oFReader2 = new FileReader();
+        oFReader2.readAsDataURL(file.files[0])
+
+        oFReader2.onload = function (oFREvent) {
+            imgPreview2.src = oFREvent.target.result;
+        }
+
+        fieldInput2.classList.add('hidden');
     });
 }
 

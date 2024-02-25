@@ -96,13 +96,15 @@
                 </select>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="gambar" class="sm:w-40">Gambar</label>
-                <input type="file" name="image" id="gambar"
+                <label for="image" class="sm:w-40">Gambar</label>
+                <input type="file" name="image" id="image"
                     class="w-full outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 hidden"
                     accept="image/png, image/jpg, image/jpeg" placeholder="Masukkan gambar">
-                <label for="gambar"
+                <label for="image"
                     class="sm:w-[600px] sm:border border-gray-400 p-2 rounded-lg mt-2 mb-4 cursor-pointer">
                     <div class="text-center py-4 border border-gray-400 p-2 rounded-lg sm:border-none">
+                        <img src="" alt="" class="img-preview1 w-max-full">
+                        <div class="fieldImage1">
                         <svg class="mx-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 13L18 4" stroke="#798999" stroke-width="2" stroke-linecap="round"
@@ -120,6 +122,7 @@
                             taruh di sini.</p>
                         <p class="text-gray-400 text-xs font-fredokaRegular">JPEG, PNG, atau SVG (Masimal 2mb)</p>
                         <p class="px-3 py-1 mt-3 border border-gray-400 rounded-lg inline-block">Cari foto</p>
+                    </div>
                     </div>
                 </label>
             </div>
