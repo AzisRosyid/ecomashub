@@ -23,10 +23,10 @@
         <div class="flex mx-2 sm:mx-10 justify-between border-b pb-4 mt-4">
             <div>
                 <p class="text-zinc-700 text-[28px] font-semibold font-fredokaBold leading-9">Tambah Aset</p>
-                                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
+                <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-@include('admin.alert.error')
+                @include('admin.alert.error')
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
