@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserRole extends Model
 {
     protected $fillable = [
+        'organization_id',
         'name',
         'type'
     ];
@@ -16,4 +17,9 @@ class UserRole extends Model
     use HasFactory;
 
     protected $dates = ['deleted_at'];
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+    }
 }

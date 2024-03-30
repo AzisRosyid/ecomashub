@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return Carbon::parse($this->attributes['date_of_birth'])->translatedFormat('d F Y');
     }
+
+    public function userRole()
+    {
+        return $this->belongsTo(UserRole::class, 'role_id', 'id');
+    }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('collaborations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('store_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->enum('type', ['Mitra', 'Pemasok', 'Konsumen']);
             $table->string('email')->unique()->nullable();

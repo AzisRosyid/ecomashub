@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Collaboration extends Model
 {
     protected $fillable = [
+        'store_id',
         'name',
         'type',
         'email',

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('is_master')->default(false);
+            $table->foreignId('image')->nullable()->constrained(table: 'media')->onUpdate('cascade')->onDelete('cascade');
+            $table->enum('status', ['Aktif', 'Menunggu', 'Blok']);
             $table->timestamps();
             $table->softDeletes();
         });
