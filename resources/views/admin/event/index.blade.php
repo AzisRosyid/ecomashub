@@ -153,12 +153,15 @@
                     <body>
                         @foreach ($events as $index => $st)
                             <tr class="border-b">
-                                <td class="py-3 text-start px-3 flex">
+                                <td class="py-3 text-start px-3 flex detail-item"
+                                    detailImg="{{ Vite::asset('resources/images/logo.png') }}"
+                                    detailTitle="{{ $st->title }}"
+                                    detailDesc="{{ $st->description ?? 'Tidak Ada' }}">
                                     <div>
                                         <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
                                             class="rounded-full min-h-9 min-w-9">
                                     </div>
-                                    <div id="" class="ms-2 cursor-pointer detail-item">
+                                    <div class="ms-2 cursor-pointer">
                                         {{ $st->title }}
                                         <p class="w-24 text-xs text-slate-500 overflow-hidden h-4">
                                             {{ $st->description ?? 'Tidak Ada' }}
@@ -345,14 +348,16 @@
         class="hidden sm:w-[900px] h-auto p-8 bg-white rounded-2xl grid sm:grid-cols-6 fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="sm:col-span-1">
             <div class="h-[200px] w-[200px] min-w-[200px] bg-slate-400 mt-6 sm:mt-0 ">
-                <img src="" alt="">
+                <img src="" alt="" class="detail-img">
             </div>
         </div>
         <div class="font-fredokaRegular pt-4 sm:col-span-5 sm:ms-20">
-            <p class="text-xl font-fredokaBold">Nama Kegiatan</p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque officia quisquam blanditiis libero
-            perferendis harum illo vel, voluptatum exercitationem necessitatibus ipsam voluptates, amet possimus
-            voluptas enim ea. Ipsam, quisquam commodi?
+            <p class="text-xl font-fredokaBold detail-title">Nama Kegiatan</p>
+            <span class="detail-desc">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque officia quisquam blanditiis libero
+                perferendis harum illo vel, voluptatum exercitationem necessitatibus ipsam voluptates, amet possimus
+                voluptas enim ea. Ipsam, quisquam commodi?
+            </span>
         </div>
         <a id="closeDetail"
             class="px-3 py-1 bg-red-500 rounded-lg absolute text-white right-8 cursor-pointer top-4 sm:top-8">Tutup</a>

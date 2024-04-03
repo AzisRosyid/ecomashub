@@ -21,6 +21,16 @@ class Method extends Controller
 {
     public static $token = "ErK8s*7MT8-F";
     public static $baseUrl = "http://192.168.21.1:8021/api/";
+    public static $googleDrive = [
+        'imageThumbnail' => 'https://drive.google.com/thumbnail?id=',
+    ];
+
+    private $imageMimeTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/jpg',
+    ];
 
     public static function auth($profile, $admin = false)
     {
@@ -43,7 +53,7 @@ class Method extends Controller
         return $value > $comparisonValue ? 'more' : ($value < $comparisonValue ? 'less' : 'equal');
     }
 
-    private static function token()
+    private static function googleToken()
     {
         $clientId = \Config('services.google.client_id');
         $clientSecret = \Config('services.google.client_secret');
@@ -61,50 +71,91 @@ class Method extends Controller
         return $accessToken;
     }
 
-    public static function uploadFile($file, $name)
+    public static function uploadFile($path, $file, $name)
     {
-        return null;
-        $accessToken = Method::token();
         if ($file != null) {
-            $fileName = Carbon::now()->format('Y_m_d_His') . '_' . $name . '.' . $file->getClientOriginalExtension();
-            $mime = $file->getClientMimeType();
-
-            try {
-                $client = new Client();
-                $client->setAccessToken($accessToken);
-                $client->addScope(Drive::DRIVE);
-                $driveService = new Drive($client);
-                $folderId = \Config('services.google.folder_id');
-
-                $fileMetadata = new Drive\DriveFile([
-                    'name' => $fileName,
-                    'parents' => [$folderId],
-                ]);
-
-                $file = $driveService->files->create($fileMetadata, array(
-                    'data' => $file->getContent(),
-                    'mimeType' => $mime,
-                    'uploadType' => 'multipart',
-                    'fields' => 'id'
-                ));
-                printf("File ID: %s\n", $file->id);
-
-                $permission = new Drive\Permission([
-                    'type' => 'anyone',
-                    'value' => 'anyone',
-                    'role' => 'reader',
-                ]);
-
-                $driveService->permissions->create($file->id, $permission);
-
-                return $file->id;
-
-                $url = 'https://drive.google.com/thumbnail?id=';
-            } catch (Exception $e) {
-                echo "Error Message: " . $e;
-            }
+            return Method::googleUploadFile($path, $file, $name);
         }
         return response('Failed');
+    }
+
+    private function googleUploadFile($path, $file, $name)
+    {
+        $accessToken = Method::googleToken();
+        $fileName = Carbon::now()->format('Y_m_d_His') . '_' . $name . '.' . $file->getClientOriginalExtension();
+        $mime = $file->getClientMimeType();
+
+        try {
+            $client = new Client();
+            $client->setAccessToken($accessToken);
+            $client->addScope(Drive::DRIVE);
+            $driveService = new Drive($client);
+            $folderId = \Config('services.google.folder_id');
+
+            $folders = explode('/', $path);
+
+            $parentId = $folderId;
+
+            foreach ($folders as $folder) {
+                $folderExists = $this->checkFolderExists($driveService, $parentId, $folder);
+
+                if (!$folderExists) {
+                    $newFolder = new Drive\DriveFile([
+                        'name' => $folder,
+                        'mimeType' => 'application/vnd.google-apps.folder',
+                        'parents' => [$parentId],
+                    ]);
+                    $createdFolder = $driveService->files->create($newFolder, ['fields' => 'id']);
+                    $parentId = $createdFolder->id;
+                } else {
+                    $parentId = $folderExists;
+                }
+            }
+
+            $fileMetadata = new Drive\DriveFile([
+                'name' => $fileName,
+                'parents' => [$parentId],
+            ]);
+
+            $file = $driveService->files->create($fileMetadata, array(
+                'data' => $file->getContent(),
+                'mimeType' => $mime,
+                'uploadType' => 'multipart',
+                'fields' => 'id'
+            ));
+            printf("File ID: %s\n", $file->id);
+
+            $permission = new Drive\Permission([
+                'type' => 'anyone',
+                'value' => 'anyone',
+                'role' => 'reader',
+            ]);
+
+            $driveService->permissions->create($file->id, $permission);
+
+            return [
+                'type' => in_array($mime, $this::$imageMimeTypes) ? 'Gambar' : 'File',
+                'provider' => 'Google Drive',
+                'content' => $file->id,
+            ];
+        } catch (Exception $e) {
+            response("Error Message: " . $e);
+        }
+    }
+
+    private function checkFolderExists($driveService, $parentId, $folderName)
+    {
+        $query = "mimeType='application/vnd.google-apps.folder' and name='$folderName' and '$parentId' in parents and trashed=false";
+        $response = $driveService->files->listFiles([
+            'q' => $query,
+            'fields' => 'files(id)',
+        ]);
+        $files = $response->getFiles();
+        if (count($files) > 0) {
+            return $files[0]->getId();
+        } else {
+            return false;
+        }
     }
 
 

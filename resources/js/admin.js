@@ -73,9 +73,22 @@ hamburger.addEventListener('click', function () {
 
 detailItems.forEach(function (element) {
     element.addEventListener('click', function () {
+        const img = element.getAttribute('detailImg');
+        const title = element.getAttribute('detailTitle');
+        const desc = element.getAttribute('detailDesc');
+
         if (userStatusId != null) {
             var value = element.getAttribute('value');
             userStatusId.setAttribute('value', value);
+        }
+        if (title != null) {
+            isiDetail.querySelector('.detail-title').innerHTML = title;
+        }
+        if (desc != null) {
+            isiDetail.querySelector('.detail-desc').innerHTML = desc;
+        }
+        if (img != null) {
+            isiDetail.querySelector('.detail-img').setAttribute('src', img);
         }
         isiDetail.classList.remove('hidden');
         bgDetail.classList.remove('hidden');

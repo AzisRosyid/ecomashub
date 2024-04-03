@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('organization_id')->constrained(table: 'organizations')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->enum('type', ['Pengurus', 'Anggota']);
             $table->timestamps();

@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
-        $query = Product::where('store_id', null)
+        $query = Product::where('store_id', $request->store_id)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('weight', 'like', $search)
@@ -90,6 +90,7 @@ class ProductController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'store_id' => 'required|exists:stores,id',
             'category_id' => 'required|integer|exists:product_categories,id',
             'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
@@ -105,14 +106,13 @@ class ProductController extends Controller
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        Method::uploadFile($request->file('image'), $request->name);
-
         // $file = null;
         // if ($request->file('photo') != null) {
         //     $request->file('photo')->getClientMimeType();
         //     $photo = $request->file('photo')->getClientOriginalExtension();
         //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
         //     $request->file('photo')->move('images', $file);
+        //     Method::uploadFile('/product', $request->file('image'), $request->name);
         // }
 
         Product::create([
@@ -165,7 +165,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
-
 
         $validator = Validator::make($request->all(), $rules);
 
