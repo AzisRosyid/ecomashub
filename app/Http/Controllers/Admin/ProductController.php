@@ -7,6 +7,7 @@ use App\Http\Controllers\Method;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -106,14 +107,10 @@ class ProductController extends Controller
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        // $file = null;
-        // if ($request->file('photo') != null) {
-        //     $request->file('photo')->getClientMimeType();
-        //     $photo = $request->file('photo')->getClientOriginalExtension();
-        //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
-        //     $request->file('photo')->move('images', $file);
-        //     Method::uploadFile('/product', $request->file('image'), $request->name);
-        // }
+        $image = null;
+        if ($request->file('image') != null) {
+            $image = Method::uploadFile('/admin/product', $request->file('image'), $request->name);
+        }
 
         Product::create([
             'store_id' => $request->store_id,
@@ -124,6 +121,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'price' => $request->price,
             'description' => $request->description,
+            'image' => $image,
         ]);
 
         return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil dibuat!');
