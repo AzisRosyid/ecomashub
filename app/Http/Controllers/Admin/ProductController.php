@@ -155,6 +155,7 @@ class ProductController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'store_id' => 'required|exists:stores,id',
             'category_id' => 'required|integer|exists:product_categories,id',
             'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
