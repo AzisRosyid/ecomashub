@@ -29,7 +29,7 @@ class CashController extends Controller
 
         $collaborationIds = Collaboration::where('name', 'like', $search)->pluck('id');
 
-        $query = Cash::where('store_id', $request->input('store_id'))
+        $query = Cash::whereNull('store_id')
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('value', 'like', $search)
