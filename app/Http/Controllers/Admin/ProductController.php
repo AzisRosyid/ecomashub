@@ -109,7 +109,7 @@ class ProductController extends Controller
 
         $image = null;
         if ($request->file('image') != null) {
-            $image = Method::uploadFile('/admin/product', $request->file('image'), $request->name);
+            $image = Method::uploadFile($request->store_id . '/product', $request->file('image'), $request->name);
         }
 
         Product::create([
