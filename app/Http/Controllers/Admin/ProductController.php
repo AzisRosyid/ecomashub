@@ -30,7 +30,9 @@ class ProductController extends Controller
 
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
-        $query = Product::where('store_id', $request->store_id)
+        $query = Product::when($request->filled('store_id'), function ($query) use ($request) {
+            $query->where('store_id', $request->input('store_id'));
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('weight', 'like', $search)
