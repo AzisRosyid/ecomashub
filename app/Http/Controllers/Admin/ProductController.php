@@ -27,11 +27,11 @@ class ProductController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
-
+        $storeId = $request->input('store_id');
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
-        $query = Product::when($request->filled('store_id'), function ($query) use ($request) {
-            $query->where('store_id', $request->input('store_id'));
+        $query = Product::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
         })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
@@ -70,7 +70,7 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'storeId', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
