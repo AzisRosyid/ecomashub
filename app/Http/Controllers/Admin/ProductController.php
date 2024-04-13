@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Method;
+use App\Http\Requests\IndexRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -27,7 +29,7 @@ class ProductController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
-        $storeId = $request->input('store_id');
+        $storeId = session('store_id');
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
         $query = Product::when($storeId, function ($query) use ($storeId) {
@@ -70,7 +72,7 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'storeId', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**

@@ -23,6 +23,7 @@ class OrganizationSeeder extends Seeder
             ],
             [
                 'name' => 'KWT Jasmine Nologaten',
+                'is_master' => false,
                 'status' => 'Aktif',
             ],
         ]);

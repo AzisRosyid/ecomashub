@@ -24,4 +24,14 @@ class Store extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function getOrganizationValue()
+    {
+        return $this->user->organization;
+    }
 }

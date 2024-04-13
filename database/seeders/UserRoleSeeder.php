@@ -21,6 +21,16 @@ class UserRoleSeeder extends Seeder
                 'name' => 'Founder',
                 'type' => 'Pengurus',
             ],
+            [
+                'organization_id' => 2,
+                'name' => 'Admin',
+                'type' => 'Pengurus',
+            ],
+            [
+                'organization_id' => 2,
+                'name' => 'User',
+                'type' => 'Anggota',
+            ],
         ]);
     }
 }

@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserRole::class, 'role_id', 'id');
     }
+
+    public function getOrganizationValue()
+    {
+        return $this->userRole->organization;
+    }
 }
