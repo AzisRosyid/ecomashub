@@ -30,22 +30,22 @@
 
 <body id="body" class="font-fredokaRegular">
     @isset($route)
-        @if (strpos($route, 'admin') !== false)
-            @isset($pick)
-                <form id="searchForm" action="{{ route($route) }}" method="get">
-                @endisset
-                <section class="flex">
-                    @include('layouts.sidebar')
-                    @yield('content')
-                </section>
-                @yield('filter')
-                @yield('modal')
-                @isset($pick)
-                </form>
+        {{-- @if (strpos($route, 'admin') !== false) --}}
+        @isset($pick)
+            <form id="searchForm" action="{{ route($route) }}" method="get">
             @endisset
-        @else
+            <section class="flex">
+                @include('layouts.sidebar')
+                @yield('content')
+            </section>
+            @yield('filter')
+            @yield('modal')
+            @isset($pick)
+            </form>
+        @endisset
+        {{-- @else
             @yield('content')
-        @endif
+        @endif --}}
     @endisset
 
 

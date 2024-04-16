@@ -20,10 +20,26 @@ use App\Http\Controllers\Admin\Financial\TransactionController as AdminTransacti
 use App\Http\Controllers\Admin\Financial\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\Financial\CashController as AdminCashController;
 use App\Http\Controllers\Admin\Auth\ProfileController as AdminProfileController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\EventController as UserEventController;
+use App\Http\Controllers\User\ProductController as UserProductController;
+use App\Http\Controllers\User\AssetController as UserAssetController;
+use App\Http\Controllers\User\StoreController as UserStoreController;
+use App\Http\Controllers\User\CollaborationController as UserCollaborationController;
+use App\Http\Controllers\User\OrderController as UserOrderController;
+use App\Http\Controllers\User\Unit\ProductCategoryController as UserProductCategoryController;
+use App\Http\Controllers\User\Unit\UserRoleController as UserUserRoleController;
+use App\Http\Controllers\User\Unit\AssetUnitController as UserAssetUnitController;
+use App\Http\Controllers\User\EcoFriendly\WasteController as UserWasteController;
+use App\Http\Controllers\User\EcoFriendly\Unit\WasteTypeController as UserWasteTypeController;
+use App\Http\Controllers\User\Financial\DebtController as UserDebtController;
+use App\Http\Controllers\User\Financial\TransactionController as UserTransactionController;
+use App\Http\Controllers\User\Financial\ExpenseController as UserExpenseController;
+use App\Http\Controllers\User\Financial\CashController as UserCashController;
+use App\Http\Controllers\User\Auth\ProfileController as UserProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -221,4 +237,121 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
 });
 
 // User
-Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('userDashboard');
+Route::middleware(['auth.role:anggota'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('userDashboard');
+
+    // Event
+    Route::prefix('/event')->group(function () {
+        Route::get('/', [UserEventController::class, 'index'])->name('userEvent');
+    });
+
+    // Store
+    Route::prefix('/store')->group(function () {
+        Route::get('/', [UserStoreController::class, 'index'])->name('userStore');
+        Route::get('/create', [UserStoreController::class, 'create'])->name('userStoreCreate');
+        Route::post('/create', [UserStoreController::class, 'store'])->name('userStoreStore');
+        Route::get('/edit/{store}', [UserStoreController::class, 'edit'])->name('userStoreEdit');
+        Route::put('/edit/{store}', [UserStoreController::class, 'update'])->name('userStoreUpdate');
+        Route::delete('/delete/{store}', [UserStoreController::class, 'destroy'])->name('userStoreDestroy');
+    });
+
+    // Asset
+    Route::prefix('/asset')->group(function () {
+        Route::get('/', [UserAssetController::class, 'index'])->name('userAsset');
+        Route::get('/create', [UserAssetController::class, 'create'])->name('userAssetCreate');
+        Route::post('/create', [UserAssetController::class, 'store'])->name('userAssetStore');
+        Route::get('/edit/{asset}', [UserAssetController::class, 'edit'])->name('userAssetEdit');
+        Route::put('/edit/{asset}', [UserAssetController::class, 'update'])->name('userAssetUpdate');
+        Route::put('/status/edit', [UserAssetController::class, 'updateStatus'])->name('userAssetUpdateStatus');
+        Route::delete('/delete/{asset}', [UserAssetController::class, 'destroy'])->name('userAssetDestroy');
+    });
+
+    // Collaboration
+    Route::prefix('/collaboration')->group(function () {
+        Route::get('/', [UserCollaborationController::class, 'index'])->name('userCollaboration');
+        Route::get('/create', [UserCollaborationController::class, 'create'])->name('userCollaborationCreate');
+        Route::post('/create', [UserCollaborationController::class, 'store'])->name('userCollaborationStore');
+        Route::get('/edit/{collaboration}', [UserCollaborationController::class, 'edit'])->name('userCollaborationEdit');
+        Route::put('/edit/{collaboration}', [UserCollaborationController::class, 'update'])->name('userCollaborationUpdate');
+        Route::delete('/delete/{collaboration}', [UserCollaborationController::class, 'destroy'])->name('userCollaborationDestroy');
+    });
+
+    // Order
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [UserOrderController::class, 'index'])->name('userOrder');
+        Route::get('/create', [UserOrderController::class, 'create'])->name('userOrderCreate');
+        Route::post('/create', [UserOrderController::class, 'store'])->name('userOrderStore');
+        Route::get('/edit/{order}', [UserOrderController::class, 'edit'])->name('userOrderEdit');
+        Route::put('/edit/{order}', [UserOrderController::class, 'update'])->name('userOrderUpdate');
+        Route::put('/status/edit', [UserOrderController::class, 'updateStatus'])->name('userOrderUpdateStatus');
+        Route::delete('/delete/{order}', [UserOrderController::class, 'destroy'])->name('userOrderDestroy');
+    });
+
+    // Entrust
+    // Product
+    Route::prefix('/product')->group(function () {
+        Route::get('/', [UserProductController::class, 'index'])->name('userProduct');
+        Route::get('/create', [UserProductController::class, 'create'])->name('userProductCreate');
+        Route::post('/create', [UserProductController::class, 'store'])->name('userProductStore');
+        Route::get('/edit/{product}', [UserProductController::class, 'edit'])->name('userProductEdit');
+        Route::put('/edit/{product}', [UserProductController::class, 'update'])->name('userProductUpdate');
+        Route::delete('/delete/{product}', [UserProductController::class, 'destroy'])->name('userProductDestroy');
+    });
+
+    // < Eco Friendly >
+    // Waste
+    Route::prefix('/waste')->group(function () {
+        Route::get('/', [UserWasteController::class, 'index'])->name('userWaste');
+        Route::get('/create', [UserWasteController::class, 'create'])->name('userWasteCreate');
+        Route::post('/create', [UserWasteController::class, 'store'])->name('userWasteStore');
+        Route::get('/edit/{waste}', [UserWasteController::class, 'edit'])->name('userWasteEdit');
+        Route::put('/edit/{waste}', [UserWasteController::class, 'update'])->name('userWasteUpdate');
+        Route::delete('/delete/{waste}', [UserWasteController::class, 'destroy'])->name('userWasteDestroy');
+    });
+
+    // < Keuangan >
+    // Transaction
+    Route::prefix('/transaction')->group(function () {
+        Route::get('/', [UserTransactionController::class, 'index'])->name('userTransaction');
+    });
+
+    // Cash
+    Route::prefix('/cash')->group(function () {
+        Route::get('/', [UserCashController::class, 'index'])->name('userCash');
+        Route::get('/create', [UserCashController::class, 'create'])->name('userCashCreate');
+        Route::post('/create', [UserCashController::class, 'store'])->name('userCashStore');
+        Route::get('/edit/{cash}', [UserCashController::class, 'edit'])->name('userCashEdit');
+        Route::put('/edit/{cash}', [UserCashController::class, 'update'])->name('userCashUpdate');
+        Route::delete('/delete/{cash}', [UserCashController::class, 'destroy'])->name('userCashDestroy');
+    });
+
+    // Expense
+    Route::prefix('/expense')->group(function () {
+        Route::get('/', [UserExpenseController::class, 'index'])->name('userExpense');
+        Route::get('/create', [UserExpenseController::class, 'create'])->name('userExpenseCreate');
+        Route::post('/create', [UserExpenseController::class, 'store'])->name('userExpenseStore');
+        Route::get('/edit/{expense}', [UserExpenseController::class, 'edit'])->name('userExpenseEdit');
+        Route::put('/edit/{expense}', [UserExpenseController::class, 'update'])->name('userExpenseUpdate');
+        Route::delete('/delete/{expense}', [UserExpenseController::class, 'destroy'])->name('userExpenseDestroy');
+    });
+
+    // Debt
+    Route::prefix('/debt')->group(function () {
+        Route::get('/', [UserDebtController::class, 'index'])->name('userDebt');
+        Route::get('/create', [UserDebtController::class, 'create'])->name('userDebtCreate');
+        Route::post('/create', [UserDebtController::class, 'store'])->name('userDebtStore');
+        Route::get('/edit/{debt}', [UserDebtController::class, 'edit'])->name('userDebtEdit');
+        Route::put('/edit/{debt}', [UserDebtController::class, 'update'])->name('userDebtUpdate');
+        Route::delete('/delete/{debt}', [UserDebtController::class, 'destroy'])->name('userDebtDestroy');
+    });
+
+    // Profile
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [UserProfileController::class, 'index'])->name('userProfile');
+        Route::get('/edit', [UserProfileController::class, 'edit'])->name('userProfileEdit');
+        Route::put('/edit', [UserProfileController::class, 'update'])->name('userProfileUpdate');
+        Route::get('/edit/password', [UserProfileController::class, 'editPassword'])->name('userProfileEditPassword');
+        Route::put('/edit/password', [UserProfileController::class, 'updatePassword'])->name('userProfileUpdatePassword');
+    });
+});

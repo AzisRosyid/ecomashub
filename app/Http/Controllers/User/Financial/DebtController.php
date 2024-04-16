@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Financial;
+namespace App\Http\Controllers\User\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class DebtController extends Controller
 {
-    private $route = 'adminDebt';
+    private $route = 'userDebt';
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -23,8 +25,11 @@ class DebtController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
-        $query = Debt::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Debt::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('interest', 'like', $search)
@@ -41,7 +46,7 @@ class DebtController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
+        return Method::view('user.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -52,13 +57,13 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.financial.debt.create', compact('route', 'acc'));
+        return Method::view('user.financial.debt.create', compact('route', 'acc'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -76,7 +81,7 @@ class DebtController extends Controller
         }
 
         Debt::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'value' => $request->value,
             'interest' => $request->interest / 100,
@@ -85,7 +90,7 @@ class DebtController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil dibuat!');
+        return redirect()->route('userDebt')->with('message', 'Hutang telah berhasil dibuat!');
     }
 
     /**
@@ -104,13 +109,13 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
+        return Method::view('user.financial.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Debt $debt)
+    public function update(CustomRequest $request, Debt $debt)
     {
         $rules = [
             'name' => 'required|string',
@@ -128,7 +133,7 @@ class DebtController extends Controller
         }
 
         $debt->update([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'value' => $request->value,
             'interest' => $request->interest / 100,
@@ -138,7 +143,7 @@ class DebtController extends Controller
             'is_updated' => true,
         ]);
 
-        return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil diperbarui!');
+        return redirect()->route('userDebt')->with('message', 'Hutang telah berhasil diperbarui!');
     }
 
     /**
@@ -148,6 +153,6 @@ class DebtController extends Controller
     {
         $debt->delete();
 
-        return redirect()->route('adminDebt')->with('message', 'Hutang telah berhasil dihapus!');
+        return redirect()->route('userDebt')->with('message', 'Hutang telah berhasil dihapus!');
     }
 }

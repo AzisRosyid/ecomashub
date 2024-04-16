@@ -40,10 +40,13 @@ class CustomRequest extends FormRequest
      */
     public function authorizeRequest()
     {
-        $acc = Auth::user();
         $storeId = Session::get('store_id');
 
         $user = User::find(Auth::user()->id);
+
+        if (Store::all()->count() < 1) {
+            abort(404, 'Buat Toko dulu.');
+        }
 
         if ($storeId) {
             $store = Store::where(function ($query) use ($user) {

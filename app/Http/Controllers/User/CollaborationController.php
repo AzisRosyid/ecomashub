@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use App\Models\Collaboration;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class CollaborationController extends Controller
 {
-    private $route = 'adminCollaboration';
+    private $route = 'userCollaboration';
     private $types = ['Mitra', 'Pemasok', 'Konsumen'];
     private $status = ['Aktif', 'Nonaktif'];
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -27,8 +29,11 @@ class CollaborationController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
-        $query = Collaboration::where(function ($query) use ($search) {
+        $query = Collaboration::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('type', 'like', $search)
                 ->orWhere('email', 'like', $search)
@@ -46,7 +51,7 @@ class CollaborationController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
+        return Method::view('user.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -59,18 +64,18 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.collaboration.create', compact('route', 'acc', 'status', 'types'));
+        return Method::view('user.collaboration.create', compact('route', 'acc', 'status', 'types'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
             'type' => 'required|in:Mitra,Pemasok,Konsumen',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email|unique:collaborations',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
             'status' => 'required|in:Aktif,Nonaktif',
@@ -84,6 +89,7 @@ class CollaborationController extends Controller
         }
 
         Collaboration::create([
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'type' => $request->type,
             'email' => $request->email,
@@ -93,7 +99,7 @@ class CollaborationController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dibuat!');
+        return redirect()->route('userCollaboration')->with('message', 'Kolaborasi telah berhasil dibuat!');
     }
 
     /**
@@ -114,13 +120,13 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
+        return Method::view('user.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Collaboration $collaboration)
+    public function update(CustomRequest $request, Collaboration $collaboration)
     {
         $rules = [
             'name' => 'required|string',
@@ -144,6 +150,7 @@ class CollaborationController extends Controller
         }
 
         $collaboration->update([
+            // 'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'type' => $request->type,
             'email' => $request->email,
@@ -153,7 +160,7 @@ class CollaborationController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil diperbarui!');
+        return redirect()->route('userCollaboration')->with('message', 'Kolaborasi telah berhasil diperbarui!');
     }
 
     /**
@@ -163,6 +170,6 @@ class CollaborationController extends Controller
     {
         $collaboration->delete();
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dihapus!');
+        return redirect()->route('userCollaboration')->with('message', 'Kolaborasi telah berhasil dihapus!');
     }
 }

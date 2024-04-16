@@ -88,7 +88,7 @@ class UserController extends Controller
         $genders = $this->genders;
         $status = $this->status;
         $acc = Auth::user();
-        $roles = UserRole::all();
+        $roles = UserRole::where('organization_id', User::find($acc->id)->organization()->id)->get();
 
         return view('admin.user.create', compact('route', 'acc', 'types', 'status', 'genders', 'roles'));
     }
@@ -163,7 +163,7 @@ class UserController extends Controller
         $status = $this->status;
         $genders = $this->genders;
         $acc = Auth::user();
-        $roles = UserRole::all();
+        $roles = UserRole::where('organization_id', User::find($acc->id)->organization()->id)->get();
 
         return view('admin.user.edit', compact('route', 'acc', 'types', 'status', 'genders', 'roles', 'user'));
     }
