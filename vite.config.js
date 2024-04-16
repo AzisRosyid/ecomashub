@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/auth.js',
                 'resources/js/admin.js',
                 'resources/js/user.js',
+                'resources/js/eco-chat.js',
                 'resources/js/admin-dashboard.js',
                 'resources/js/user-dashboard.js',
                 'resources/js/chart.umd.js',
