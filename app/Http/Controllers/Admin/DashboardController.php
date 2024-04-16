@@ -146,7 +146,7 @@ class DashboardController extends Controller
             'wastes' => Waste::count()
         ];
 
-        return Method::view('admin.dashboard.index', compact('route', 'acc', 'events', 'total'));
+        return view('admin.dashboard.index', compact('route', 'acc', 'events', 'total'));
     }
 
     /**

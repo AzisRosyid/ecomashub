@@ -37,7 +37,7 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminEventStore') }}" method="POST" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
+        <form action="{{ route('adminEventStore') }}" method="POST" enctype="multipart/form-data" class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @csrf
             <div class="border-b sm:flex">
                 <label for="judulKegiatan" class="sm:w-40 block">Judul kegiatan*</label>

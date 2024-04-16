@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin\EcoFriendly;
+namespace App\Http\Controllers\User\EcoFriendly;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Waste;
 use App\Models\WasteType;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
+use Illuminate\Support\Facades\Session;
 
 class WasteController extends Controller
 {
-    private $route = 'adminWaste';
+    private $route = 'userWaste';
     private $units = ['Milligram', 'Gram', 'Kilogram'];
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -27,8 +29,11 @@ class WasteController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
-        $productIds = Product::where('name', 'like', $search)->pluck('id');
+        $productIds = Product::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->where('name', 'like', $search)->pluck('id');
         $typesIds = WasteType::where('name', 'like', $search)->pluck('id');
 
         $query = Waste::where(function ($query) use ($search) {
@@ -65,7 +70,7 @@ class WasteController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.eco-friendly.waste.index', compact('route', 'acc', 'wastes', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return Method::view('user.eco-friendly.waste.index', compact('route', 'acc', 'wastes', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -76,16 +81,19 @@ class WasteController extends Controller
         $route = $this->route;
         $units = $this->units;
         $acc = Auth::user();
-        $products = Product::all();
+        $storeId = Session::get('store_id');
+        $products = Product::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->get();
         $types = WasteType::all();
 
-        return view('admin.eco-friendly.waste.create', compact('route', 'acc', 'units', 'products', 'types'));
+        return Method::view('user.eco-friendly.waste.create', compact('route', 'acc', 'units', 'products', 'types'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'product_id' => 'required|exists:products,id',
@@ -104,7 +112,7 @@ class WasteController extends Controller
 
         Waste::create($request->all());
 
-        return redirect()->route('adminWaste')->with('message', 'Sampah telah berhasil dibuat!');
+        return redirect()->route('userWaste')->with('message', 'Sampah telah berhasil dibuat!');
     }
 
     /**
@@ -122,16 +130,20 @@ class WasteController extends Controller
         $route = $this->route;
         $units = $this->units;
         $acc = Auth::user();
-        $products = Product::all();
+        $storeId = Session::get('store_id');
+        $products = Product::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->get();
+
         $types = WasteType::all();
 
-        return view('admin.eco-friendly.waste.edit', compact('route', 'acc', 'units', 'products', 'types', 'waste'));
+        return Method::view('user.eco-friendly.waste.edit', compact('route', 'acc', 'units', 'products', 'types', 'waste'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Waste $waste)
+    public function update(CustomRequest $request, Waste $waste)
     {
         $rules = [
             'product_id' => 'required|exists:products,id',
@@ -149,7 +161,7 @@ class WasteController extends Controller
 
         $waste->update($request->all());
 
-        return redirect()->route('adminWaste')->with('message', 'Sampah telah berhasil diperbarui!');
+        return redirect()->route('userWaste')->with('message', 'Sampah telah berhasil diperbarui!');
     }
 
     /**
@@ -159,6 +171,6 @@ class WasteController extends Controller
     {
         $waste->delete();
 
-        return redirect()->route('adminWaste')->with('message', 'Sampah telah berhasil dihapus!');
+        return redirect()->route('userWaste')->with('message', 'Sampah telah berhasil dihapus!');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class UserController extends Controller
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
 
-        $roleIds = UserRole::where('name', 'like', $search)->orWhere('type', 'like', $search)->pluck('id');
+        $roleIds = UserRole::where('organization_id', User::find($acc->id)->organization()->id)->where('name', 'like', $search)->orWhere('type', 'like', $search)->pluck('id');
 
         $query = User::where(function ($query) use ($search) {
             $query->where('first_name', 'like', $search)
@@ -65,7 +66,7 @@ class UserController extends Controller
         $pickUnit = 5;
         $pageUnit = $request->input('pageUnit', 1);
 
-        $queryUnit = UserRole::query();
+        $queryUnit = UserRole::where('organization_id', User::find($acc->id)->organization()->id);
 
         $totalUnit = $queryUnit->count();
 
@@ -87,7 +88,7 @@ class UserController extends Controller
         $genders = $this->genders;
         $status = $this->status;
         $acc = Auth::user();
-        $roles = UserRole::all();
+        $roles = UserRole::where('organization_id', User::find($acc->id)->organization()->id)->get();
 
         return view('admin.user.create', compact('route', 'acc', 'types', 'status', 'genders', 'roles'));
     }
@@ -120,6 +121,11 @@ class UserController extends Controller
 
         $password = Hash::make($request->first_name . '_' . Carbon::parse($request->date_of_birth)->format('Y'));
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'user', $request->file('image'), $request->name);
+        }
+
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -133,7 +139,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'status' => $request->status,
-            //    'image' => $request->image,
+            'image' => $image,
         ]);
 
         return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil dibuat!');
@@ -157,7 +163,7 @@ class UserController extends Controller
         $status = $this->status;
         $genders = $this->genders;
         $acc = Auth::user();
-        $roles = UserRole::all();
+        $roles = UserRole::where('organization_id', User::find($acc->id)->organization()->id)->get();
 
         return view('admin.user.edit', compact('route', 'acc', 'types', 'status', 'genders', 'roles', 'user'));
     }
@@ -198,6 +204,11 @@ class UserController extends Controller
 
         $password = $request->has('reset_password') ? Hash::make($request->first_name . '_' . Carbon::parse($request->date_of_birth)->format('Y')) : $user->password;
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'user', $request->file('image'), $request->name);
+        }
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -211,7 +222,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'status' => $request->status,
-            //    'image' => $request->image,
+            'image' => $image,
         ]);
 
         return redirect()->route('adminUser')->with('message', 'Pengguna telah berhasil diperbarui!');

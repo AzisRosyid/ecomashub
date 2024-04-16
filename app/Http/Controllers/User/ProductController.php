@@ -1,24 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use Illuminate\Http\Request;
+use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    private $route = 'adminProduct';
+    private $route = 'userProduct';
     private $units = ['Milligram', 'Gram', 'Kilogram'];
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
+        $stores = Store::all();
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
@@ -26,10 +29,12 @@ class ProductController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
-
+        $storeId = Session::get('store_id');
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
-        $query = Product::where('store_id', null)
+        $query = Product::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('weight', 'like', $search)
@@ -67,7 +72,7 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return Method::view('user.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -80,13 +85,13 @@ class ProductController extends Controller
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('route', 'acc', 'units', 'categories'));
+        return view('user.product.create', compact('route', 'acc', 'units', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -105,18 +110,13 @@ class ProductController extends Controller
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        Method::uploadFile($request->file('image'), $request->name);
-
-        // $file = null;
-        // if ($request->file('photo') != null) {
-        //     $request->file('photo')->getClientMimeType();
-        //     $photo = $request->file('photo')->getClientOriginalExtension();
-        //     $file = Carbon::now()->format('Y_m_d_His') . '_' . $request->name . '.' . $photo;
-        //     $request->file('photo')->move('images', $file);
-        // }
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'product', $request->file('image'), $request->name);
+        }
 
         Product::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'category_id' => $request->category_id,
             'weight' => $request->weight,
@@ -124,9 +124,10 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'price' => $request->price,
             'description' => $request->description,
+            'image' => $image,
         ]);
 
-        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil dibuat!');
+        return redirect()->route('userProduct')->with('message', 'Produk telah berhasil dibuat!');
     }
 
     /**
@@ -147,13 +148,13 @@ class ProductController extends Controller
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.edit', compact('route', 'acc', 'units', 'categories', 'product'));
+        return view('user.product.edit', compact('route', 'acc', 'units', 'categories', 'product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(CustomRequest $request, Product $product)
     {
         $rules = [
             'name' => 'required|string',
@@ -166,16 +167,30 @@ class ProductController extends Controller
             'image' => 'nullable|mimes:jpg,png,jpeg',
         ];
 
-
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        $product->update($request->all());
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'product', $request->file('image'), $request->name);
+        }
 
-        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil diperbarui!');
+        $product->update([
+            // 'store_id' => Session::get('store_id'),
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'weight' => $request->weight,
+            'unit' => $request->unit,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
+            'image' => $image,
+        ]);
+
+        return redirect()->route('userProduct')->with('message', 'Produk telah berhasil diperbarui!');
     }
 
     /**
@@ -185,6 +200,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil dihapus!');
+        return redirect()->route('userProduct')->with('message', 'Produk telah berhasil dihapus!');
     }
 }

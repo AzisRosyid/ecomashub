@@ -10,7 +10,9 @@ export default defineConfig({
                 'resources/js/home.js',
                 'resources/js/auth.js',
                 'resources/js/admin.js',
-                'resources/js/dashboard.js',
+                'resources/js/user.js',
+                'resources/js/admin-dashboard.js',
+                'resources/js/user-dashboard.js',
                 'resources/js/chart.umd.js',
                 'resources/js/script.js',
                 'resources/js/firebase.js'

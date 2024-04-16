@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    private $route = 'adminProfile';
+    private $route = 'userProfile';
     private $types = ['Internal', 'External'];
     private $genders = ['Laki-Laki', 'Perempuan'];
     private $status =  ['Aktif', 'Menunggu', 'Blok'];
@@ -30,7 +31,7 @@ class ProfileController extends Controller
         $image = "https://drive.usercontent.google.com/download?id=1Ez08HPljQWbw6XHkZ8t-bEUlxrQeuOrB&export=view";
 
 
-        return view('admin.profile.index', compact('route', 'acc', 'image'));
+        return view('user.profile.index', compact('route', 'acc', 'image'));
     }
 
     /**
@@ -80,7 +81,7 @@ class ProfileController extends Controller
         $acc = Auth::user();
         $roles = UserRole::all();
 
-        return view('admin.profile.edit', compact('route', 'acc', 'types', 'status', 'genders', 'roles'));
+        return view('user.profile.edit', compact('route', 'acc', 'types', 'status', 'genders', 'roles'));
     }
 
     /**
@@ -94,7 +95,7 @@ class ProfileController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.profile.password', compact('route', 'acc'));
+        return view('user.profile.password', compact('route', 'acc'));
     }
 
     /**
@@ -138,6 +139,11 @@ class ProfileController extends Controller
 
         $password = $request->filled('password') ? Hash::make($request->password) : $user->password;
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'user', $request->file('image'), $request->name);
+        }
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -149,10 +155,10 @@ class ProfileController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
-            //    'image' => $request->image,
+            'image' => $image
         ]);
 
-        return redirect()->route('adminProfile')->with('message', 'Profil telah berhasil diperbarui!');
+        return redirect()->route('userProfile')->with('message', 'Profil telah berhasil diperbarui!');
     }
 
     /**
@@ -187,7 +193,7 @@ class ProfileController extends Controller
             'password' => Hash::make($request->new_password),
         ]);
 
-        return redirect()->route('adminProfile')->with('message', 'Password telah berhasil diperbarui!');
+        return redirect()->route('userProfile')->with('message', 'Password telah berhasil diperbarui!');
     }
 
     /**

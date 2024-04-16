@@ -154,13 +154,11 @@
                         @foreach ($events as $index => $st)
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3 flex detail-item"
-                                    detailImg="{{ Vite::asset('resources/images/logo.png') }}"
+                                    detailImg="{{ $st->image ? $st->media->url() : Vite::asset('resources/images/logo.png') }}"
                                     detailTitle="{{ $st->title }}"
                                     detailDesc="{{ $st->description ?? 'Tidak Ada' }}">
-                                    <div>
-                                        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
-                                            class="rounded-full min-h-9 min-w-9">
-                                    </div>
+                                    <img src="{{ $st->image ? $st->media->url() : Vite::asset('resources/images/logo.png') }}"
+                                        alt="" class="rounded-full min-h-9 min-w-9">
                                     <div class="ms-2 cursor-pointer">
                                         {{ $st->title }}
                                         <p class="w-24 text-xs text-slate-500 overflow-hidden h-4">
@@ -179,14 +177,10 @@
                                 <td class="py-3 text-start px-3">{{ $st->formatted_date_start }}<br>
                                     {{ $st->formatted_date_end }}</td>
                                 <td class="py-3 text-start px-3">
-                                    <form action="" method="get" class="">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button
-                                            class="px-2 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
-                                            <img src="{{ Vite::asset('resources/images/event-file.png') }}"
-                                                alt="">
-                                        </button>
-                                    </form>
+                                    <a href="{{ $st->file ? $st->mediaFile->url() : '' }}" target="_blank"
+                                        class="px-2 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
+                                        <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
+                                    </a>
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">

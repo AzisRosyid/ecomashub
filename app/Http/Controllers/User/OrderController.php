@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    private $route = 'adminOrder';
+    private $route = 'userOrder';
     private $status = ['Pengajuan', 'Proses', 'Selesai'];
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $status = $this->status;
@@ -28,6 +30,7 @@ class OrderController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = session('store_id');
 
         $productIds = Product::where('name', 'like', $search)->pluck('id');
 
@@ -35,7 +38,9 @@ class OrderController extends Controller
             $query->whereIn('product_id', $productIds);
         })->pluck('order_id');
 
-        $query = Order::where('store_id', null)
+        $query = Order::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('down_payment', 'like', $search)
@@ -56,7 +61,7 @@ class OrderController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.order.index', compact('route', 'acc', 'status', 'orders', 'pick', 'page', 'total', 'pages'));
+        return Method::view('user.order.index', compact('route', 'acc', 'status', 'orders', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -69,13 +74,13 @@ class OrderController extends Controller
         $acc = Auth::user();
         $products = Product::where('store_id', null);
 
-        return view('admin.order.create', compact('route', 'acc', 'status', 'products'));
+        return Method::view('user.order.create', compact('route', 'acc', 'status', 'products'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -108,7 +113,7 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'down_payment' => $request->down_payment,
             'description' => $request->description,
@@ -152,7 +157,7 @@ class OrderController extends Controller
 
         OrderDetail::insert($orderDetails);
 
-        return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil dibuat!');
+        return redirect()->route('userOrder')->with('message', 'Pesanan telah berhasil dibuat!');
     }
 
     /**
@@ -173,13 +178,13 @@ class OrderController extends Controller
         $products = Product::where('store_id', null)->get();
         $details = OrderDetail::where('order_id', $order->id)->get();
 
-        return view('admin.order.edit', compact('route', 'acc', 'status', 'products', 'order', 'details'));
+        return Method::view('user.order.edit', compact('route', 'acc', 'status', 'products', 'order', 'details'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(CustomRequest $request, Order $order)
     {
         $rules = [
             'name' => 'required|string',
@@ -209,7 +214,7 @@ class OrderController extends Controller
         }
 
         $order->update([
-            'store_id' => $request->store_id,
+            //  'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'down_payment' => $request->down_payment,
             'description' => $request->description,
@@ -240,13 +245,13 @@ class OrderController extends Controller
 
         // OrderDetail::insert($orderDetails);
 
-        return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil diperbarui!');
+        return redirect()->route('userOrder')->with('message', 'Pesanan telah berhasil diperbarui!');
     }
 
     /**
      * Update Status
      */
-    public function updateStatus(Request $request)
+    public function updateStatus(CustomRequest $request)
     {
         $rules = [
             'id' => 'required|integer|exists:orders,id',
@@ -273,6 +278,6 @@ class OrderController extends Controller
     {
         $order->delete();
 
-        return redirect()->route('adminOrder')->with('message', 'Pesanan telah berhasil dihapus!');
+        return redirect()->route('userOrder')->with('message', 'Pesanan telah berhasil dihapus!');
     }
 }

@@ -40,32 +40,50 @@ class CustomRequest extends FormRequest
      */
     public function authorizeRequest()
     {
-        $acc = Auth::user();
         $storeId = Session::get('store_id');
 
-        if ($storeId) {
-            $store = Store::where(function ($query) use ($acc) {
-                if ($acc->role == 'Pengurus') {
-                    $query->where('user.organization', $acc->organization);
-                } else {
-                    $query->where('user_id', $acc->id);
-                }
-            })->where('id', $storeId)->get()->first();
-            if ($store) {
-                $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::user()->id);
+        $organization = $user->organization();
 
+        $userIds = User::whereHas('userRole.organization', function ($query) use ($organization) {
+            $query->where('id', $organization->id);
+        })->pluck('id');
+
+        $storeValidation = Store::whereIn('user_id', $userIds);
+
+        if ($user->userRole->type == 'Pengurus') {
+            if ($storeValidation->get()->count() < 1) {
+                abort(404, 'Buat Toko dulu.');
+            }
+        } else if ($user->userRole->type == 'Anggota') {
+            if ($storeValidation->where('user_id', $user->id)->get()->count() < 1) {
+                abort(404, 'Buat Toko dulu.');
+            }
+        }
+
+        if ($storeId) {
+            $store = Store::where(function ($query) use ($user) {
+                if ($user->role == 'Pengurus') {
+                    $query->where('user.organization', $user->organization());
+                } else {
+                    $query->where('user_id', $user->id);
+                }
+            });
+            $curStore = $store->where('id', $storeId)->first();
+            if ($curStore) {
                 if ($user->userRole->type == 'Pengurus') {
-                    if ($store->organization() != $user->organization()) {
-                        Session::forget('store_id');
+                    if ($curStore->organization() != $user->organization()) {
+                        Session::put('store_id', $store->first());
                         abort(403, 'Unauthorized action.');
                     }
                 } elseif ($user->userRole->type == 'Pengguna') {
-                    if ($store->user != $user) {
-
-                        Session::forget('store_id');
+                    if ($curStore->user != $user) {
+                        Session::put('store_id', $store->first());
                         abort(403, 'Unauthorized action.');
                     }
                 }
+            } else {
+                Session::put('store_id', $store->first());
             }
         }
 

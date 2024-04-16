@@ -37,7 +37,7 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminEventUpdate', $event) }}" method="POST"
+        <form action="{{ route('adminEventUpdate', $event) }}" method="POST" enctype="multipart/form-data"
             class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @method('put')
             @csrf

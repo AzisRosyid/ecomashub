@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     protected $fillable = [
-        'store_id',
+        'organization_id',
         'title',
         'organizer',
         'description',
@@ -47,5 +47,15 @@ class Event extends Model
     public function getFormattedDateEndAttribute()
     {
         return Carbon::parse($this->attributes['date_end'])->translatedFormat('H:i | d F Y');
+    }
+
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'image', 'id');
+    }
+
+    public function mediaFile()
+    {
+        return $this->belongsTo(Media::class, 'file', 'id');
     }
 }

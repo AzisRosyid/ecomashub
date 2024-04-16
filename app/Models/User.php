@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->userRole->organization;
     }
+
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'image', 'id');
+    }
 }
