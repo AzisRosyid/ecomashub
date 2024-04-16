@@ -154,8 +154,7 @@
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3 flex">
                                     <div>
-                                        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt=""
-                                            class="rounded-full min-h-9 min-w-9">
+                                        <img src="{{ $st->image ? $st->media->url() : Vite::asset('resources/images/logo.png') }}" alt="" class="rounded-full min-h-9 min-w-9">
                                     </div>
                                     <div id="" class="ms-2 cursor-pointer detail-item">
                                         {{ $st->name }}

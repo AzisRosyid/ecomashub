@@ -37,7 +37,7 @@
         <!-- end head -->
 
         <!-- body -->
-        <form action="{{ route('adminProductUpdate', $product) }}" method="POST"
+        <form action="{{ route('adminProductUpdate', $product) }}" method="POST" enctype="multipart/form-data"
             class="mt-6 sm:mx-10 mx-2 font-fredokaRegular">
             @method('put')
             @csrf
@@ -91,37 +91,40 @@
                     <option value="">Pilih kategori</option>
                     @foreach ($categories as $st)
                         <option value="{{ $st->id }}"
-                            {{ (old('category_id') ?? $product->category_id) === $st->id ? 'selected' : '' }}>
+                            {{ (old('category_id') ?? $product->category_id) == $st->id ? 'selected' : '' }}>
                             {{ $st->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
             <div class="border-b mt-3 sm:flex">
-                <label for="gambar" class="sm:w-40">Gambar</label>
-                <input type="file" name="gambar" id="gambar"
+                <label for="image" class="sm:w-40">Gambar</label>
+                <input type="file" name="image" id="image"
                     class="w-full outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4 hidden"
-                    placeholder="Total dana kegiatan">
-                <label for="gambar"
+                    accept="image/png, image/jpg, image/jpeg" placeholder="Masukkan gambar">
+                <label for="image"
                     class="sm:w-[600px] sm:border border-gray-400 p-2 rounded-lg mt-2 mb-4 cursor-pointer">
                     <div class="text-center py-4 border border-gray-400 p-2 rounded-lg sm:border-none">
-                        <svg class="mx-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 13L18 4" stroke="#798999" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M3 13L6 4" stroke="#798999" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M12 11V3M21 13V20C21 20.2652 20.8946 20.5196 20.7071 20.7071C20.5196 20.8946 20.2652 21 20 21H4C3.73478 21 3.48043 20.8946 3.29289 20.7071C3.10536 20.5196 3 20.2652 3 20V13H8C8 14.0609 8.42143 15.0783 9.17157 15.8284C9.92172 16.5786 10.9391 17 12 17C13.0609 17 14.0783 16.5786 14.8284 15.8284C15.5786 15.0783 16 14.0609 16 13H21Z"
-                                stroke="#798999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M15 6L12 3L9 6" stroke="#798999" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        <p class="text-sm font-fredokaRegular"><span class="text-green-600">Klik untuk upload</span>
-                            atau tarik dan
-                            taruh di sini.</p>
-                        <p class="text-gray-400 text-xs font-fredokaRegular">JPEG, PNG, atau SVG (Masimal 2mb)</p>
-                        <p class="px-3 py-1 mt-3 border border-gray-400 rounded-lg inline-block">Cari foto</p>
+                        <img src="" alt="" class="img-preview1 w-max-full">
+                        <div class="fieldImage1">
+                            <svg class="mx-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 13L18 4" stroke="#798999" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M3 13L6 4" stroke="#798999" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12 11V3M21 13V20C21 20.2652 20.8946 20.5196 20.7071 20.7071C20.5196 20.8946 20.2652 21 20 21H4C3.73478 21 3.48043 20.8946 3.29289 20.7071C3.10536 20.5196 3 20.2652 3 20V13H8C8 14.0609 8.42143 15.0783 9.17157 15.8284C9.92172 16.5786 10.9391 17 12 17C13.0609 17 14.0783 16.5786 14.8284 15.8284C15.5786 15.0783 16 14.0609 16 13H21Z"
+                                    stroke="#798999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15 6L12 3L9 6" stroke="#798999" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <p class="text-sm font-fredokaRegular"><span class="text-green-600">Klik untuk upload</span>
+                                atau tarik dan
+                                taruh di sini.</p>
+                            <p class="text-gray-400 text-xs font-fredokaRegular">JPEG, PNG, atau SVG (Masimal 2mb)</p>
+                            <p class="px-3 py-1 mt-3 border border-gray-400 rounded-lg inline-block">Cari foto</p>
+                        </div>
                     </div>
                 </label>
             </div>

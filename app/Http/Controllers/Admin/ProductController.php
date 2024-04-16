@@ -112,7 +112,7 @@ class ProductController extends Controller
 
         $image = null;
         if ($request->file('image')) {
-            $image = Method::uploadFile($request->store_id . '/product', $request->file('image'), $request->name);
+            $image = Method::uploadFile($request->store_id . 'product', $request->file('image'), $request->name);
         }
 
         Product::create([
@@ -175,7 +175,7 @@ class ProductController extends Controller
 
         $image = null;
         if ($request->file('image')) {
-            $image = Method::uploadFile($request->store_id . '/product', $request->file('image'), $request->name);
+            $image = Method::uploadFile($request->store_id . 'product', $request->file('image'), $request->name);
         }
 
         $product->update([

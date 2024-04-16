@@ -31,6 +31,20 @@ class UserSeeder extends Seeder
                 'address' => 'Indonesia',
                 'status' => 'Aktif'
             ],
+            [
+                'first_name' => 'Alif',
+                'last_name' => 'Akbar',
+                'username' => 'alifakbar',
+                'email' => 'alifakbar@gmail.com',
+                'password' => Hash::make('12345678'),
+                'role_id' => 2,
+                'source_type' => 'Internal',
+                'gender' => 'Laki-Laki',
+                'date_of_birth' => '2024-1-1',
+                'phone_number' => '123412342134',
+                'address' => 'Indonesia',
+                'status' => 'Aktif'
+            ],
         ]);
     }
 }

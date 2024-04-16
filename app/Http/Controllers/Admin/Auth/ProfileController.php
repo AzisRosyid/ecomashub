@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -138,6 +139,11 @@ class ProfileController extends Controller
 
         $password = $request->filled('password') ? Hash::make($request->password) : $user->password;
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'user', $request->file('image'), $request->name);
+        }
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -149,7 +155,7 @@ class ProfileController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
-            //    'image' => $request->image,
+            'image' => $image
         ]);
 
         return redirect()->route('adminProfile')->with('message', 'Profil telah berhasil diperbarui!');
