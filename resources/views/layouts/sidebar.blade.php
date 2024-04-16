@@ -6,6 +6,26 @@
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-[40px]">
                 <img src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
             </a>
+            @isset($stores)
+                <div class="flex justify-center">
+                    <ul>
+                        <li>
+                            <label for="selectStore" class="">Toko</label>
+                        </li>
+                        <li>
+                            <select name="store_id" id="selectStore"
+                                class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih toko"
+                                required>
+                                @foreach ($stores as $st)
+                                    <option value="{{ $st->id }}" {{ $select == $st->id ? 'selected' : '' }}>
+                                        {{ $st->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            @endisset
             <ul class="ps-10 border-b pb-3">
                 <li>
                     <a href="{{ route('adminDashboard') }}"
@@ -60,6 +80,27 @@
                         </svg>
 
                         <p class="ms-2">Pengguna</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('adminStore') }}"
+                        class="flex py-4 px-5 rounded-s-2xl text-zinc-700 hover:text-green-600 sidebar-list @if ($route == 'adminStore') sidebar-active @endif">
+                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M15 11.5444H13V9.54443C13 8.99443 12.55 8.54443 12 8.54443C11.45 8.54443 11 8.99443 11 9.54443V11.5444H9C8.45 11.5444 8 11.9944 8 12.5444C8 13.0944 8.45 13.5444 9 13.5444H11V15.5444C11 16.0944 11.45 16.5444 12 16.5444C12.55 16.5444 13 16.0944 13 15.5444V13.5444H15C15.55 13.5444 16 13.0944 16 12.5444C16 11.9944 15.55 11.5444 15 11.5444ZM19 18.5444C19 19.0954 18.552 19.5444 18 19.5444H6C5.448 19.5444 5 19.0954 5 18.5444V6.54443C5 5.99343 5.448 5.54443 6 5.54443H18C18.552 5.54443 19 5.99343 19 6.54443V18.5444ZM18 3.54443H6C4.346 3.54443 3 4.89043 3 6.54443V18.5444C3 20.1984 4.346 21.5444 6 21.5444H18C19.654 21.5444 21 20.1984 21 18.5444V6.54443C21 4.89043 19.654 3.54443 18 3.54443Z"
+                                fill="#394149" />
+                            <mask id="mask0_659_1203" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="3" y="3"
+                                width="18" height="19">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M15 11.5444H13V9.54443C13 8.99443 12.55 8.54443 12 8.54443C11.45 8.54443 11 8.99443 11 9.54443V11.5444H9C8.45 11.5444 8 11.9944 8 12.5444C8 13.0944 8.45 13.5444 9 13.5444H11V15.5444C11 16.0944 11.45 16.5444 12 16.5444C12.55 16.5444 13 16.0944 13 15.5444V13.5444H15C15.55 13.5444 16 13.0944 16 12.5444C16 11.9944 15.55 11.5444 15 11.5444ZM19 18.5444C19 19.0954 18.552 19.5444 18 19.5444H6C5.448 19.5444 5 19.0954 5 18.5444V6.54443C5 5.99343 5.448 5.54443 6 5.54443H18C18.552 5.54443 19 5.99343 19 6.54443V18.5444ZM18 3.54443H6C4.346 3.54443 3 4.89043 3 6.54443V18.5444C3 20.1984 4.346 21.5444 6 21.5444H18C19.654 21.5444 21 20.1984 21 18.5444V6.54443C21 4.89043 19.654 3.54443 18 3.54443Z"
+                                    fill="white" />
+                            </mask>
+                            <g mask="url(#mask0_659_1203)">
+                                <rect y="0.544434" width="24" height="24" fill="#394149" />
+                            </g>
+                        </svg>
+                        <p class="ms-2">Toko</p>
                     </a>
                 </li>
                 <li>

@@ -1,4 +1,5 @@
 const passwordSections = document.querySelectorAll('.password-section');
+const selectStore = document.querySelector('#selectStore')
 
 passwordSections.forEach(function (element) {
     const passwordInput = element.querySelector('.password-input');
@@ -18,3 +19,24 @@ passwordSections.forEach(function (element) {
     });
 });
 
+if (selectStore) {
+    selectStore.addEventListener('change', function () {
+        return new Promise((resolve, reject) => {
+            try {
+                fetch(window.location.origin + `/admin/store/?api&select=${this.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.reload(); // Refresh page with exactly the same URL (including queries and endpoint)
+                        resolve();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        reject(error);
+                    });
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    });
+}

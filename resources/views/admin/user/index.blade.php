@@ -257,7 +257,7 @@
                     </a>
                     <form action="{{ route('adminUserDestroy', $st) }}" method="POST" class="px-1">
                         @method('delete')
-                        @csrf
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button
                             class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
                             <div
@@ -377,7 +377,7 @@
                                     <form action="{{ route('adminUserRoleDestroy', $st) }}" method="POST"
                                         class="px-1">
                                         @method('delete')
-                                        @csrf
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button
                                             class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
                                             <div
@@ -524,7 +524,7 @@
             <p class="text-zinc-700 text-lg font-semibold font-fredokaBold mb-4">Edit status akun</p>
             <form action="{{ route('adminUserUpdateStatus') }}" method="POST" class="text-start">
                 @method('put')
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input id="userStatusId" type="number" name="id" value="" hidden>
                 <p class="block text-zinc-700">Status akun</p>
                 <select name="status" id="status"
@@ -553,7 +553,7 @@
             <p class="text-zinc-700 text-lg font-semibold font-fredokaBold">Apakah anda yakin terima user ini</p>
             <form action="{{ route('adminUserUpdateStatus') }}" method="POST" class="text-center">
                 @method('put')
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input id="acceptId" type="number" name="id" value="" hidden>
                 <p class="block text-zinc-700 mb-4">Pastikan langkah yang anda ambil</p>
                 <div class="flex">
@@ -576,7 +576,7 @@
             <p class="text-zinc-700 text-lg font-semibold font-fredokaBold">Apakah anda yakin tolak user ini</p>
             <form action="{{ route('adminUserUpdateStatus') }}" method="POST" class="text-center">
                 @method('put')
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input id="rejectId" type="number" name="id" value="" hidden>
                 <p class="block text-zinc-700 mb-4">Pastikan langkah yang anda ambil</p>
                 <div class="flex">

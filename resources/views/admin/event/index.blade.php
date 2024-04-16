@@ -16,7 +16,7 @@
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="{{ route('adminEventCreate') }}" class="">
-                    @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -180,7 +180,7 @@
                                     {{ $st->formatted_date_end }}</td>
                                 <td class="py-3 text-start px-3">
                                     <form action="" method="get" class="">
-                                        @csrf
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button
                                             class="px-2 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                                             <img src="{{ Vite::asset('resources/images/event-file.png') }}"
@@ -199,7 +199,7 @@
                                         <form action="{{ route('adminEventDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
-                                            @csrf
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <button
                                                 class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
                                                 <div

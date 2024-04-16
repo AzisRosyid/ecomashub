@@ -46,8 +46,6 @@
         @else
             @yield('content')
         @endif
-
-
     @endisset
 
 

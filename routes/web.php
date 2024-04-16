@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\AssetController as AdminAssetController;
+use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\CollaborationController as AdminCollaborationController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -85,6 +86,16 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
             Route::get('/edit/{role}', [AdminUserRoleController::class, 'edit'])->name('adminUserRoleEdit');
             Route::put('/edit/{role}', [AdminUserRoleController::class, 'update'])->name('adminUserRoleUpdate');
             Route::delete('/delete/{role}', [AdminUserRoleController::class, 'destroy'])->name('adminUserRoleDestroy');
+        });
+
+        // Store
+        Route::prefix('/store')->group(function () {
+            Route::get('/', [AdminStoreController::class, 'index'])->name('adminStore');
+            Route::get('/create', [AdminStoreController::class, 'create'])->name('adminStoreCreate');
+            Route::post('/create', [AdminStoreController::class, 'store'])->name('adminStoreStore');
+            Route::get('/edit/{store}', [AdminStoreController::class, 'edit'])->name('adminStoreEdit');
+            Route::put('/edit/{store}', [AdminStoreController::class, 'update'])->name('adminStoreUpdate');
+            Route::delete('/delete/{store}', [AdminStoreController::class, 'destroy'])->name('adminStoreDestroy');
         });
 
         // Asset

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Store;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 use Google\Client;
 use Google\Service\Drive;
 use Google\Service\Drive\PermissionTeamDrivePermissionDetails;
+use Illuminate\Support\Facades\Session;
 
 class Method extends Controller
 {
@@ -158,6 +160,14 @@ class Method extends Controller
         }
     }
 
+    public static function view($view = null, $data = [])
+    {
+        $stores = Store::all();
+
+        $select = Session::get('store_id');
+
+        return view($view, array_merge(compact('select', 'stores'), $data));
+    }
 
     // public static function uploadToGooglePhotos($image, $productName)
     // {

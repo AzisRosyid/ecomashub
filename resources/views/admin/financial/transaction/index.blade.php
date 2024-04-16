@@ -16,7 +16,7 @@
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="{{ route('adminTransaction') }}" class="">
-                    @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"

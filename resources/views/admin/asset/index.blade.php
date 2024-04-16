@@ -207,7 +207,7 @@
                                         <form action="{{ route('adminAssetDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
-                                            @csrf
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <button
                                                 class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
                                                 <div
@@ -320,7 +320,7 @@
                                         <form action="{{ route('adminAssetUnitDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
-                                            @csrf
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <button
                                                 class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
                                                 <div
@@ -467,7 +467,7 @@
             <p class="text-zinc-700 text-lg font-semibold font-fredokaBold mb-4">Edit status akun</p>
             <form action="{{ route('adminAssetUpdateStatus') }}" method="POST" class="text-start">
                 @method('put')
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input id="userStatusId" type="number" name="id" value="" hidden>
                 <p class="block text-zinc-700">Status akun</p>
                 <select name="status" id="status"

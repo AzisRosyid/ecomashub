@@ -22,6 +22,7 @@ class ProductController extends Controller
      */
     public function index(IndexRequest $request)
     {
+        $stores = Store::all();
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
@@ -72,7 +73,7 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return Method::view('admin.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
