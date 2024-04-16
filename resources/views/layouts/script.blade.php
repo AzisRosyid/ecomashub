@@ -31,4 +31,5 @@
         <script src="{{ Vite::asset('resources/js/product.modal.js') }}" type="module"></script>
     @endif
 
+    <script src="{{ Vite::asset('resources/js/eco-chat.js') }}" type="module"></script>
 @endisset
