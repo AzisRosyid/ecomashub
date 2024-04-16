@@ -71,7 +71,7 @@
             </div>
             <!-- akhir chart -->
             <div class="sm:grid grid-cols-12 gap-3 mt-4">
-                <a href="{{ route('adminUser') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('userUser') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['users'] }}</p>
                     </div>
                 </a>
-                <a href="{{ route('adminAsset') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('userAsset') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +117,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['assets'] }}</p>
                     </div>
                 </a>
-                <a href="{{ route('adminProduct') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('userProduct') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -140,7 +140,7 @@
                         <p class="font-fredokaBold text-3xl">{{ $total['products'] }}</p>
                     </div>
                 </a>
-                <a href="{{ route('adminCollaboration') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a href="{{ route('userCollaboration') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

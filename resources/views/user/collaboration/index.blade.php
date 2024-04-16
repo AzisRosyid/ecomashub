@@ -12,10 +12,10 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @include('admin.alert.message')
+                @include('user.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
-                <form action="{{ route('adminCollaborationCreate') }}" class="">
+                <form action="{{ route('userCollaborationCreate') }}" class="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
@@ -36,7 +36,7 @@
                         </svg>
                         Export</button>
                 </form>
-                <a href="{{ route('adminCollaborationCreate') }}"
+                <a href="{{ route('userCollaborationCreate') }}"
                     class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
                     <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +81,7 @@
                                 <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                             </button>
                         </form>
-                        <a href="{{ route('adminCollaborationCreate') }}"
+                        <a href="{{ route('userCollaborationCreate') }}"
                             class="px-3 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex mx-1">
                             <svg class="" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -178,13 +178,13 @@
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
-                                        <a href="{{ route('adminCollaborationEdit', $st) }}"
+                                        <a href="{{ route('userCollaborationEdit', $st) }}"
                                             class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
                                             <div
                                                 class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
                                                 Edit</div>
                                         </a>
-                                        <form action="{{ route('adminCollaborationDestroy', $st) }}" method="POST"
+                                        <form action="{{ route('userCollaborationDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">

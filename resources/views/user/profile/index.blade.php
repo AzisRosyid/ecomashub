@@ -10,7 +10,7 @@
                         Profil
                     </p>
                 </div>
-                @include('admin.alert.message')
+                @include('user.alert.message')
             </div>
             <div class=" w-1/2">
                 <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
@@ -75,10 +75,10 @@
                     </div>
                     <div class="pt-4 flex justify-between w-full">
                         <div class="flex">
-                            <a href="{{ route('adminProfileEdit') }}"
+                            <a href="{{ route('userProfileEdit') }}"
                                 class="bg-green-600 text-white font-fredokaRegular px-4 py-2 rounded-md me-3">Edit
                                 Profil</a>
-                            <a href="{{ route('adminProfileEditPassword') }}"
+                            <a href="{{ route('userProfileEditPassword') }}"
                                 class="bg-amber-400 text-white font-fredokaRegular px-4 py-2 rounded-md me-3">Ubah
                                 Password</a>
                         </div>

@@ -11,14 +11,16 @@
     @endif
 
     {{-- Dashboard --}}
-    @if ($route == 'adminDashboard')
+    @if ($route == 'adminDashboard' || $route == 'userDashboard')
         <script src="{{ Vite::asset('resources/js/chart.umd.js') }}" type="module"></script>
         <script src="{{ Vite::asset('resources/js/dashboard.js') }}" type="module"></script>
     @endif
 
-    {{-- Admin --}}
+    {{-- Content --}}
     @if (strpos($route, 'admin') !== false)
         <script src="{{ Vite::asset('resources/js/admin.js') }}" type="module"></script>
+    @elseif (strpos($route, 'user') !== false)
+        <script src="{{ Vite::asset('resources/js/user.js') }}" type="module"></script>
     @endif
 
     {{-- Modal --}}

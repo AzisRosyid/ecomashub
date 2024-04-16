@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/home.js',
                 'resources/js/auth.js',
                 'resources/js/admin.js',
+                'resources/js/user.js',
                 'resources/js/dashboard.js',
                 'resources/js/chart.umd.js',
                 'resources/js/script.js',

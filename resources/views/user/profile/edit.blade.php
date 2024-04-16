@@ -11,7 +11,7 @@
                         Edit Profil
                     </p>
                 </div>
-                @include('admin.alert.error')
+                @include('user.alert.error')
             </div>
             <div class=" w-1/2">
                 <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
@@ -26,7 +26,7 @@
         <!-- body -->
         <div class="mx-2 sm:mx-10 pt-4 lg:pt-8">
             <div class="sm:grid grid-cols-12 gap-4">
-                <form action="{{ route('adminProfileUpdate') }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ route('userProfileUpdate') }}" method="POST" enctype="multipart/form-data"
                     class="col-span-8 bg-white shadow-lg rounded-lg p-4 text-slate-600">
                     @method('put')
                     @csrf
@@ -138,7 +138,7 @@
                         </label>
                     </div>
                     <div class="pt-2 flex">
-                        <a href="{{ route('adminProfile') }}"
+                        <a href="{{ route('userProfile') }}"
                             class="bg-white text-slate-500 border border-slate-500 font-fredokaRegular px-4 py-2 rounded-md me-3">Batal</a>
                         <button
                             class="bg-green-600 hover:bg-green-500 text-white font-fredokaRegular px-4 py-2 rounded-md">Simpan</button>

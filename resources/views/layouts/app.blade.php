@@ -20,7 +20,7 @@
                 {{ ucwords(str_replace('home', '', $route)) }}
             @endif |
         @endisset
-        {{ config('app.name', 'Laravel') }}
+        {{ config('app.name', 'EcomaHub') }}
     </title>
     <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/logo.png') }}">
 
@@ -47,7 +47,6 @@
             @yield('content')
         @endif --}}
     @endisset
-
 
     @include('layouts.footer')
     @include('layouts.script')

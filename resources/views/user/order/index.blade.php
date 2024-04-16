@@ -12,7 +12,7 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @include('admin.alert.message')
+                @include('user.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
                 <form action="post" class="">
@@ -35,7 +35,7 @@
                         </svg>
                         Export</button>
                 </form>
-                <a href="{{ route('adminOrderCreate') }}"
+                <a href="{{ route('userOrderCreate') }}"
                     class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
                     <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +80,7 @@
                                 <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                             </button>
                         </form>
-                        <a href="{{ route('adminOrderCreate') }}"
+                        <a href="{{ route('userOrderCreate') }}"
                             class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex mx-1">
                             <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -195,13 +195,13 @@
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">
                                     <div class="flex">
-                                        <a href="{{ route('adminOrderEdit', $st) }}"
+                                        <a href="{{ route('userOrderEdit', $st) }}"
                                             class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
                                             <div
                                                 class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
                                                 Edit</div>
                                         </a>
-                                        <form action="{{ route('adminOrderDestroy', $st) }}" method="POST"
+                                        <form action="{{ route('userOrderDestroy', $st) }}" method="POST"
                                             class="px-1">
                                             @method('delete')
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -348,7 +348,7 @@
         class="hidden p-8 bg-white rounded-2xl fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="font-fredokaRegular text-center">
             <p class="text-zinc-700 text-lg font-semibold font-fredokaBold mb-4">Edit Status Pesanan</p>
-            <form action="{{ route('adminOrderUpdateStatus') }}" method="POST" class="text-start">
+            <form action="{{ route('userOrderUpdateStatus') }}" method="POST" class="text-start">
                 @method('put')
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input id="userStatusId" type="number" name="id" value="" hidden>

@@ -12,10 +12,10 @@
                 <p class="text-slate-500 text-sm font-normal font-fredokaRegular leading-tight hidden sm:block">
                     Manage your team
                     members and their account permissions here</p>
-                @include('admin.alert.message')
+                @include('user.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
-                <form action="{{ route('adminTransaction') }}" class="">
+                <form action="{{ route('userTransaction') }}" class="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
