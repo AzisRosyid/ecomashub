@@ -63,7 +63,7 @@ class Method extends Controller
         $clientSecret = \Config('services.google.client_secret');
         $refreshToken = \Config('services.google.refresh_token');
 
-        $response = Http::post('https://oauth2.googleapis.com/token', [
+        $response = Http::timeout(10)->post('https://oauth2.googleapis.com/token', [
             'client_id' => $clientId,
             'client_secret' => $clientSecret,
             'refresh_token' => $refreshToken,
