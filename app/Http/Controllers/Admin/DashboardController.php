@@ -30,6 +30,7 @@ class DashboardController extends Controller
     {
         $route = $this->route;
         $acc = Auth::user();
+        $storeId = session('store_id');
 
         $currentDate = Carbon::now()->format('Y-m-d');
         $currentYear = Carbon::now()->year;
@@ -38,30 +39,38 @@ class DashboardController extends Controller
         $month = $request->input('month', $currentMonth);
 
         if ($request->has('api')) {
-            $profit = Transaction::whereNull('store_id')->where('type', 'Untung')->where('status', 'Selesai')
+            $profit = Transaction::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->where('type', 'Untung')->where('status', 'Selesai')
                 ->whereYear('date', $currentYear)
                 ->selectRaw('MONTH(date) as month, SUM(value) as total')
                 ->groupBy('month')
                 ->get();
 
-            $loss = Transaction::whereNull('store_id')->where('type', 'Rugi')->where('status', 'Selesai')
+            $loss = Transaction::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->where('type', 'Rugi')->where('status', 'Selesai')
                 ->whereYear('date', $currentYear)
                 ->selectRaw('MONTH(date) as month, SUM(value) as total')
                 ->groupBy('month')
                 ->get();
 
-            $order = Order::whereNull('store_id')->whereYear('date_start', $currentYear)
+            $order = Order::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->whereYear('date_start', $currentYear)
                 ->selectRaw('MONTH(date_start) as month, COUNT(id) as total')
                 ->groupBy('month')
                 ->get();
 
-            $event = Event::whereNull('store_id')->whereYear('date_start', $currentYear)
+            $event = Event::where('organization_id', User::find($acc->id)->organization()->id)->whereYear('date_start', $currentYear)
                 ->whereMonth('date_start', $month)
                 ->orWhereMonth('date_end', $month)
                 ->orderBy('date_start')
                 ->get();
 
-            $netIncome = Transaction::whereNull('store_id')->where('status', 'Selesai')
+            $netIncome = Transaction::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->where('status', 'Selesai')
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as current_month_total', [$month])
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN -value ELSE value END ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date', $currentYear)
@@ -76,7 +85,9 @@ class DashboardController extends Controller
                 }
             }
 
-            $moneyFlow = Transaction::whereNull('store_id')->where('status', 'Selesai')
+            $moneyFlow = Transaction::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->where('status', 'Selesai')
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7 ) END ELSE 0 END) as current_month_total', [$month])
                 ->selectRaw('SUM(CASE WHEN MONTH(date) = ? THEN CASE WHEN type = "Rugi" THEN (value * 0.3) ELSE (value * 0.7) END ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date', $currentYear)
@@ -87,7 +98,9 @@ class DashboardController extends Controller
                 $percentageMoneyFlow = ($moneyFlow->current_month_total / $moneyFlow->previous_month_total) * 100;
             }
 
-            $orders = Order::whereNull('store_id')
+            $orders = Order::when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })
                 ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as current_month_total', [$month])
                 ->selectRaw('SUM(CASE WHEN MONTH(date_start) = ? THEN 1 ELSE 0 END) as previous_month_total', [$month - 1])
                 ->whereYear('date_start', $currentYear)

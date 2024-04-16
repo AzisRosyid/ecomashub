@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,7 @@ class EventController extends Controller
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
 
-        $query = Event::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Event::where('organization_id', User::find($acc->id)->organization()->id)->where(function ($query) use ($search) {
             $query->where('title', 'like', $search)
                 ->orWhere('organizer', 'like', $search)
                 ->orWhere('description', 'like', $search)

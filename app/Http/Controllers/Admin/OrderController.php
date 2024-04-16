@@ -28,6 +28,7 @@ class OrderController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = session('store_id');
 
         $productIds = Product::where('name', 'like', $search)->pluck('id');
 
@@ -35,7 +36,9 @@ class OrderController extends Controller
             $query->whereIn('product_id', $productIds);
         })->pluck('order_id');
 
-        $query = Order::where('store_id', null)
+        $query = Order::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('down_payment', 'like', $search)

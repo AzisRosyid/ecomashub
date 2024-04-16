@@ -28,10 +28,13 @@ class AssetController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = session('store_id');
 
         $unitIds = AssetUnit::where('name', 'like', $search)->pluck('id');
 
-        $query = Asset::where('store_id', null)
+        $query = Asset::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('category', 'like', $search)

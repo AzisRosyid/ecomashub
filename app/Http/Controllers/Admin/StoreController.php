@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class StoreController extends Controller
             return response()->json(compact('total', 'stores'), 200);
         }
 
-        return view('admin.store.index', compact('route', 'acc', 'stores', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.store.index', compact('route', 'acc', 'stores', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -75,7 +76,7 @@ class StoreController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.store.create', compact('route', 'acc', 'status'));
+        return Method::view('admin.store.create', compact('route', 'acc', 'status'));
     }
 
     /**
@@ -130,7 +131,7 @@ class StoreController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.store.edit', compact('route', 'acc', 'status', 'store'));
+        return Method::view('admin.store.edit', compact('route', 'acc', 'status', 'store'));
     }
 
     /**

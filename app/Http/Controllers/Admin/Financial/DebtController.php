@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Debt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class DebtController extends Controller
@@ -23,8 +24,11 @@ class DebtController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
-        $query = Debt::where('store_id', null)->where(function ($query) use ($search) {
+        $query = Debt::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->where(function ($query) use ($search) {
             $query->where('name', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('interest', 'like', $search)

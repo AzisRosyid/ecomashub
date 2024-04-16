@@ -8,6 +8,7 @@ use App\Models\Collaboration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ExpenseController extends Controller
@@ -26,10 +27,13 @@ class ExpenseController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
         $collaborationIds = Collaboration::where('name', 'like', $search)->pluck('id');
 
-        $query = Expense::whereNull('store_id')
+        $query = Expense::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', $search)
                     ->orWhere('value', 'like', $search)

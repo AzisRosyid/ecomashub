@@ -93,7 +93,7 @@ class CollaborationController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dibuat!');
+        return redirect()->route('adminCollaboration')->with('message', 'Kolaborasi telah berhasil dibuat!');
     }
 
     /**
@@ -153,7 +153,7 @@ class CollaborationController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil diperbarui!');
+        return redirect()->route('adminCollaboration')->with('message', 'Kolaborasi telah berhasil diperbarui!');
     }
 
     /**
@@ -163,6 +163,6 @@ class CollaborationController extends Controller
     {
         $collaboration->delete();
 
-        return redirect()->route('adminCollaboration')->with('message', 'Pemasok telah berhasil dihapus!');
+        return redirect()->route('adminCollaboration')->with('message', 'Kolaborasi telah berhasil dihapus!');
     }
 }

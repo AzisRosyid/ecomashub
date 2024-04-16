@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
@@ -22,8 +23,11 @@ class TransactionController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'date');
         $method = $request->input('method', 'desc');
+        $storeId = Session::get('store_id');
 
-        $query = Transaction::whereNull('store_id')->where('status', 'Selesai')->where(function ($query) use ($search) {
+        $query = Transaction::when($storeId, function ($query) use ($storeId) {
+            $query->where('store_id', $storeId);
+        })->where('status', 'Selesai')->where(function ($query) use ($search) {
             $query->where('category', 'like', $search)
                 ->orWhere('value', 'like', $search)
                 ->orWhere('type', 'like', $search)
