@@ -71,7 +71,7 @@
             </div>
             <!-- akhir chart -->
             <div class="sm:grid grid-cols-12 gap-3 mt-4">
-                <a href="{{ route('userUser') }}" class="col-span-4 flex p-2 border rounded-lg gap-3">
+                <a class="col-span-4 flex p-2 border rounded-lg gap-3">
                     <div>
                         <svg width="65" height="65" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
