@@ -11,9 +11,12 @@
     @endif
 
     {{-- Dashboard --}}
-    @if ($route == 'adminDashboard' || $route == 'userDashboard')
+    @if ($route == 'adminDashboard')
         <script src="{{ Vite::asset('resources/js/chart.umd.js') }}" type="module"></script>
-        <script src="{{ Vite::asset('resources/js/dashboard.js') }}" type="module"></script>
+        <script src="{{ Vite::asset('resources/js/admin-dashboard.js') }}" type="module"></script>
+    @elseif ($route == 'userDashboard')
+        <script src="{{ Vite::asset('resources/js/chart.umd.js') }}" type="module"></script>
+        <script src="{{ Vite::asset('resources/js/user-dashboard.js') }}" type="module"></script>
     @endif
 
     {{-- Content --}}

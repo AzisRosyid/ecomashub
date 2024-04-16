@@ -43,18 +43,23 @@ class CustomRequest extends FormRequest
         $storeId = Session::get('store_id');
 
         $user = User::find(Auth::user()->id);
+        $organization = $user->organization();
 
-        // $storeValidation = Store::where('user.organization', $user->organization());
+        $userIds = User::whereHas('userRole.organization', function ($query) use ($organization) {
+            $query->where('id', $organization->id);
+        })->pluck('id');
 
-        // if ($user->userRole->type == 'Pengurus') {
-        //     if ($storeValidation->get()->count() < 1) {
-        //         abort(404, 'Buat Toko dulu.');
-        //     }
-        // } else if ($user->userRole->type == 'Pengguna') {
-        //     if ($storeValidation->where('user_id', $user->id)->get()->count() < 1) {
-        //         abort(404, 'Buat Toko dulu.');
-        //     }
-        // }
+        $storeValidation = Store::whereIn('user_id', $userIds);
+
+        if ($user->userRole->type == 'Pengurus') {
+            if ($storeValidation->get()->count() < 1) {
+                abort(404, 'Buat Toko dulu.');
+            }
+        } else if ($user->userRole->type == 'Anggota') {
+            if ($storeValidation->where('user_id', $user->id)->get()->count() < 1) {
+                abort(404, 'Buat Toko dulu.');
+            }
+        }
 
         if ($storeId) {
             $store = Store::where(function ($query) use ($user) {

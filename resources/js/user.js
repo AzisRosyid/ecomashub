@@ -33,6 +33,30 @@ const image = document.querySelector('#image');
 const file = document.querySelector('#file');
 const fieldInput1 = document.querySelector('.fieldImage1');
 const fieldInput2 = document.querySelector('.fieldImage2');
+const selectStore = document.querySelector('#selectStore');
+
+// Toko
+if (selectStore) {
+    selectStore.addEventListener('change', function () {
+        return new Promise((resolve, reject) => {
+            try {
+                fetch(window.location.origin + `/store/?api&select=${this.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.reload(); // Refresh page with exactly the same URL (including queries and endpoint)
+                        resolve();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        reject(error);
+                    });
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    });
+}
 
 // Financial Menu
 keuangan.addEventListener('click', function () {

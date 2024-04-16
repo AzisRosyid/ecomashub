@@ -394,7 +394,6 @@
                             <select name="store_id" id="selectStore"
                                 class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih toko"
                                 required>
-                                <option>Tidak Memilih</option>
                                 @foreach ($stores as $st)
                                     <option value="{{ $st->id }}" {{ $select == $st->id ? 'selected' : '' }}>
                                         {{ $st->name }}

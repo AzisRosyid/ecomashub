@@ -15,7 +15,7 @@
                 @include('user.alert.message')
             </div>
             <div class="justify-between hidden lg:flex">
-                <form action="{{ route('userEventCreate') }}" class="">
+                <form method="POST" class="">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
@@ -36,15 +36,6 @@
                         </svg>
                         Export</button>
                 </form>
-                <a href="{{ route('userEventCreate') }}"
-                    class="px-2 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex ms-3">
-                    <svg class="me-1" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
-                            fill="#ffffff" />
-                    </svg> Tambah
-                    Kegiatan</a>
             </div>
             <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
                 <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
@@ -81,15 +72,6 @@
                                 <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                             </button>
                         </form>
-                        <a href="{{ route('userEventCreate') }}"
-                            class="px-3 h-10 rounded-lg border border-lime-600 bg-lime-600 text-white text-sm font-normal font-fredokaRegular items-center flex mx-1">
-                            <svg class="" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M15 7H9V1C9 0.447 8.552 0 8 0C7.448 0 7 0.447 7 1V7H1C0.448 7 0 7.447 0 8C0 8.553 0.448 9 1 9H7V15C7 15.553 7.448 16 8 16C8.552 16 9 15.553 9 15V9H15C15.552 9 16 8.553 16 8C16 7.447 15.552 7 15 7Z"
-                                    fill="#ffffff" />
-                            </svg>
-                        </a>
                     </div>
                     <a id="filter"
                         class="px-2 h-10 rounded-lg border border-gray-400 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700 cursor-pointer">
@@ -146,7 +128,6 @@
                             <th class="bg-gray-200 py-3 text-start px-3">Tipe</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
                             <th class="bg-gray-200 py-3 text-start px-3">File Pendukung</th>
-                            <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
 
@@ -155,8 +136,7 @@
                             <tr class="border-b">
                                 <td class="py-3 text-start px-3 flex detail-item"
                                     detailImg="{{ $st->image ? $st->media->url() : Vite::asset('resources/images/logo.png') }}"
-                                    detailTitle="{{ $st->title }}"
-                                    detailDesc="{{ $st->description ?? 'Tidak Ada' }}">
+                                    detailTitle="{{ $st->title }}" detailDesc="{{ $st->description ?? 'Tidak Ada' }}">
                                     <img src="{{ $st->image ? $st->media->url() : Vite::asset('resources/images/logo.png') }}"
                                         alt="" class="rounded-full min-h-9 min-w-9">
                                     <div class="ms-2 cursor-pointer">
@@ -181,27 +161,6 @@
                                         class="px-2 text-sm font-normal font-fredokaRegular items-center flex text-zinc-700">
                                         <img src="{{ Vite::asset('resources/images/event-file.png') }}" alt="">
                                     </a>
-                                </td>
-                                <td class="py-3 text-start px-3 min-w-[150px]">
-                                    <div class="flex">
-                                        <a href="{{ route('userEventEdit', $st) }}"
-                                            class="w-[54px] px-3.5 py-2 hover:bg-amber-400 rounded-lg shadow border border-amber-400 justify-center items-center gap-2 inline-flex group">
-                                            <div
-                                                class="group-hover:text-white text-amber-400 text-sm font-normal font-fredokaRegular leading-none">
-                                                Edit</div>
-                                        </a>
-                                        <form action="{{ route('userEventDestroy', $st) }}" method="POST"
-                                            class="px-1">
-                                            @method('delete')
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button
-                                                class="w-[68px] px-3.5 py-2 hover:bg-red-500 rounded-lg shadow border border-red-500 justify-center items-center gap-2 inline-flex group">
-                                                <div
-                                                    class="group-hover:text-white text-red-500 text-sm font-normal font-fredokaRegular leading-none">
-                                                    Hapus</div>
-                                            </button>
-                                        </form>
-                                    </div>
                                 </td>
                             </tr>
                         @endforeach
