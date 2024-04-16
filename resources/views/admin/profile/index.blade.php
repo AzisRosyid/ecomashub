@@ -28,8 +28,9 @@
             <div class="sm:grid grid-cols-12 gap-4">
                 <div class="col-span-3 bg-white shadow-lg rounded-lg justify-center flex py-8">
                     <div class="rounded-full overflow-hidden h-[200px] w-[200px]">
-                    <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="h-[200px] w-[200px]">
-                </div>
+                        <img src="{{ $acc->image ? $acc->media->url() : Vite::asset('resources/images/logo.png') }}"
+                            alt="" class="h-[200px] w-[200px]">
+                    </div>
                 </div>
                 <div class="col-span-8 bg-white shadow-lg rounded-lg p-4 text-slate-600">
                     <div class="grid grid-cols-4 font-fredokaRegular border-b border-b-lime-600 pb-2 my-2">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,14 +86,24 @@ class EventController extends Controller
 
         $acc = Auth::user();
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'event', $request->file('image'), $request->name);
+        }
+
+        $file = null;
+        if ($request->file('file')) {
+            $file = Method::uploadFile($request->store_id . 'event', $request->file('file'), $request->name);
+        }
+
         Event::create([
             'organization_id' => User::find($acc->id)->organization()->id,
             'title' => $request->title,
             'organizer' => $request->organizer,
             'description' => $request->description,
             'fund' => $request->fund,
-            // 'image' => $request->image,
-            // 'link' => $request->link,
+            'image' => $image,
+            'file' => $file,
             'location' => $request->location,
             'type' => $request->type,
             'theme' => 1,
@@ -147,13 +158,23 @@ class EventController extends Controller
             return back()->withInput($request->all())->withErrors(['event' => $validator->errors()->first()]);
         }
 
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . 'event', $request->file('image'), $request->name);
+        }
+
+        $file = null;
+        if ($request->file('file')) {
+            $file = Method::uploadFile($request->store_id . 'event', $request->file('file'), $request->name);
+        }
+
         $event->update([
             'title' => $request->title,
             'organizer' => $request->organizer,
             'description' => $request->description,
             'fund' => $request->fund,
-            'image' => $request->image,
-            'link' => $request->link,
+            'image' => $image,
+            'file' => $file,
             'location' => $request->location,
             'type' => $request->type,
             'theme' => 1,

@@ -48,4 +48,14 @@ class Event extends Model
     {
         return Carbon::parse($this->attributes['date_end'])->translatedFormat('H:i | d F Y');
     }
+
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'image', 'id');
+    }
+
+    public function mediaFile()
+    {
+        return $this->belongsTo(Media::class, 'file', 'id');
+    }
 }

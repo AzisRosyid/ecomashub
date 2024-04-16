@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Media;
 use App\Models\Store;
 use Carbon\Carbon;
 use Exception;
@@ -28,7 +29,7 @@ class Method extends Controller
         'imageThumbnail' => 'https://drive.google.com/thumbnail?id=',
     ];
 
-    private $imageMimeTypes = [
+    private static $imageMimeTypes = [
         'image/jpeg',
         'image/png',
         'image/gif',
@@ -79,10 +80,10 @@ class Method extends Controller
         if ($file != null) {
             return Method::googleUploadFile($path, $file, $name);
         }
-        return response('Failed');
+        return null;
     }
 
-    private function googleUploadFile($path, $file, $name)
+    private static function googleUploadFile($path, $file, $name)
     {
         $accessToken = Method::googleToken();
         $fileName = Carbon::now()->format('Y_m_d_His') . '_' . $name . '.' . $file->getClientOriginalExtension();
@@ -100,7 +101,7 @@ class Method extends Controller
             $parentId = $folderId;
 
             foreach ($folders as $folder) {
-                $folderExists = $this->checkFolderExists($driveService, $parentId, $folder);
+                $folderExists = Method::checkFolderExists($driveService, $parentId, $folder);
 
                 if (!$folderExists) {
                     $newFolder = new Drive\DriveFile([
@@ -126,7 +127,7 @@ class Method extends Controller
                 'uploadType' => 'multipart',
                 'fields' => 'id'
             ));
-            printf("File ID: %s\n", $file->id);
+            // printf("File ID: %s\n", $file->id);
 
             $permission = new Drive\Permission([
                 'type' => 'anyone',
@@ -136,17 +137,19 @@ class Method extends Controller
 
             $driveService->permissions->create($file->id, $permission);
 
-            return [
-                'type' => in_array($mime, $this::$imageMimeTypes) ? 'Gambar' : 'File',
+            $media = Media::create([
+                'type' => in_array($mime, Method::$imageMimeTypes) ? 'Gambar' : 'File',
                 'provider' => 'Google Drive',
                 'content' => $file->id,
-            ];
+            ]);
+
+            return $media->id;
         } catch (Exception $e) {
-            response("Error Message: " . $e);
+            return null;
         }
     }
 
-    private function checkFolderExists($driveService, $parentId, $folderName)
+    private static function checkFolderExists($driveService, $parentId, $folderName)
     {
         $query = "mimeType='application/vnd.google-apps.folder' and name='$folderName' and '$parentId' in parents and trashed=false";
         $response = $driveService->files->listFiles([

@@ -35,4 +35,9 @@ class Product extends Model
     {
         return 'Rp' . number_format($this->attributes['price'], 0, ',', '.') . ',00';
     }
+
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'image', 'id');
+    }
 }
