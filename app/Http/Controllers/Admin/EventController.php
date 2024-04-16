@@ -160,12 +160,12 @@ class EventController extends Controller
 
         $image = null;
         if ($request->file('image')) {
-            $image = Method::uploadFile($request->store_id . 'event', $request->file('image'), $request->name);
+            $image = Method::uploadFile($request->store_id . 'event/image', $request->file('image'), $request->name);
         }
 
         $file = null;
         if ($request->file('file')) {
-            $file = Method::uploadFile($request->store_id . 'event', $request->file('file'), $request->name);
+            $file = Method::uploadFile($request->store_id . 'event/file', $request->file('file'), $request->name);
         }
 
         $event->update([
