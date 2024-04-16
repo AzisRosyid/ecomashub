@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin\Financial;
 use App\Http\Controllers\Controller;
 use App\Models\Cash;
 use App\Models\Collaboration;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,7 @@ class CashController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -57,7 +58,7 @@ class CashController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.cash.index', compact('route', 'acc', 'cashes', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.financial.cash.index', compact('route', 'acc', 'cashes', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -70,13 +71,13 @@ class CashController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
-        return view('admin.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
+        return Method::view('admin.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -96,7 +97,7 @@ class CashController extends Controller
         }
 
         Cash::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
             'value' => $request->value,
@@ -128,13 +129,13 @@ class CashController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
-        return view('admin.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
+        return Method::view('admin.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cash $cash)
+    public function update(CustomRequest $request, Cash $cash)
     {
         $rules = [
             'name' => 'required|string',
@@ -154,7 +155,7 @@ class CashController extends Controller
         }
 
         $cash->update([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
             'value' => $request->value,

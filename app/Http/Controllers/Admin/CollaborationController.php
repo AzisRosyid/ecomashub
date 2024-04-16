@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Collaboration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class CollaborationController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -59,7 +60,7 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.collaboration.create', compact('route', 'acc', 'status', 'types'));
+        return Method::view('admin.collaboration.create', compact('route', 'acc', 'status', 'types'));
     }
 
     /**
@@ -114,7 +115,7 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return view('admin.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
+        return Method::view('admin.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
     }
 
     /**

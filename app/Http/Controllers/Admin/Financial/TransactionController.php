@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 
 class TransactionController extends Controller
 {
@@ -14,7 +15,7 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -43,7 +44,7 @@ class TransactionController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.transaction.index', compact('route', 'acc', 'transactions', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.financial.transaction.index', compact('route', 'acc', 'transactions', 'pick', 'page', 'total', 'pages'));
     }
 
     //     /**
@@ -53,13 +54,13 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return view('admin.financial.transactions.create', compact('route', 'acc'));
+    //         return Method::view('admin.financial.transactions.create', compact('route', 'acc'));
     //     }
 
     //     /**
     //      * Store a newly created resource in storage.
     //      */
-    //     public function store(Request $request)
+    //     public function store(CustomRequest $request)
     //     {
     //         $rules = [
     //             'category_id' => 'required|integer',
@@ -102,13 +103,13 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
+    //         return Method::view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
     //     }
 
     //     /**
     //      * Update the specified resource in storage.
     //      */
-    //     public function update(Request $request, Transaction $transaction)
+    //     public function update(CustomRequest $request, Transaction $transaction)
     //     {
     //         $rules = [
     //             'name' => 'required|string',

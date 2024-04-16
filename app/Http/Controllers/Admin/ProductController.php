@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Method;
-use App\Http\Requests\IndexRequest;
+use App\Http\Requests\CustomRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Store;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -20,7 +19,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(IndexRequest $request)
+    public function index(CustomRequest $request)
     {
         $stores = Store::all();
         $route = $this->route;
@@ -30,7 +29,7 @@ class ProductController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
-        $storeId = session('store_id');
+        $storeId = Session::get('store_id');
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
         $query = Product::when($storeId, function ($query) use ($storeId) {
@@ -92,11 +91,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
-            'store_id' => 'required|exists:stores,id',
             'category_id' => 'required|integer|exists:product_categories,id',
             'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
@@ -113,12 +111,12 @@ class ProductController extends Controller
         }
 
         $image = null;
-        if ($request->file('image') != null) {
+        if ($request->file('image')) {
             $image = Method::uploadFile($request->store_id . '/product', $request->file('image'), $request->name);
         }
 
         Product::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'category_id' => $request->category_id,
             'weight' => $request->weight,
@@ -156,11 +154,10 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(CustomRequest $request, Product $product)
     {
         $rules = [
             'name' => 'required|string',
-            'store_id' => 'required|exists:stores,id',
             'category_id' => 'required|integer|exists:product_categories,id',
             'weight' => 'required|numeric',
             'unit' => 'required|in:Milligram,Gram,Kilogram,Mililiter,Liter',
@@ -176,7 +173,22 @@ class ProductController extends Controller
             return back()->withInput($request->all())->withErrors(['product' => $validator->errors()->first()]);
         }
 
-        $product->update($request->all());
+        $image = null;
+        if ($request->file('image')) {
+            $image = Method::uploadFile($request->store_id . '/product', $request->file('image'), $request->name);
+        }
+
+        $product->update([
+            // 'store_id' => Session::get('store_id'),
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'weight' => $request->weight,
+            'unit' => $request->unit,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
+            'image' => $image,
+        ]);
 
         return redirect()->route('adminProduct')->with('message', 'Produk telah berhasil diperbarui!');
     }

@@ -30,8 +30,8 @@ class Store extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function getOrganizationValue()
+    public function organization()
     {
-        return $this->user->organization;
+        return $this->user->organization();
     }
 }

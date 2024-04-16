@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use App\Models\Asset;
 use App\Models\AssetUnit;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AssetController extends Controller
@@ -18,7 +20,7 @@ class AssetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $status = $this->status;
@@ -68,7 +70,7 @@ class AssetController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return view('admin.asset.index', compact('route', 'acc', 'status', 'assets', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return Method::view('admin.asset.index', compact('route', 'acc', 'status', 'assets', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -82,13 +84,13 @@ class AssetController extends Controller
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.create', compact('route', 'acc', 'categories', 'status', 'units'));
+        return Method::view('admin.asset.create', compact('route', 'acc', 'categories', 'status', 'units'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -107,7 +109,7 @@ class AssetController extends Controller
         }
 
         Asset::create([
-            'user_id' => null,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'category' => $request->category,
             'quantity' => $request->quantity,
@@ -138,13 +140,13 @@ class AssetController extends Controller
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return view('admin.asset.edit', compact('route', 'acc', 'categories', 'status', 'units', 'asset'));
+        return Method::view('admin.asset.edit', compact('route', 'acc', 'categories', 'status', 'units', 'asset'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Asset $asset)
+    public function update(CustomRequest $request, Asset $asset)
     {
         $rules = [
             'name' => 'required|string',
@@ -163,7 +165,7 @@ class AssetController extends Controller
         }
 
         $asset->update([
-            'user_id' => null,
+            // 'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'category' => $request->category,
             'quantity' => $request->quantity,
@@ -179,9 +181,8 @@ class AssetController extends Controller
     /**
      * Update Status
      */
-    public function updateStatus(Request $request)
+    public function updateStatus(CustomRequest $request)
     {
-
         $rules = [
             'id' => 'required|integer|exists:assets,id',
             'status' => 'required|in:Tersedia,Dipinjam,Digunakan'

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,7 @@ class DebtController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -45,7 +46,7 @@ class DebtController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -56,13 +57,13 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.financial.debt.create', compact('route', 'acc'));
+        return Method::view('admin.financial.debt.create', compact('route', 'acc'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -80,7 +81,7 @@ class DebtController extends Controller
         }
 
         Debt::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'value' => $request->value,
             'interest' => $request->interest / 100,
@@ -108,13 +109,13 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
+        return Method::view('admin.financial.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Debt $debt)
+    public function update(CustomRequest $request, Debt $debt)
     {
         $rules = [
             'name' => 'required|string',
@@ -132,7 +133,7 @@ class DebtController extends Controller
         }
 
         $debt->update([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'name' => $request->name,
             'value' => $request->value,
             'interest' => $request->interest / 100,

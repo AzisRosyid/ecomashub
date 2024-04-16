@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Expense;
 use App\Models\Collaboration;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Method;
+use App\Http\Requests\CustomRequest;
 
 class ExpenseController extends Controller
 {
@@ -18,7 +19,7 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CustomRequest $request)
     {
         $route = $this->route;
         $acc = Auth::user();
@@ -57,7 +58,7 @@ class ExpenseController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return view('admin.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
+        return Method::view('admin.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -70,13 +71,13 @@ class ExpenseController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
-        return view('admin.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
+        return Method::view('admin.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomRequest $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -96,7 +97,7 @@ class ExpenseController extends Controller
         }
 
         Expense::create([
-            'store_id' => $request->store_id,
+            'store_id' => Session::get('store_id'),
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
             'value' => $request->value,
@@ -128,13 +129,13 @@ class ExpenseController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
-        return view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
+        return Method::view('admin.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(CustomRequest $request, Expense $expense)
     {
         $rules = [
             'name' => 'required|string',
@@ -154,7 +155,7 @@ class ExpenseController extends Controller
         }
 
         $expense->update([
-            'store_id' => $request->store_id,
+            // 'store_id' => Session::get('store_id'),
             'collaboration_id' => $request->collaboration_id,
             'name' => $request->name,
             'value' => $request->value,

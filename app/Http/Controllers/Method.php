@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Google\Client;
 use Google\Service\Drive;
 use Google\Service\Drive\PermissionTeamDrivePermissionDetails;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class Method extends Controller
@@ -162,12 +163,39 @@ class Method extends Controller
 
     public static function view($view = null, $data = [])
     {
-        $stores = Store::all();
+        $acc = Auth::user();
+
+        $stores = Store::where(function ($query) use ($acc) {
+            if ($acc->role == 'Pengurus') {
+                $query->where('user.organization', $acc->organization);
+            } else {
+                $query->where('user_id', $acc->id);
+            }
+        })->get();
 
         $select = Session::get('store_id');
 
         return view($view, array_merge(compact('select', 'stores'), $data));
     }
+
+    // public static function validateData(Request $request, $select)
+    // {
+    //     $acc = Auth::user();
+
+    //     $stores = Store::where('id', $select)->where(function ($query) use ($acc) {
+    //         if ($acc->role == 'Pengurus') {
+    //             $query->where('user.organization', $acc->organization);
+    //         } else {
+    //             $query->where('user_id', $acc->id);
+    //         }
+    //     })->get()->first();
+
+
+
+    //     $select = Session::get('store_id');
+
+    //     return view($view, array_merge(compact('select', 'stores'), $data));
+    // }
 
     // public static function uploadToGooglePhotos($image, $productName)
     // {

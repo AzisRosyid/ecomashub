@@ -3,10 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
-class IndexRequest extends FormRequest
+class CustomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -38,21 +40,29 @@ class IndexRequest extends FormRequest
      */
     public function authorizeRequest()
     {
-        $storeId = session('store_id');
+        $acc = Auth::user();
+        $storeId = Session::get('store_id');
 
         if ($storeId) {
-            $store = Store::find($storeId);
+            $store = Store::where(function ($query) use ($acc) {
+                if ($acc->role == 'Pengurus') {
+                    $query->where('user.organization', $acc->organization);
+                } else {
+                    $query->where('user_id', $acc->id);
+                }
+            })->where('id', $storeId)->get()->first();
             if ($store) {
-                $user = Auth::user();
+                $user = User::find(Auth::user()->id);
 
                 if ($user->userRole->type == 'Pengurus') {
-                    if ($store->organization != $user->organization) {
-                        session()->forget('store_id');
+                    if ($store->organization() != $user->organization()) {
+                        Session::forget('store_id');
                         abort(403, 'Unauthorized action.');
                     }
                 } elseif ($user->userRole->type == 'Pengguna') {
                     if ($store->user != $user) {
-                        session()->forget('store_id');
+
+                        Session::forget('store_id');
                         abort(403, 'Unauthorized action.');
                     }
                 }
