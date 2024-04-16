@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     protected $fillable = [
-        'store_id',
+        'organization_id',
         'title',
         'organizer',
         'description',

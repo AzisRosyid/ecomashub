@@ -86,7 +86,7 @@ class StoreController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email|unique:stores',
             'phone_number' => 'required|numeric|digits_between:1,15',
             'address' => 'required|string',
             'status' => 'required|in:Aktif,Nonaktif',

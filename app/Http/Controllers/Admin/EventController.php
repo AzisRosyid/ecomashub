@@ -83,8 +83,10 @@ class EventController extends Controller
             return back()->withInput($request->all())->withErrors(['event' => $validator->errors()->first()]);
         }
 
+        $acc = Auth::user();
+
         Event::create([
-            'store_id' => $request->store_id,
+            'organization_id' => User::find($acc->id)->organization()->id,
             'title' => $request->title,
             'organizer' => $request->organizer,
             'description' => $request->description,
@@ -146,7 +148,6 @@ class EventController extends Controller
         }
 
         $event->update([
-            'user_id' => null,
             'title' => $request->title,
             'organizer' => $request->organizer,
             'description' => $request->description,
