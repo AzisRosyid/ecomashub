@@ -90,59 +90,6 @@ if (filter != null) {
 
 }
 
-//chat
-if (chat != null) {
-    var isDragging = false;
-    var clickDrag = false;
-    var offset = { x: 0, y: 0 };
-
-    function hello() {
-        menuChat.classList.remove('hidden');
-        bgFilter.classList.remove('hidden');
-    }
-
-    chat.addEventListener("mousedown", function (event) {
-        isDragging = true;
-        clickDrag = true;
-        offset.x = event.clientX - chat.offsetLeft;
-        offset.y = event.clientY - chat.offsetTop;
-    });
-
-    chat.addEventListener("mouseup", function (event) {
-        isDragging = false;
-        if (clickDrag) {
-            hello();
-        }
-    });
-
-    document.addEventListener("mousemove", function (event) {
-        clickDrag = false;
-        if (isDragging) {
-            chat.style.left = event.clientX - offset.x + "px";
-            chat.style.top = event.clientY - offset.y + "px";
-        }
-    });
-
-    //costum text area
-    userInput.addEventListener('input', function () {
-        userInput.style.height = 'auto';
-        userInput.style.height = userInput.scrollHeight + 'px';
-    });
-
-}
-if (closeChat != null) {
-    closeChat.addEventListener('click', function () {
-        menuChat.classList.add('hidden');
-        bgFilter.classList.add('hidden');
-    });
-}
-if (bgFilter != null) {
-    bgFilter.addEventListener('click', function () {
-        menuChat.classList.add('hidden');
-        bgFilter.classList.add('hidden');
-    });
-}
-
 // hamburger
 hamburger.addEventListener('click', function () {
     hamburger.classList.toggle('hamburger-active');
