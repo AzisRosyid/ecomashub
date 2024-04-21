@@ -115,6 +115,8 @@ class ProfileController extends Controller
             'last_name' => 'required|string',
             'username' => [
                 'required',
+                'string',
+                'regex:/^[a-z0-9]{16}$/',
                 Rule::unique('users')->ignore($user->id),
             ],
             'email' => [
