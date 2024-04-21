@@ -34,6 +34,9 @@ const file = document.querySelector('#file');
 const fieldInput1 = document.querySelector('.fieldImage1');
 const fieldInput2 = document.querySelector('.fieldImage2');
 const selectStore = document.querySelector('#selectStore');
+const searchInput = document.getElementById('search');
+const listToko = document.getElementById('listToko');
+const namaTokoItems = document.querySelectorAll('.namaToko');
 
 // Toko
 if (selectStore) {
@@ -497,3 +500,31 @@ if (productModal != null) {
 
     startProductInput();
 }
+
+//search toko
+searchInput.addEventListener('input', function () {
+    const searchTerm = this.value.trim().toLowerCase();
+
+    if (this.value.trim() !== '') {
+        listToko.classList.remove('hidden');
+    } else {
+        listToko.classList.add('hidden');
+    }
+
+    namaTokoItems.forEach(item => {
+        const namaTokoText = item.textContent.trim().toLowerCase();
+
+        if (namaTokoText.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+namaTokoItems.forEach(item => {
+    item.addEventListener('click', function () {
+        const namaTokoText = this.textContent.trim();
+        searchInput.value = namaTokoText;
+    });
+});

@@ -35,8 +35,9 @@
                 <form id="searchForm" action="{{ route($route) }}" method="get">
                 @endisset
                 <section class="flex">
-                    <!-- end chatbot -->
+
                     @include('layouts.eco-chat')
+
                     @include('layouts.sidebar')
                     @yield('content')
                 </section>

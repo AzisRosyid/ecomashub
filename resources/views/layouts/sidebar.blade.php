@@ -6,27 +6,54 @@
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-[40px]">
                 <img src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
             </a>
-            @isset($stores)
+            {{-- @isset($stores) --}}
                 <div class="flex justify-center">
                     <ul>
                         <li>
-                            <label for="selectStore" class="">Toko</label>
+                            <div class="max-w-[250px] w-full justify-items-center px-4">
+                                <div class="flex w-full bg-white  ">
+                                    <input id="search" type="text"
+                                        class="p-2 rounded-l-md border border-gray-400 outline-none w-full" name="search"
+                                        value="" placeholder="Cari toko" autocomplete="off">
+    
+                                    <button for="search" class="bg-lime-600 rounded-r-md px-2">
+                                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M20 20.5444L15 15.5444M17 10.5444C17 11.9289 16.5895 13.2823 15.8203 14.4334C15.0511 15.5846 13.9579 16.4818 12.6788 17.0116C11.3997 17.5414 9.99224 17.68 8.63437 17.4099C7.2765 17.1398 6.02922 16.4731 5.05026 15.4942C4.07129 14.5152 3.4046 13.2679 3.13451 11.9101C2.86441 10.5522 3.00303 9.14473 3.53285 7.86565C4.06266 6.58657 4.95987 5.49332 6.11101 4.72415C7.26216 3.95498 8.61553 3.54443 10 3.54443C11.8565 3.54443 13.637 4.28193 14.9497 5.59469C16.2625 6.90744 17 8.68792 17 10.5444V10.5444Z"
+                                                stroke="white" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M20.5 21.0444L17 17.5444" stroke="white" stroke-width="3"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+    
+                                    </button>
+                                </div>
+                                <div id="listToko" class="rounded-md border overflow-x-auto hidden">
+                                    <div class="px-2 py-1 cursor-pointer hover:bg-lime-600 hover:text-white namaToko">
+                                        <p class="whitespace-nowrap">Lorem 1</p>
+                                    </div>
+                                    <div class="px-2 py-1 cursor-pointer hover:bg-lime-600 hover:text-white namaToko">
+                                        <p class="whitespace-nowrap">Lorem 2</p>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                         <li>
                             <select name="store_id" id="selectStore"
                                 class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih toko"
                                 required>
                                 <option>Tidak Memilih</option>
-                                @foreach ($stores as $st)
+                                {{-- @foreach ($stores as $st)
                                     <option value="{{ $st->id }}" {{ $select == $st->id ? 'selected' : '' }}>
                                         {{ $st->name }}
                                     </option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </li>
                     </ul>
                 </div>
-            @endisset
+            {{-- @endisset --}}
             <ul class="ps-10 border-b pb-3">
                 <li>
                     <a href="{{ route('adminDashboard') }}"

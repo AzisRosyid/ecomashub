@@ -44,7 +44,7 @@
         </div>
         <!-- end chat field -->
         <!-- ask field -->
-        <div class="py-3 px-2 w-full fixed bottom-0 border-t">
+        <div class="py-3 px-2 w-full fixed bottom-0 border-t bg-white">
             <div class="flex gap-2 items-end max-w-full">
                 <input type="file" class="hidden" name="fileChat" id="fileChat">
                 <div class="bg-lime-600 min-h-10 min-w-10 w-10 h-10 flex items-center justify-center rounded-full">
