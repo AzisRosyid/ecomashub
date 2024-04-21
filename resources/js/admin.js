@@ -38,6 +38,9 @@ const menuChat = document.querySelector('#menuChat');
 const closeChat = document.querySelector('#closeChat');
 const userInput = document.querySelector('#user-input');
 const sendMessage = document.querySelector('#sendMessage');
+const searchInput = document.getElementById('search');
+const listToko = document.getElementById('listToko');
+const namaTokoItems = document.querySelectorAll('.namaToko');
 
 //token api
 const apiUrl = 'https://api.openai.com/v1/chat/completions';
@@ -136,6 +139,7 @@ function botMessage(output) {
 
     // Membuat elemen div untuk teks pesan
     const textContainer = document.createElement('div');
+    textContainer.classList.add('break-words', 'w-full', 'pe-7');
 
     const boldText = document.createElement('p');
     boldText.classList.add('font-bold');
@@ -669,3 +673,31 @@ if (productModal != null) {
 
     startProductInput();
 }
+
+//search toko
+searchInput.addEventListener('input', function () {
+    const searchTerm = this.value.trim().toLowerCase();
+
+    if (this.value.trim() !== '') {
+        listToko.classList.remove('hidden');
+    } else {
+        listToko.classList.add('hidden');
+    }
+
+    namaTokoItems.forEach(item => {
+        const namaTokoText = item.textContent.trim().toLowerCase();
+
+        if (namaTokoText.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+namaTokoItems.forEach(item => {
+    item.addEventListener('click', function () {
+        const namaTokoText = this.textContent.trim();
+        searchInput.value = namaTokoText;
+    });
+});
