@@ -40,4 +40,9 @@ class Product extends Model
     {
         return $this->belongsTo(Media::class, 'image', 'id');
     }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

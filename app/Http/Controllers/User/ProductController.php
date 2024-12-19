@@ -72,7 +72,7 @@ class ProductController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return Method::view('user.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return view('user.product.index', compact('route', 'acc', 'products', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**

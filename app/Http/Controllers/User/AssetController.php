@@ -70,7 +70,7 @@ class AssetController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return Method::view('user.asset.index', compact('route', 'acc', 'status', 'assets', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return view('user.asset.index', compact('route', 'acc', 'status', 'assets', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -84,7 +84,7 @@ class AssetController extends Controller
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return Method::view('user.asset.create', compact('route', 'acc', 'categories', 'status', 'units'));
+        return view('user.asset.create', compact('route', 'acc', 'categories', 'status', 'units'));
     }
 
     /**
@@ -125,9 +125,7 @@ class AssetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Asset $asset)
-    {
-    }
+    public function show(Asset $asset) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -140,7 +138,7 @@ class AssetController extends Controller
         $acc = Auth::user();
         $units = AssetUnit::all();
 
-        return Method::view('user.asset.edit', compact('route', 'acc', 'categories', 'status', 'units', 'asset'));
+        return view('user.asset.edit', compact('route', 'acc', 'categories', 'status', 'units', 'asset'));
     }
 
     /**

@@ -26,7 +26,7 @@ class CustomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'string',
+            'search' => 'string|nullable',
             'pick' => 'integer',
             'page' => 'integer',
             'order' => 'string',

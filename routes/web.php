@@ -145,6 +145,8 @@ Route::middleware(['auth.role:pengurus'])->group(function () {
         // Order
         Route::prefix('/order')->group(function () {
             Route::get('/', [AdminOrderController::class, 'index'])->name('adminOrder');
+            Route::get('/{order}/note', [AdminOrderController::class, 'showNote'])->name('adminOrderNote');
+            Route::post('/admin/order/{order}/send-note', [AdminOrderController::class, 'sendNoteViaEmail'])->name('adminOrderSendNote');
             Route::get('/create', [AdminOrderController::class, 'create'])->name('adminOrderCreate');
             Route::post('/create', [AdminOrderController::class, 'store'])->name('adminOrderStore');
             Route::get('/edit/{order}', [AdminOrderController::class, 'edit'])->name('adminOrderEdit');

@@ -34,4 +34,6 @@
     @if (strpos($route, 'admin') !== false || strpos($route, 'user') !== false)
         <script src="{{ Vite::asset('resources/js/eco-chat.js') }}" type="module"></script>
     @endif
+
+
 @endisset

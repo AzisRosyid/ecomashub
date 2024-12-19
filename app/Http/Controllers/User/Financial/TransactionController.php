@@ -44,7 +44,7 @@ class TransactionController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.financial.transaction.index', compact('route', 'acc', 'transactions', 'pick', 'page', 'total', 'pages'));
+        return view('user.financial.transaction.index', compact('route', 'acc', 'transactions', 'pick', 'page', 'total', 'pages'));
     }
 
     //     /**
@@ -54,7 +54,7 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return Method::view('user.financial.transactions.create', compact('route', 'acc'));
+    //         return view('user.financial.transactions.create', compact('route', 'acc'));
     //     }
 
     //     /**
@@ -103,7 +103,7 @@ class TransactionController extends Controller
     //     {
     //         $route = $this->route;
 
-    //         return Method::view('user.financial.debt.edit', compact('route', 'acc', 'debt'));
+    //         return view('user.financial.debt.edit', compact('route', 'acc', 'debt'));
     //     }
 
     //     /**

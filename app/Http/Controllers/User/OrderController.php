@@ -61,7 +61,7 @@ class OrderController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.order.index', compact('route', 'acc', 'status', 'orders', 'pick', 'page', 'total', 'pages'));
+        return view('user.order.index', compact('route', 'acc', 'status', 'orders', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -74,7 +74,7 @@ class OrderController extends Controller
         $acc = Auth::user();
         $products = Product::where('store_id', null);
 
-        return Method::view('user.order.create', compact('route', 'acc', 'status', 'products'));
+        return view('user.order.create', compact('route', 'acc', 'status', 'products'));
     }
 
     /**
@@ -163,9 +163,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
-    {
-    }
+    public function show(Order $order) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -178,7 +176,7 @@ class OrderController extends Controller
         $products = Product::where('store_id', null)->get();
         $details = OrderDetail::where('order_id', $order->id)->get();
 
-        return Method::view('user.order.edit', compact('route', 'acc', 'status', 'products', 'order', 'details'));
+        return view('user.order.edit', compact('route', 'acc', 'status', 'products', 'order', 'details'));
     }
 
     /**

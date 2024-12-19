@@ -58,7 +58,7 @@ class CashController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.financial.cash.index', compact('route', 'acc', 'cashes', 'pick', 'page', 'total', 'pages'));
+        return view('user.financial.cash.index', compact('route', 'acc', 'cashes', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -71,7 +71,7 @@ class CashController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
-        return Method::view('user.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
+        return view('user.financial.cash.create', compact('route', 'acc', 'types', 'collaborations'));
     }
 
     /**
@@ -129,7 +129,7 @@ class CashController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Mitra')->get();
 
-        return Method::view('user.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
+        return view('user.financial.cash.edit', compact('route', 'acc', 'types', 'collaborations', 'cash'));
     }
 
     /**

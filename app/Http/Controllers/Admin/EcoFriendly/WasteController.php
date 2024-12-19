@@ -118,9 +118,7 @@ class WasteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Waste $waste)
-    {
-    }
+    public function show(Waste $waste) {}
 
     /**
      * Show the form for editing the specified resource.

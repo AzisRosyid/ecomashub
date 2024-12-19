@@ -6,16 +6,16 @@
                 <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="" class="w-[40px]">
                 <img src="{{ Vite::asset('resources/images/logo-text.png') }}" alt="EchoMashub" class="h-[35px] ms-2">
             </a>
-            {{-- @isset($stores) --}}
+            @isset($stores, $select)
                 <div class="flex justify-center">
                     <ul>
-                        <li>
+                        {{-- <li>
                             <div class="max-w-[250px] w-full justify-items-center px-4">
                                 <div class="flex w-full bg-white  ">
                                     <input id="search" type="text"
                                         class="p-2 rounded-l-md border border-gray-400 outline-none w-full" name="search"
                                         value="" placeholder="Cari toko" autocomplete="off">
-    
+
                                     <button for="search" class="bg-lime-600 rounded-r-md px-2">
                                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
                                             <path d="M20.5 21.0444L17 17.5444" stroke="white" stroke-width="3"
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-    
+
                                     </button>
                                 </div>
                                 <div id="listToko" class="rounded-md border overflow-x-auto hidden">
@@ -38,22 +38,22 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         <li>
                             <select name="store_id" id="selectStore"
                                 class="outline-none border border-gray-400 p-2 rounded-lg mt-2 mb-4" placeholder="Pilih toko"
                                 required>
                                 <option>Tidak Memilih</option>
-                                {{-- @foreach ($stores as $st)
+                                @foreach ($stores as $st)
                                     <option value="{{ $st->id }}" {{ $select == $st->id ? 'selected' : '' }}>
                                         {{ $st->name }}
                                     </option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </li>
                     </ul>
                 </div>
-            {{-- @endisset --}}
+            @endisset
             <ul class="ps-10 border-b pb-3">
                 <li>
                     <a href="{{ route('adminDashboard') }}"

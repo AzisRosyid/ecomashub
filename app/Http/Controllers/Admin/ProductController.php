@@ -21,7 +21,8 @@ class ProductController extends Controller
      */
     public function index(CustomRequest $request)
     {
-        $stores = Store::all();
+        // return response()->json(['helo' => 'Memo'], 200);
+        $storeId = Session::get('store_id');
         $route = $this->route;
         $acc = Auth::user();
         $search = '%' . $request->input('search', '') . '%';
@@ -29,7 +30,6 @@ class ProductController extends Controller
         $page = $request->input('page', 1);
         $order = $request->input('order', 'id');
         $method = $request->input('method', 'desc');
-        $storeId = Session::get('store_id');
         $categoryIds = ProductCategory::where('name', 'like', $search)->pluck('id');
 
         $query = Product::when($storeId, function ($query) use ($storeId) {
@@ -85,7 +85,7 @@ class ProductController extends Controller
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.create', compact('route', 'acc', 'units', 'categories'));
+        return Method::view('admin.product.create', compact('route', 'acc', 'units', 'categories'));
     }
 
     /**
@@ -148,7 +148,7 @@ class ProductController extends Controller
         $acc = Auth::user();
         $categories = ProductCategory::all();
 
-        return view('admin.product.edit', compact('route', 'acc', 'units', 'categories', 'product'));
+        return Method::view('admin.product.edit', compact('route', 'acc', 'units', 'categories', 'product'));
     }
 
     /**

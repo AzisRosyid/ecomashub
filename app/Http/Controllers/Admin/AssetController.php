@@ -125,9 +125,7 @@ class AssetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Asset $asset)
-    {
-    }
+    public function show(Asset $asset) {}
 
     /**
      * Show the form for editing the specified resource.

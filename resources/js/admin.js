@@ -37,6 +37,7 @@ const selectStore = document.querySelector('#selectStore');
 const searchInput = document.getElementById('search');
 const listToko = document.getElementById('listToko');
 const namaTokoItems = document.querySelectorAll('.namaToko');
+const orderExportButton = document.querySelector('#orderExportButton');
 
 // Toko
 if (selectStore) {
@@ -262,6 +263,13 @@ if (productModal != null) {
     let productItems = [];
 
     productModalSearch.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            productPage = 1;
+            loadModal();
+        }
+    });
+
+    productModalPick.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             productPage = 1;
             loadModal();
@@ -502,25 +510,27 @@ if (productModal != null) {
 }
 
 //search toko
-searchInput.addEventListener('input', function () {
-    const searchTerm = this.value.trim().toLowerCase();
+if (searchInput != null) {
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.trim().toLowerCase();
 
-    if (this.value.trim() !== '') {
-        listToko.classList.remove('hidden');
-    } else {
-        listToko.classList.add('hidden');
-    }
-
-    namaTokoItems.forEach(item => {
-        const namaTokoText = item.textContent.trim().toLowerCase();
-
-        if (namaTokoText.includes(searchTerm)) {
-            item.style.display = 'block';
+        if (this.value.trim() !== '') {
+            listToko.classList.remove('hidden');
         } else {
-            item.style.display = 'none';
+            listToko.classList.add('hidden');
         }
+
+        namaTokoItems.forEach(item => {
+            const namaTokoText = item.textContent.trim().toLowerCase();
+
+            if (namaTokoText.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     });
-});
+}
 
 namaTokoItems.forEach(item => {
     item.addEventListener('click', function () {

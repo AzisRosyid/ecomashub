@@ -144,6 +144,7 @@
                             <th class="bg-gray-200 py-3 text-start px-3">Total Harga</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Tanggal</th>
                             <th class="bg-gray-200 py-3 text-start px-3">Status</th>
+                            <th class="bg-gray-200 py-3 text-start px-3">Nota</th>
                             <th class="bg-gray-200 py-3 text-start px-3"></th>
                         </tr>
                     </head>
@@ -191,6 +192,17 @@
                                                 </svg>
                                             </a>
                                         </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 text-start px-3 min-w-[150px]">
+                                    <div class="flex">
+                                        <a href="{{ route('adminOrderNote', $st) }}"
+                                            class="w-[84px] px-3.5 py-2 hover:bg-white rounded-lg shadow border border-lime-600 bg-lime-600 justify-center items-center gap-2 inline-flex group"
+                                            target="_blank">
+                                            <div
+                                                class="group-hover:text-white text-white text-sm font-normal font-fredokaRegular leading-none">
+                                                Lihat Nota</div>
+                                        </a>
                                     </div>
                                 </td>
                                 <td class="py-3 text-start px-3 min-w-[150px]">

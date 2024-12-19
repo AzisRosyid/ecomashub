@@ -58,7 +58,7 @@ class ExpenseController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
+        return view('user.financial.expense.index', compact('route', 'acc', 'expenses', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -71,7 +71,7 @@ class ExpenseController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
-        return Method::view('user.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
+        return view('user.financial.expense.create', compact('route', 'acc', 'types', 'collaborations'));
     }
 
     /**
@@ -129,7 +129,7 @@ class ExpenseController extends Controller
         $acc = Auth::user();
         $collaborations = Collaboration::where('status', 'Aktif')->where('type', 'Pemasok')->get();
 
-        return Method::view('user.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
+        return view('user.financial.expense.edit', compact('route', 'acc', 'types', 'collaborations', 'expense'));
     }
 
     /**

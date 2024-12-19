@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\EcoFriendly\Unit;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\WasteType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class WasteTypeController extends Controller
 
     //     $pageUnits = ceil($totalUnit / $pickUnit);
 
-    //     return view('admin.product.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+    //     return Method::view('admin.product.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     // }
 
     /**
@@ -45,7 +46,7 @@ class WasteTypeController extends Controller
         $categories = $this->categories;
         $acc = Auth::user();
 
-        return view('admin.eco-friendly.waste.unit.create', compact('route', 'acc', 'categories'));
+        return Method::view('admin.eco-friendly.waste.unit.create', compact('route', 'acc', 'categories'));
     }
 
     /**
@@ -86,7 +87,7 @@ class WasteTypeController extends Controller
         $categories = $this->categories;
         $acc = Auth::user();
 
-        return view('admin.eco-friendly.waste.unit.edit', compact('route', 'acc', 'categories', 'type'));
+        return Method::view('admin.eco-friendly.waste.unit.edit', compact('route', 'acc', 'categories', 'type'));
     }
 
     /**

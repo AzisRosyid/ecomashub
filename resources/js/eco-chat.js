@@ -3,6 +3,7 @@ const menuChat = document.querySelector('#menuChat');
 const closeChat = document.querySelector('#closeChat');
 const userInput = document.querySelector('#user-input');
 const sendMessage = document.querySelector('#sendMessage');
+const bgFilter = document.querySelector('#bgFilter');
 
 //token api
 const apiUrl = 'https://api.openai.com/v1/chat/completions';

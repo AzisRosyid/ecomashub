@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin\Unit;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +36,7 @@ class ProductCategoryController extends Controller
 
     //     $pageUnits = ceil($totalUnit / $pickUnit);
 
-    //     return view('admin.product.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+    //     return Method::view('admin.product.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     // }
 
     /**
@@ -41,10 +44,12 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
+        $stores = Store::all();
+        $storeId = Session::get('store_id');
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.product.unit.create', compact('route', 'acc'));
+        return Method::view('admin.product.unit.create', compact('route', 'acc',));
     }
 
     /**
@@ -83,7 +88,7 @@ class ProductCategoryController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.product.unit.edit', compact('route', 'acc', 'category'));
+        return Method::view('admin.product.unit.edit', compact('route', 'acc', 'category'));
     }
 
     /**

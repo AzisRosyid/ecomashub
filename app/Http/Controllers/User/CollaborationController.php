@@ -51,7 +51,7 @@ class CollaborationController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
+        return view('user.collaboration.index', compact('route', 'acc', 'collaborations', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -64,7 +64,7 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return Method::view('user.collaboration.create', compact('route', 'acc', 'status', 'types'));
+        return view('user.collaboration.create', compact('route', 'acc', 'status', 'types'));
     }
 
     /**
@@ -120,7 +120,7 @@ class CollaborationController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return Method::view('user.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
+        return view('user.collaboration.edit', compact('route', 'acc', 'status', 'collaboration', 'types'));
     }
 
     /**

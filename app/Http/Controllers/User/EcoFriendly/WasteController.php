@@ -70,7 +70,7 @@ class WasteController extends Controller
 
         $pageUnits = ceil($totalUnit / $pickUnit);
 
-        return Method::view('user.eco-friendly.waste.index', compact('route', 'acc', 'wastes', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+        return view('user.eco-friendly.waste.index', compact('route', 'acc', 'wastes', 'pick', 'page', 'total', 'pages', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     }
 
     /**
@@ -87,7 +87,7 @@ class WasteController extends Controller
         })->get();
         $types = WasteType::all();
 
-        return Method::view('user.eco-friendly.waste.create', compact('route', 'acc', 'units', 'products', 'types'));
+        return view('user.eco-friendly.waste.create', compact('route', 'acc', 'units', 'products', 'types'));
     }
 
     /**
@@ -118,9 +118,7 @@ class WasteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Waste $waste)
-    {
-    }
+    public function show(Waste $waste) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -137,7 +135,7 @@ class WasteController extends Controller
 
         $types = WasteType::all();
 
-        return Method::view('user.eco-friendly.waste.edit', compact('route', 'acc', 'units', 'products', 'types', 'waste'));
+        return view('user.eco-friendly.waste.edit', compact('route', 'acc', 'units', 'products', 'types', 'waste'));
     }
 
     /**

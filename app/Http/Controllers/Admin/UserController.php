@@ -101,7 +101,8 @@ class UserController extends Controller
         $rules = [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'required|string|regex:/^[a-z0-9]{16}$/|unique:users',
+            'username' => 'required|string|unique:users',
+            //  'username' => 'required|string|regex:/^[a-z0-9]{16}$/|unique:users',
             'email' => 'required|string|email|unique:users',
             'role_id' => 'required|string|exists:user_roles,id',
             'source_type' => 'required|in:Internal,External',
@@ -179,7 +180,7 @@ class UserController extends Controller
             'username' => [
                 'required',
                 'string',
-                'regex:/^[a-z0-9]{16}$/',
+                // 'regex:/^[a-z0-9]{16}$/',
                 Rule::unique('users')->ignore($user->id),
             ],
             'email' => [

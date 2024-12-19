@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Unit;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class UserRoleController extends Controller
         $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.user.unit.create', compact('route', 'acc', 'types'));
+        return Method::view('admin.user.unit.create', compact('route', 'acc', 'types'));
     }
 
     /**
@@ -45,7 +46,11 @@ class UserRoleController extends Controller
             return back()->withInput($request->all())->withErrors(['unit' => $validator->errors()->first()]);
         }
 
-        UserRole::create($request->all());
+        UserRole::create([
+            'organization_id' => Auth::user()->userRole->organization->id,
+            'name' => $request->name,
+            'type' => $request->type
+        ]);
 
         return redirect()->route('adminUser')->with('message', 'Peran Anggota telah berhasil dibuat!');
     }
@@ -67,7 +72,7 @@ class UserRoleController extends Controller
         $types = $this->types;
         $acc = Auth::user();
 
-        return view('admin.user.unit.edit', compact('route', 'acc', 'types', 'role'));
+        return Method::view('admin.user.unit.edit', compact('route', 'acc', 'types', 'role'));
     }
 
     /**

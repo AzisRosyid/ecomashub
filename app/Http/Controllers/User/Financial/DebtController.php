@@ -46,7 +46,7 @@ class DebtController extends Controller
 
         $pages = ceil($total / $pick);
 
-        return Method::view('user.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
+        return view('user.financial.debt.index', compact('route', 'acc', 'debts', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -57,7 +57,7 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return Method::view('user.financial.debt.create', compact('route', 'acc'));
+        return view('user.financial.debt.create', compact('route', 'acc'));
     }
 
     /**
@@ -109,7 +109,7 @@ class DebtController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return Method::view('user.financial.debt.edit', compact('route', 'acc', 'debt'));
+        return view('user.financial.debt.edit', compact('route', 'acc', 'debt'));
     }
 
     /**

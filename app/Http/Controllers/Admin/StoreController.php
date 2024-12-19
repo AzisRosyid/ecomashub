@@ -64,7 +64,7 @@ class StoreController extends Controller
             return response()->json(compact('total', 'stores'), 200);
         }
 
-        return Method::view('admin.store.index', compact('route', 'acc', 'stores', 'pick', 'page', 'total', 'pages'));
+        return view('admin.store.index', compact('route', 'acc', 'stores', 'pick', 'page', 'total', 'pages'));
     }
 
     /**
@@ -76,7 +76,7 @@ class StoreController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return Method::view('admin.store.create', compact('route', 'acc', 'status'));
+        return view('admin.store.create', compact('route', 'acc', 'status'));
     }
 
     /**
@@ -131,7 +131,7 @@ class StoreController extends Controller
         $status = $this->status;
         $acc = Auth::user();
 
-        return Method::view('admin.store.edit', compact('route', 'acc', 'status', 'store'));
+        return view('admin.store.edit', compact('route', 'acc', 'status', 'store'));
     }
 
     /**

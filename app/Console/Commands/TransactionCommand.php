@@ -36,11 +36,11 @@ class TransactionCommand extends Command
     {
         $current = now();
 
-        $this->eventTransaction($current);
+        // $this->eventTransaction($current);
         $this->orderTransaction($current);
-        $this->cashTransaction($current);
-        $this->expenseTransaction($current);
-        $this->debtTransaction($current);
+        // $this->cashTransaction($current);
+        // $this->expenseTransaction($current);
+        // $this->debtTransaction($current);
     }
 
     private function eventTransaction($current)

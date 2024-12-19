@@ -63,6 +63,8 @@ class Method extends Controller
         $clientSecret = \Config('services.google.client_secret');
         $refreshToken = \Config('services.google.refresh_token');
 
+        // return dd($clientId, $clientSecret, $refreshToken);
+
         $response = Http::timeout(10)->post('https://oauth2.googleapis.com/token', [
             'client_id' => $clientId,
             'client_secret' => $clientSecret,
@@ -176,9 +178,34 @@ class Method extends Controller
             }
         })->get();
 
-        $select = Session::get('store_id');
+        $select = Session::get('store_id') ?? $stores->first()->id ?? 0;
+
+        Session::put('store_id', $select);
 
         return view($view, array_merge(compact('select', 'stores'), $data));
+    }
+
+    // Return selected store
+    public static function getSelectedStore()
+    {
+        $acc = Auth::user();
+
+        $stores = Store::where(function ($query) use ($acc) {
+            if ($acc->role == 'Pengurus') {
+                $query->where('user.organization', $acc->organization);
+            } else {
+                $query->where('user_id', $acc->id);
+            }
+        })->get();
+
+        $select = Session::get('store_id');
+
+        if ($select == null) {
+            Session::put('store_id', $stores->first()->id);
+            return $stores->first();
+        }
+
+        return $stores->where('id', $select)->first();
     }
 
     // public static function validateData(Request $request, $select)

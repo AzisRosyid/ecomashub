@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Unit;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Method;
 use App\Models\Product;
 use App\Models\AssetUnit;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class AssetUnitController extends Controller
 
     //     $pageUnits = ceil($totalUnit / $pickUnit);
 
-    //     return view('admin.assets.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
+    //     return Method::view('admin.assets.index', compact('route', 'acc', 'units', 'pickUnit', 'pageUnit', 'totalUnit', 'pageUnits'));
     // }
 
     /**
@@ -44,7 +45,7 @@ class AssetUnitController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.asset.unit.create', compact('route', 'acc'));
+        return Method::view('admin.asset.unit.create', compact('route', 'acc'));
     }
 
     /**
@@ -83,7 +84,7 @@ class AssetUnitController extends Controller
         $route = $this->route;
         $acc = Auth::user();
 
-        return view('admin.asset.unit.edit', compact('route', 'acc', 'unit'));
+        return Method::view('admin.asset.unit.edit', compact('route', 'acc', 'unit'));
     }
 
     /**

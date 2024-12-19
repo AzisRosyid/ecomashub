@@ -9,7 +9,9 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -163,9 +165,53 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show(Order $order) {}
+
+    /**
+     * Display the specified resource.
+     */
+    public function showNote(Order $order)
     {
+        // Fetch the details of the order
+        $details = OrderDetail::where('order_id', $order->id)->with('product')->get();
+        $store = $order->store;
+
+        // Pass the data to a view for generating the order note
+        return view('admin.order.note', [
+            'order' => $order,
+            'details' => $details,
+            'store' => $store
+        ]);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function sendNoteViaEmail(Request $request, Order $order)
+    {
+        // Validate the email address
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $details = OrderDetail::where('order_id', $order->id)->with('product')->get();
+        $store = $order->store;
+
+        // Generate PDF from the note Blade view
+        $pdf = Pdf::loadView('admin.order.note', compact('order', 'details', 'store'))->setPaper('a4', 'portrait');
+
+        // Send the email with the PDF attachment
+        Mail::send([], [], function ($message) use ($request, $pdf, $order) {
+            $message->to($request->email)
+                ->subject('Order Note - ' . $order->name)
+                ->attachData($pdf->output(), 'order_note_' . $order->id . '.pdf', [
+                    'mime' => 'application/pdf',
+                ]);
+        });
+
+        return back()->with('message', 'Nota berhasil dikirim ke email ' . $request->email);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
